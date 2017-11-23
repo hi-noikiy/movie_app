@@ -12,3 +12,7 @@
     background-repeat: no-repeat;
   }
 }
+
+@function boxValue($font) {
+  @return $font / 64 + rem;
+}
