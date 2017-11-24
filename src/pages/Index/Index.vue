@@ -1,5 +1,6 @@
 <template>
   <div id="index">
+    <!-- 头部 -->
     <div class="index__header">
       <div class="header__left">
         <div class="header__left__avatar">
@@ -22,6 +23,9 @@
         </span>
       </div>
     </div>
+    <!-- 头部 -->
+
+    <!-- 轮播图 -->
     <div class="index__carousel">
       <div class="carousel__list">
         <img src="../../assets/swiper.png" alt="">
@@ -34,6 +38,9 @@
         <span class="control"></span>
       </div>
     </div>
+    <!-- 轮播图 -->
+
+    <!-- 按钮区域 -->
     <div class="index__menu">
       <div class="menu">
         <div class="menu__join"></div>
@@ -52,8 +59,100 @@
         <div class="menu__text">个人中心</div>
       </div>
     </div>
-    <div class="index__movie"></div>
-    <div class="index__rank"></div>
+    <!-- 按钮区域 -->
+
+    <!-- 上映电影 -->
+    <div class="index__movie">
+      <div class="movie__tarbar">
+        <span class="tarbar active">近期上映</span>
+        <span class="tarbar">即将上映</span>
+      </div>
+      <div class="movie__list">
+        <div class="list">
+          <img src="../../assets/movie.png" alt="">
+        </div>
+        <div class="list">
+          <img src="../../assets/movie.png" alt="">
+        </div>
+        <div class="list">
+          <img src="../../assets/movie.png" alt="">
+        </div>
+        <div class="list">
+          <img src="../../assets/movie.png" alt="">
+        </div>
+        <div class="list">
+          <img src="../../assets/movie.png" alt="">
+        </div>
+        <div class="list">
+          <img src="../../assets/movie.png" alt="">
+        </div>
+      </div>
+    </div>
+    <!-- 上映电影 -->
+
+    <!-- 排行榜 -->
+    <div class="index__rank">
+      <div class="rank__tarbar">
+        <span class="tarbar active">票房排行榜</span>
+      </div>
+      <div class="rank__table">
+        <table class="table" cellspacing="0">
+          <thead class="table__head">
+            <th class="head__name">片名</th>
+            <th class="head__money">票房(万元)</th>
+            <th class="head__rate">拍片率</th>
+            <th class="head__popular">上座率</th>
+          </thead>
+
+          <tbody>
+
+            <tr class="rank">
+              <td class="rank__movie">
+                <div class="rank__movie__name">全球风暴</div>
+                <div class="rank__movie__days">上映14天</div>
+              </td>
+              <td>1121.36</td>
+              <td>14.3%</td>
+              <td class="rank__popular">14.3%</td>
+            </tr>
+            <tr class="empty">
+              <td colspan="4"></td>
+            </tr>
+            
+            <tr class="rank">
+              <td class="rank__movie">
+                <div class="rank__movie__name">全球风暴</div>
+                <div class="rank__movie__days">上映14天</div>
+              </td>
+              <td>1121.36</td>
+              <td>14.3%</td>
+              <td class="rank__popular">14.3%</td>
+            </tr>
+            <tr class="empty">
+              <td colspan="4"></td>
+            </tr>
+            
+            <tr class="rank">
+              <td class="rank__movie">
+                <div class="rank__movie__name">全球风暴</div>
+                <div class="rank__movie__days">上映14天</div>
+              </td>
+              <td>1121.36</td>
+              <td>14.3%</td>
+              <td class="rank__popular">14.3%</td>
+            </tr>
+            <tr class="empty">
+              <td colspan="4"></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- 排行榜 -->
+    <div class="footer">
+
+    </div>
   </div>
 </template>
 
@@ -62,6 +161,7 @@
 $base: 32rem;
 
 #index {
+  height: 100%;
   background: #f5f5f5;
   /* 顶部区域 */
   .index__header {
@@ -224,9 +324,197 @@ $base: 32rem;
       text-align: center;
     }
   }
-
-
   /* 菜单选区end */
+
+  /* 上映电影 */
+  .index__movie {
+    margin-top: boxValue(16);
+    padding: 0 boxValue(30);
+    background: #fff;
+    font-size: 0;
+
+    .movie__tarbar {
+      height: boxValue(92);
+      line-height: boxValue(92);
+
+      .tarbar {
+        position: relative; 
+        font-weight: 600; 
+        font-size: 14px;
+        color: #808080;
+        
+        &:after{
+          content: "";
+          display: none;
+          position: absolute;
+          bottom: boxValue(-10);
+          left: 50%;
+          margin-left: boxValue(-20);
+          width: boxValue(40);
+          height: boxValue(4); 
+          background: #009fff;
+        }
+
+        &:first-child {
+          margin-right: boxValue(20);
+        }
+
+        &.active {
+          color: #404040;
+        }
+
+        &.active:after {
+          display: block;
+        }
+      }
+    }
+
+    .movie__list {
+      font-size: 0;
+      padding-bottom: boxValue(16);
+
+      .list {
+        display: inline-block;
+        margin-right: boxValue(16);
+        margin-bottom: boxValue(16);
+        width: boxValue(182);
+        height: boxValue(254);
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+
+        &:nth-child(3n) {
+          margin-right: 0;
+        } 
+      }
+    }
+  }
+  /* 上映电影end */
+
+  /* 排行榜 */
+  .index__rank {
+    margin:boxValue(16) 0;
+    padding-bottom: boxValue(16);
+    background: #fff;
+    
+    .rank__tarbar {
+      padding: 0 boxValue(30);
+      height: boxValue(92);
+      line-height: boxValue(92);
+
+      .tarbar {
+        position: relative; 
+        font-weight: 600; 
+        font-size: 14px;
+        color: #808080;
+        
+        &:after{
+          content: "";
+          display: none;
+          position: absolute;
+          bottom: boxValue(-10);
+          left: 50%;
+          margin-left: boxValue(-20);
+          width: boxValue(40);
+          height: boxValue(4); 
+          background: #009fff;
+        }
+
+        &:first-child {
+          margin-right: boxValue(20);
+        }
+
+        &.active {
+          color: #404040;
+        }
+
+        &.active:after {
+          display: block;
+        }
+      }
+    }
+
+    .rank__table {
+      width: 100%;
+      text-align: center;
+
+      .table__head {
+        height: boxValue(64);
+        line-height: boxValue(64);
+        background: #02a9ff;
+      }
+
+      .head__name,
+      .head__money,
+      .head__rate,
+      .head__popular {
+        color: #fff;
+      }
+
+      .head__name {
+        width: boxValue(260);
+        padding-left: boxValue(30);
+        text-align: left;
+      }
+
+      .head__money {
+        width: boxValue(120);
+      }
+
+      .head__rate {
+        width: boxValue(100);
+      }
+
+      .head__popular {
+        width: boxValue(100);
+        padding-right: boxValue(30);
+      }
+    }
+
+    .rank {
+      position: relative;
+      height: boxValue(106);
+      width: 100%;
+
+      .rank__movie {
+        text-align: left;
+        padding-left: boxValue(30);
+
+        .rank__movie__name {
+          font-size: 13px;
+          font-weight: 600;
+          color: #333;
+          padding-bottom: boxValue(18);
+        }
+
+        .rank__movie__days {
+          font-size: 10px;
+          color: #999;
+        }
+      }
+
+      .rank__popular {
+        padding-right: boxValue(30);
+      }
+    }
+    
+    .empty {
+      td {
+        position: relative;
+        
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: boxValue(30);
+          width: boxValue(580);
+          border-bottom: 1px solid #e5e4e6;
+        }
+      }
+    }
+  }
 }
 </style>
 
