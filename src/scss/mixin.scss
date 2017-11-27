@@ -1,14 +1,14 @@
 @mixin fixImage($url,$img) {
   [data-dpr="1"] & {
-    background-image: url("#{$url}/x2/#{$img}");
+    background-image: url("#{$url}/x2/#{$img}")!important;
     background-repeat: no-repeat;
   }
   [data-dpr="2"] & {
-    background-image: url("#{$url}/x2/#{$img}");
+    background-image: url("#{$url}/x2/#{$img}")!important;
     background-repeat: no-repeat;
   }
   [data-dpr="3"] & {
-    background-image: url("#{$url}/x3/#{$img}");
+    background-image: url("#{$url}/x3/#{$img}")!important;
     background-repeat: no-repeat;
   }
 }
