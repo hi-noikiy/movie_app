@@ -4,6 +4,7 @@ import Index from '@/pages/Index/Index'
 import Meet from '@/pages/Meet/Meet'
 import Setting from '@/pages/Setting/Setting'
 import Person from '@/pages/Person/Person'
+import Movie from '@/pages/Movie/Movie'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/person',
       name: 'Person',
       component: Person
+    },
+    {
+      path: '/movie',
+      name: 'Movie',
+      component: Movie
     }
   ]
 })

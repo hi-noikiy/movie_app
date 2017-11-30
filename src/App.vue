@@ -15,6 +15,8 @@ export default {
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   }
 
+  .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+
   html,body {
     height: 100%;
   }
