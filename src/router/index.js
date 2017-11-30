@@ -5,6 +5,7 @@ import Meet from '@/pages/Meet/Meet'
 import Setting from '@/pages/Setting/Setting'
 import Person from '@/pages/Person/Person'
 import Movie from '@/pages/Movie/Movie'
+import Mine from '@/pages/Mine/Mine'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/movie',
       name: 'Movie',
       component: Movie
+    },
+    {
+      path: '/mine',
+      name: 'Mine',
+      component: Mine
     }
   ]
 })
