@@ -6,6 +6,8 @@ import Setting from '@/pages/Setting/Setting'
 import Person from '@/pages/Person/Person'
 import Movie from '@/pages/Movie/Movie'
 import Mine from '@/pages/Mine/Mine'
+import Comment from '@/pages/Comment/Comment'
+import AddComment from '@/pages/AddComment/AddComment'
 
 Vue.use(Router)
 
@@ -40,6 +42,16 @@ export default new Router({
       path: '/mine',
       name: 'Mine',
       component: Mine
+    },
+    {
+      path: '/comment',
+      name: 'Comment',
+      component: Comment
+    },
+    {
+      path: '/addComment',
+      name: 'AddComment',
+      component: AddComment
     }
   ]
 })

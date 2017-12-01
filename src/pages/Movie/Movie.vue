@@ -38,6 +38,7 @@
           </div>
           <div class="comment__detail">
             <List></List>
+            <List></List>
           </div>
         </div>
       </div>
@@ -47,7 +48,7 @@
 
 <script>
   import { Rater } from 'vux'
-  import List from './List/List'
+  import List from '@/components/List/List'
 
   export default {
     data() {
