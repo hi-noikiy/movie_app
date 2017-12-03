@@ -64,13 +64,13 @@
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的余额</span></span>
           <span class="menu__right"><span>263,983.32</span><i class="arrow"></i></span>
         </div>
-        <div class="menu top__money clearfix">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的余额</span></span>
-          <span class="menu__right"><span>263,983.32</span><i class="arrow"></i></span>
+        <div class="menu top__bonus clearfix">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">云影红包</span></span>
+          <span class="menu__right"><span>3个红包派发中</span><i class="arrow"></i></span>
         </div>
-        <div class="menu top__money clearfix">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的余额</span></span>
-          <span class="menu__right"><span>263,983.32</span><i class="arrow"></i></span>
+        <div class="menu top__follow clearfix">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的关注</span></span>
+          <span class="menu__right"><i class="arrow"></i></span>
         </div>
       </div>
 
@@ -78,24 +78,24 @@
         <!-- <div class="menu bottom__rank"><i class="icon"></i>积分排行榜</div>
         <div class="menu bottom__comment"><i class="icon"></i>我的影评</div>
         <div class="menu bottom__ticket"><i class="icon"></i>我的票根</div> -->
-        <div class="menu top__money clearfix">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的余额</span></span>
-          <span class="menu__right"><span>263,983.32</span><i class="arrow"></i></span>
+        <div class="menu bottom__rank clearfix">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">积分排行榜</span></span>
+          <span class="menu__right"><span>已连续5天排行前三</span><i class="arrow"></i></span>
         </div>
-        <div class="menu top__money clearfix">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的余额</span></span>
-          <span class="menu__right"><span>263,983.32</span><i class="arrow"></i></span>
+        <div class="menu bottom__comment clearfix">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的影评</span></span>
+          <span class="menu__right"><i class="arrow"></i></span>
         </div>
-        <div class="menu top__money clearfix">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的余额</span></span>
-          <span class="menu__right"><span>263,983.32</span><i class="arrow"></i></span>
+        <div class="menu bottom__ticket clearfix">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的票根</span></span>
+          <span class="menu__right"><i class="arrow"></i></span>
         </div>
       </div>
 
       <div class="menu__setting">
-        <div class="menu top__money clearfix">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的余额</span></span>
-          <span class="menu__right"><span>263,983.32</span><i class="arrow"></i></span>
+        <div class="menu setting clearfix">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">设置</span></span>
+          <span class="menu__right"><i class="arrow"></i></span>
         </div>
       </div>
     </div>
@@ -259,7 +259,7 @@
             width: boxValue(40);
             height: boxValue(43);
             margin-right: boxValue(20);
-            background: url('../../assets/balance.png');
+            background-image: url('../../assets/balance.png');
             background-size: cover;
             background-position: center;
             vertical-align: middle;
@@ -293,8 +293,34 @@
             display: inline-block;
             line-height: boxValue(74);
             vertical-align: middle;
+            color: #ff4444;
           }
         }
+
+        &.top__bonus .menu__left .icon {
+          background-image: url('../../assets/envelope.png');
+        }
+
+        &.top__follow .menu__left .icon {
+          background-image: url('../../assets/attention.png');
+        }
+
+        &.bottom__rank .menu__left .icon {
+          background-image: url('../../assets/list.png');
+        }
+
+        &.bottom__comment .menu__left .icon {
+          background-image: url('../../assets/film_review.png');
+        }
+
+        &.bottom__ticket .menu__left .icon {
+          background-image: url('../../assets/voucher.png');
+        }
+        
+        &.setting .menu__left .icon {
+          background-image: url('../../assets/settings.png');
+        }
+        
       }
     }
   }

@@ -18,9 +18,13 @@
     <div class="add__img">
       <div class="add__img__title">影评照片</div>
       <div class="add__img__list">
+        <div class="list" v-for="(list,index) in uploadList" :key="index">
+          <img :src="list" alt="">
+          <span class="list__del"></span>
+        </div>
         <div class="add">
           <img src="../../assets/imgadd.png" alt="" @click="open">
-          <input type="file" class="hide" id="test" v-on:change="upload">
+          <input type="file" class="hide" id="upload" v-on:change="upload">
         </div>
       </div>
     </div>
@@ -29,20 +33,31 @@
 
 <script>
   export default {
+    data() {
+      return {
+        uploadList: [],
+        data: 1
+      }
+    },
     methods: {
       open() {
-        let test = document.getElementById('test')
+        let test = document.getElementById('upload')
         test.click()
       },
 
-      upload() {
-        var oFile = document.getElementById("test").files[0];
+      upload(event) {
+        var oFile = document.getElementById("upload").files[0];
         let oFReader = new FileReader();
         oFReader.readAsDataURL(oFile);
         
         oFReader.onload = (oFREvent) => {
-          console.log(oFREvent)
+          console.log(oFREvent);
+          this.uploadList.push(oFREvent.currentTarget.result);
+          oFile.value = '';
+          console.log(oFile.value)
         };
+
+        event.target.value=null
       }
     }
   }
@@ -105,23 +120,44 @@
       }
 
       .add__img__list {
-        padding: 0 boxValue(6);
+        font-size: 0;
+        padding-right: 1vw;
+        padding-left: 0.5vw;
+        padding-bottom: boxValue(20);
 
         .add,
         .list {
           display: inline-block;
-          height: boxValue(152);
-          width: boxValue(152);
+          margin-top: boxValue(10);
+          padding-left: 1vw;
+          height: 24vw;
+          width: 23.5vw;
 
           img {
             height: 100%;
             width: 100%;
           }
         }
+
+        .list {
+          position: relative;
+
+          .list__del {
+            position: absolute;
+            right: boxValue(-4);
+            top: boxValue(-10);
+            display: inline-block;
+            width: boxValue(42);
+            height: boxValue(42);
+            background: url('../../assets/imgdelete.png');
+            background-size: 100%;
+            z-index: 2;
+          }
+        }
       }
     }
 
-    #test {
+    #upload {
       display: none;
     }
   }

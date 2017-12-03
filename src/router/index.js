@@ -8,6 +8,9 @@ import Movie from '@/pages/Movie/Movie'
 import Mine from '@/pages/Mine/Mine'
 import Comment from '@/pages/Comment/Comment'
 import AddComment from '@/pages/AddComment/AddComment'
+import Collect from '@/pages/Collect/Collect'
+import Rank from '@/pages/Rank/Rank'
+import Friend from '@/pages/Friend/Friend'
 
 Vue.use(Router)
 
@@ -52,6 +55,21 @@ export default new Router({
       path: '/addComment',
       name: 'AddComment',
       component: AddComment
+    },
+    {
+      path: '/collect',
+      name: 'Collect',
+      component: Collect
+    },
+    {
+      path: '/rank',
+      name: 'Rank',
+      component: Rank
+    },
+    {
+      path: '/friend',
+      name: 'Friend',
+      component: Friend
     }
   ]
 })
