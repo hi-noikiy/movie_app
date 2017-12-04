@@ -1,11 +1,11 @@
 <template>
-  <div class="menu clearfix">
-    <span class="menu__left"><img :src="img" class="icon" /><span class="icon__text">
+  <div class="menu_once clearfix">
+    <span class="menu_once__left"><img :src="img" class="icon" /><span class="icon__text">
       <slot name="left"></slot>
       </span>
     </span>
     
-    <span class="menu__right">
+    <span class="menu_once__right">
       <span><slot name="right"></slot></span>
       <i class="arrow"></i>
     </span>
@@ -21,13 +21,13 @@
 
 <style lang="scss">
   @import '../../scss/mixin.scss';
-  .menu {
+  .menu_once {
     height: boxValue(74);
     line-height: boxValue(74);
     padding-left: boxValue(34);
     border-bottom: 1px solid #eee;
 
-    .menu__left {
+    .menu_once__left {
       font-size: boxValue(26);
       line-height: boxValue(74);
       color: #222;
@@ -47,7 +47,7 @@
       }
     }
 
-    .menu__right {
+    .menu_once__right {
       float: right;
       position: relative;
       line-height: boxValue(74);
