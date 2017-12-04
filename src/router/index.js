@@ -11,6 +11,7 @@ import AddComment from '@/pages/AddComment/AddComment'
 import Collect from '@/pages/Collect/Collect'
 import Rank from '@/pages/Rank/Rank'
 import Friend from '@/pages/Friend/Friend'
+import Friending from '@/pages/Friending/Friending'
 
 Vue.use(Router)
 
@@ -70,6 +71,11 @@ export default new Router({
       path: '/friend',
       name: 'Friend',
       component: Friend
+    },
+    {
+      path: '/friending',
+      name: 'Friending',
+      component: Friending
     }
   ]
 })
