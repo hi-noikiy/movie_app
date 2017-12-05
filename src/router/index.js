@@ -14,6 +14,7 @@ import Friend from '@/pages/Friend/Friend'
 import Friending from '@/pages/Friending/Friending'
 import Points from '@/pages/Points/Points'
 import Sign from '@/pages/Sign/Sign'
+import CardList from '@/pages/CardList/CardList'
 
 Vue.use(Router)
 
@@ -88,6 +89,11 @@ export default new Router({
       path: '/sign',
       name: 'Sign',
       component: Sign
+    },
+    {
+      path: '/cardList',
+      name: 'CardList',
+      component: CardList
     }
   ]
 })
