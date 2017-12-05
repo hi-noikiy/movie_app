@@ -12,6 +12,8 @@ import Collect from '@/pages/Collect/Collect'
 import Rank from '@/pages/Rank/Rank'
 import Friend from '@/pages/Friend/Friend'
 import Friending from '@/pages/Friending/Friending'
+import Points from '@/pages/Points/Points'
+import Sign from '@/pages/Sign/Sign'
 
 Vue.use(Router)
 
@@ -76,6 +78,16 @@ export default new Router({
       path: '/friending',
       name: 'Friending',
       component: Friending
+    },
+    {
+      path: '/points',
+      name: 'Points',
+      component: Points
+    },
+    {
+      path: '/sign',
+      name: 'Sign',
+      component: Sign
     }
   ]
 })
