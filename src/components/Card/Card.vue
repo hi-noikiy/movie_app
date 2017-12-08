@@ -15,10 +15,13 @@
             <span>元</span>
           </div>
         </div>
-        <div class="collection__btn">
-          取消关注
+        <div class="collection__btn active" v-if="type == 'active'">
+          使用
         </div>
-        <div class="collection__date">
+        <div class="collection__btn used" v-if="type == 'used'">
+          已使用
+        </div>
+        <div class="collection__date" v-if="type == 'overdue'">
           已过期
         </div>
       </div>
@@ -37,10 +40,13 @@
             <span>元</span>
           </div>
         </div>
-        <div class="collection__btn">
-          取消关注
+        <div class="collection__btn active" v-if="type == 'active'">
+          使用
         </div>
-        <div class="collection__date">
+        <div class="collection__btn used" v-if="type == 'used'">
+          已使用
+        </div>
+        <div class="collection__date" v-if="type == 'overdue'">
           已过期
         </div>
       </div>
@@ -59,10 +65,13 @@
             <span>元</span>
           </div>
         </div>
-        <div class="collection__btn">
-          取消关注
+        <div class="collection__btn active" v-if="type == 'active'">
+          使用
         </div>
-        <div class="collection__date">
+        <div class="collection__btn used" v-if="type == 'used'">
+          已使用
+        </div>
+        <div class="collection__date" v-if="type == 'overdue'">
           已过期
         </div>
       </div>
@@ -81,16 +90,26 @@
             <span>元</span>
           </div>
         </div>
-        <div class="collection__btn">
-          取消关注
+        <div class="collection__btn active" v-if="type == 'active'">
+          使用
         </div>
-        <div class="collection__date">
+        <div class="collection__btn used" v-if="type == 'used'">
+          已使用
+        </div>
+        <div class="collection__date" v-if="type == 'overdue'">
           已过期
         </div>
       </div>
+
     </div>
   </div>  
 </template>
+
+<script>
+  export default {
+    props: ['type']
+  }
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';
@@ -151,6 +170,10 @@
           font-size: boxValue(22);
           background: #7695a5;
           border-radius: boxValue(24);
+        }
+
+        .collection__btn.active {
+          background: #02a9ff;
         }
 
         .collection__date {

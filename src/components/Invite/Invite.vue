@@ -13,9 +13,16 @@
             <div class="invite__right">
               <div class="invite__right__info">
                 <div class="info__name">咸鱼Diane</div>
-                <div class="info__dis">1.2km</div>
+                <div class="info__dis" v-if="type == 'invite'">1.2km</div>
+                <div class="info__dis" v-else-if="type == 'message'">ccccccccccccccccccccc</div>
               </div>
-              <div class="invite__right__btn">约电影</div>
+
+              <template v-if="type == 'invite'">
+                <div class="invite__right__btn">约电影</div>
+              </template>
+              <template v-else-if="type == 'message'">
+                <badge class="invite__right__mes" text="888"></badge>
+              </template>
             </div>
           </div>
         </div>
@@ -33,9 +40,16 @@
             <div class="invite__right">
               <div class="invite__right__info">
                 <div class="info__name">咸鱼Diane</div>
-                <div class="info__dis">1.2km</div>
+                <div class="info__dis" v-if="type == 'invite'">1.2km</div>
+                <div class="info__dis" v-else-if="type == 'message'">ccccccccccccccccccccc</div>
               </div>
-              <div class="invite__right__btn">约电影</div>
+
+              <template v-if="type == 'invite'">
+                <div class="invite__right__btn">约电影</div>
+              </template>
+              <template v-else-if="type == 'message'">
+                <badge class="invite__right__mes" text="888"></badge>
+              </template>
             </div>
           </div>
         </div>
@@ -53,9 +67,16 @@
             <div class="invite__right">
               <div class="invite__right__info">
                 <div class="info__name">咸鱼Diane</div>
-                <div class="info__dis">1.2km</div>
+                <div class="info__dis" v-if="type == 'invite'">1.2km</div>
+                <div class="info__dis" v-else-if="type == 'message'">ccccccccccccccccccccc</div>
               </div>
-              <div class="invite__right__btn">约电影</div>
+
+              <template v-if="type == 'invite'">
+                <div class="invite__right__btn">约电影</div>
+              </template>
+              <template v-else-if="type == 'message'">
+                <badge class="invite__right__mes" text="888"></badge>
+              </template>
             </div>
           </div>
         </div>
@@ -66,9 +87,10 @@
 </template>
 
 <script>
-  import { GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux'
+  import { Badge, Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 
   export default {
+    props: ['type'],
     methods: {
       onButtonClick (type) {
         alert('on button click ' + type)
@@ -80,7 +102,8 @@
     components: {
       Swipeout,
       SwipeoutItem,
-      SwipeoutButton
+      SwipeoutButton,
+      Badge
     }
   }
 </script>
@@ -143,6 +166,13 @@
           color: #fff;
           border-radius: boxValue(20);
           background: #27adff;
+        }
+
+        .invite__right__mes {
+          float: right;
+          display: inline-block;
+          margin-top: boxValue(14);
+          margin-right: boxValue(30);
         }
 
         &:after {
