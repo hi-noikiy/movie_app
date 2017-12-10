@@ -39,6 +39,16 @@ import Dating from '@/pages/Dating/Dating'
 import Message from '@/pages/Message/Message'
 //晒票根
 import UploadTicket from '@/pages/UploadTicket/UploadTicket'
+//票根通过
+import UploadResult from '@/pages/UploadResult/UploadResult'
+//我的影评
+import MyComment from '@/pages/MyComment/MyComment'
+//核销记录
+import Record from '@/pages/Record/Record'
+//积分记录
+import Stream from '@/pages/Stream/Stream'
+//积分商城
+import Store from '@/pages/Store/Store'
 
 Vue.use(Router)
 
@@ -139,5 +149,30 @@ export default new Router({
       name: 'UploadTicket',
       component: UploadTicket
     },
+    {
+      path: '/uploadResult',
+      name: 'UploadResult',
+      component: UploadResult
+    },
+    {
+      path: '/myComment',
+      name: 'MyComment',
+      component: MyComment
+    },
+    {
+      path: '/record',
+      name: 'Record',
+      component: Record
+    },
+    {
+      path: '/stream',
+      name: 'Stream',
+      component: Stream
+    },
+    {
+      path: '/store',
+      name: 'Store',
+      component: Store
+    }
   ]
 })

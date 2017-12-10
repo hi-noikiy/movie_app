@@ -18,6 +18,10 @@ export default {
 
   .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 
+  #app .vux-tab .vux-tab-item {
+    background: none;
+  }
+
   html,body {
     height: 100%;
     background: #f5f5f5;
