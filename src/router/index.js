@@ -37,6 +37,8 @@ import Ticket from '@/pages/Ticket/Ticket'
 import Dating from '@/pages/Dating/Dating'
 //我的消息
 import Message from '@/pages/Message/Message'
+//晒票根
+import UploadTicket from '@/pages/UploadTicket/UploadTicket'
 
 Vue.use(Router)
 
@@ -131,6 +133,11 @@ export default new Router({
       path: '/message',
       name: 'Message',
       component: Message
-    }
+    },
+    {
+      path: '/uploadTicket',
+      name: 'UploadTicket',
+      component: UploadTicket
+    },
   ]
 })
