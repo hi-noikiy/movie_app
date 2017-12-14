@@ -49,6 +49,10 @@ import Record from '@/pages/Record/Record'
 import Stream from '@/pages/Stream/Stream'
 //积分商城
 import Store from '@/pages/Store/Store'
+//商品详情
+import Goods from '@/pages/Goods/Goods'
+//全部门店
+import Merchants from '@/pages/Merchants/Merchants'
 
 Vue.use(Router)
 
@@ -173,6 +177,16 @@ export default new Router({
       path: '/store',
       name: 'Store',
       component: Store
+    },
+    {
+      path: '/goods',
+      name: 'Goods',
+      component: Goods
+    },
+    {
+      path: '/merchants',
+      name: 'Merchants',
+      component: Merchants
     }
   ]
 })

@@ -4,7 +4,15 @@
       <div class="store__top__swiper">
         <img src="../../assets/swiper.png" alt="">
       </div>
-      <div class="store__top__search"></div>
+      <div class="store__top__search">
+        <div class="search__point">
+          我的积分: 2331
+        </div>
+        <div class="search__input">
+          <span class="search__input__icon"></span>
+          <input class="search__input__value" type="text">
+        </div>
+      </div>
       <div class="store__top__news">
         <div class="news__title">
           最新动态
@@ -60,7 +68,9 @@
     },
     mounted() {
       let items = document.querySelector('.item__wrap')
-      this.$refs.swiper.height = items.offsetHeight + 'px'
+      this.$nextTick(() => {
+        this.$refs.swiper.xheight = items.offsetHeight + 'px'
+      })
     }
   }
 </script>
@@ -70,6 +80,7 @@
 
   #store {
     .store__top {
+      position: relative;
       margin-bottom: boxValue(20);
 
       .store__top__swiper {
@@ -79,6 +90,50 @@
         img {
           width: 100%;
           height: 100%;
+        }
+      }
+
+      .store__top__search {
+        position: absolute;
+        left: boxValue(30);
+        top: boxValue(20);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: boxValue(580);
+
+        .search__point {
+          padding: 0 boxValue(10);
+          height: boxValue(48);
+          line-height: boxValue(48);
+          font-size: boxValue(20);
+          color: #fff;
+          background: #04a6fb;
+          border-radius: boxValue(20);
+        }
+
+        .search__input {
+          display: flex;
+          flex-direction: row;
+          padding: boxValue(10);
+          height: boxValue(26);
+          border-radius: boxValue(20);
+          background: #f4f7f7;
+
+          .search__input__icon {
+            display: inline-block;
+            width: boxValue(28);
+            height: boxValue(26);
+            background: url('../../assets/search.png') no-repeat;
+            background-size: cover;
+          }
+
+          .search__input__value {
+            margin-left: boxValue(10);
+            border: none;
+            outline: none;
+            background: #f4f7f7;
+          }
         }
       }
 

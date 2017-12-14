@@ -11,6 +11,8 @@ export default {
 </script>
 
 <style lang="scss">
+  @import './scss/mixin.scss';
+
   * {
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
     color: #333;
@@ -25,6 +27,20 @@ export default {
   html,body {
     height: 100%;
     background: #f5f5f5;
+  }
+
+  .border_line {
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: boxValue(20);
+      width: 100%;
+      border-bottom: 1px solid #eee;
+    }
   }
 
   #app {
