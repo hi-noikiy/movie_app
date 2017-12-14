@@ -53,6 +53,8 @@ import Store from '@/pages/Store/Store'
 import Goods from '@/pages/Goods/Goods'
 //全部门店
 import Merchants from '@/pages/Merchants/Merchants'
+//编辑个人资料
+import Edit from '@/pages/Edit/Edit'
 
 Vue.use(Router)
 
@@ -187,6 +189,11 @@ export default new Router({
       path: '/merchants',
       name: 'Merchants',
       component: Merchants
+    },
+    {
+      path: '/edit',
+      name: 'Edit',
+      component: Edit
     }
   ]
 })
