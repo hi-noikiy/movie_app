@@ -1,4 +1,3 @@
-import Vue from 'Vue';
 import Toast from './Confirm.vue';
 
 var toast = {};
