@@ -51,8 +51,8 @@
       </div>
 
       <div class="info__control">
-        <span class="control__left cancel">拒绝</span>
-        <span class="control__right accept">接受邀请</span>
+        <span class="control__left send">发信息</span>
+        <span class="control__right ticket" @click="linkTo('UploadTicket')">晒票根</span>
       </div>
     </div>
   </div>
@@ -77,6 +77,7 @@
           .left__avatar {
             float: left;
             margin-right: boxValue(18);
+            margin-left: boxValue(20);
             width: boxValue(88);
             height: boxValue(88);
 
@@ -143,6 +144,14 @@
 
         .accept {
           color: #85d594;
+        }
+
+        .send {
+          color: #444;
+        }
+
+        .ticket {
+          color: #02a9ff;
         }
       }
     }

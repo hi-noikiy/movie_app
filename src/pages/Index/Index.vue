@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <div class="index__header">
       <div class="header__left">
-        <div class="header__left__avatar">
+        <div class="header__left__avatar" @click="linkTo('Mine')">
           <img src="../../assets/avatar.png" alt="">
         </div>
         <div class="header__left__user">
@@ -15,10 +15,10 @@
         </div>
       </div>
       <div class="header__rihgt">
-        <span class="header__right__tag">
+        <span class="header__right__tag" @click="linkTo('Mine')">
           大众会员
         </span>
-        <span class="header__right__singIn">
+        <span class="header__right__singIn" @click="linkTo('Sign')">
           签到+60
         </span>
       </div>
@@ -42,19 +42,19 @@
 
     <!-- 按钮区域 -->
     <div class="index__menu">
-      <div class="menu">
+      <div class="menu" @click="linkTo('Meet')">
         <div class="menu__join"></div>
         <div class="menu__text">约电影</div>
       </div>
-      <div class="menu">
+      <div class="menu" @click="linkTo('Game')">
         <div class="menu__game"></div>
         <div class="menu__text">玩游戏</div>
       </div>
-      <div class="menu">
+      <div class="menu" @click="linkTo('Store')">
         <div class="menu__gift"></div>
         <div class="menu__text">兑商品</div>
       </div>
-      <div class="menu">
+      <div class="menu" @click="linkTo('Mine')">
         <div class="menu__user"></div>
         <div class="menu__text">个人中心</div>
       </div>
@@ -68,22 +68,22 @@
         <span class="tarbar">即将上映</span>
       </div>
       <div class="movie__list">
-        <div class="list">
+        <div class="list" @click="linkTo('Movie')">
           <img src="../../assets/movie.png" alt="">
         </div>
-        <div class="list">
+        <div class="list" @click="linkTo('Movie')">
           <img src="../../assets/movie.png" alt="">
         </div>
-        <div class="list">
+        <div class="list" @click="linkTo('Movie')">
           <img src="../../assets/movie.png" alt="">
         </div>
-        <div class="list">
+        <div class="list" @click="linkTo('Movie')">
           <img src="../../assets/movie.png" alt="">
         </div>
-        <div class="list">
+        <div class="list" @click="linkTo('Movie')">
           <img src="../../assets/movie.png" alt="">
         </div>
-        <div class="list">
+        <div class="list" @click="linkTo('Movie')">
           <img src="../../assets/movie.png" alt="">
         </div>
       </div>
@@ -156,6 +156,21 @@
   </div>
 </template>
 
+<script>
+  export default {
+    data() {
+      return {}
+    },
+
+    created() {
+      
+    },
+
+    methods: {
+    }
+  }
+</script>
+
 <style lang="scss">
 @import '../../scss/mixin.scss';
 $base: 32rem;
@@ -198,11 +213,11 @@ $base: 32rem;
 
         .user__name {
           margin-top: boxValue(18);
-          font-size: 11px;
+          font-size: boxValue(22);
         }
 
         .user__points {
-          font-size: 10px;
+          font-size: boxValue(20);
 
           .points {
             color: #ef4238;
@@ -226,11 +241,11 @@ $base: 32rem;
         height: boxValue(46);
         line-height: boxValue(46);
         vertical-align: middle;
-        font-size: 11px;
+        font-size: boxValue(22);
         text-align: center;
         color: #fff;
         background: #2ecc71;
-        border-radius: 10px;
+        border-radius: boxValue(20);
       }
 
       .header__right__singIn {
@@ -265,7 +280,7 @@ $base: 32rem;
         width: boxValue(24);
         height: boxValue(5);
         background: #9e9d9b;
-        border-radius: 2px;
+        border-radius: boxValue(4);
 
         &.active {
           background: #fff;
@@ -320,7 +335,7 @@ $base: 32rem;
 
     .menu__text {
       margin-top: boxValue(14);
-      font-size: 11px;
+      font-size: boxValue(22);
       text-align: center;
     }
   }
@@ -340,7 +355,7 @@ $base: 32rem;
       .tarbar {
         position: relative; 
         font-weight: 600; 
-        font-size: 14px;
+        font-size: boxValue(28);
         color: #808080;
         
         &:after{
@@ -407,7 +422,7 @@ $base: 32rem;
       .tarbar {
         position: relative; 
         font-weight: 600; 
-        font-size: 14px;
+        font-size: boxValue(28);
         color: #808080;
         
         &:after{
@@ -483,14 +498,14 @@ $base: 32rem;
         padding-left: boxValue(30);
 
         .rank__movie__name {
-          font-size: 13px;
+          font-size: boxValue(26);
           font-weight: 600;
           color: #333;
           padding-bottom: boxValue(18);
         }
 
         .rank__movie__days {
-          font-size: 10px;
+          font-size: boxValue(20);
           color: #999;
         }
       }

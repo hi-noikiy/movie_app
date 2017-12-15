@@ -78,7 +78,7 @@
       vertical-align: middle;
 
       .list__right__info {
-        font-size: 13px;
+        font-size: boxValue(26);
         line-height: boxValue(42);
         height: boxValue(84);
 
@@ -96,10 +96,11 @@
 
       .list__right__comment {
         height: auto;
-        font-size: 12px;
+        font-size: boxValue(24);
 
         .comment__text {
           padding-right: boxValue(8);
+          color: #444;
         }
 
         .comment__imgs {
@@ -121,7 +122,7 @@
         .comment__info {
           height: boxValue(60);
           line-height: boxValue(60);
-          font-size: 12px;
+          font-size: boxValue(24);
 
           .info__left {
             float: left;

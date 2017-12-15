@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="comment__button">
+    <div class="comment__button" @click="linkTo('AddComment')">
       <span class="publish"></span><span class="text">我想说两句</span>
     </div>
   </div>

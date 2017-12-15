@@ -6,9 +6,18 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
 import 'normalize.css'
+import Confirm from '@/components/Confirm/Confirm.js'
 
 Vue.config.productionTip = false
-Vue.use(ElementUI)
+Vue.use(Confirm);
+
+Vue.mixin({
+  methods: {
+    linkTo(name) {
+      this.$router.push({name})
+    }
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

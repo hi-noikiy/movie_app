@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="ticket__submit">
+    <div class="ticket__submit" @click="linkTo('UploadTicket')">
       上传票根
     </div>
   </div>

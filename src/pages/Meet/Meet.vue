@@ -7,13 +7,13 @@
       </button-tab>
 
       <div class="meet__header__setting">
-        <div class="setting__user"><span></span></div>
-        <div class="setting__limit"><span></span></div>
+        <div class="setting__user" @click="linkTo('Person')"><span></span></div>
+        <div class="setting__limit" @click="linkTo('Setting')"><span></span></div>
       </div>
     </div>
 
     <template v-if="demo01 == 0">
-      <div class="meet__user">
+      <div class="meet__user" @click="linkTo('Person')">
         <div class="user__img">
           <img src="../../assets/photo.png" alt="">
         </div>
@@ -155,6 +155,9 @@ import { ButtonTab, ButtonTabItem } from 'vux'
         tabPosition: 'meet',
         demo01: 0
       }
+    },
+    methods: {
+
     },
     components: {
       ButtonTab,

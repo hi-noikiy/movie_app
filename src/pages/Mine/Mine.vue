@@ -9,21 +9,21 @@
       <div class="header__info clearfix">
         <div class="info__left">
           <div class="left__name">Monster</div>
-          <div class="left__tips">完善资料，送1000积分></div>
+          <div class="left__tips" @click="linkTo('Edit')">完善资料，送1000积分></div>
           <div class="left__tab">
             <span class="tab tab__member">大众会员</span>
             <span class="tab tab__friend">交友达人</span>
-            <span class="tab tab__singIn">签到+60</span>
+            <span class="tab tab__singIn" @click="linkTo('Sign')">签到+60</span>
           </div>
         </div>
         <div class="info__right">
-          <div class="right__avatar">
+          <div class="right__avatar" @click="linkTo('Edit')">
             <img src="../../assets/avatar.png" alt="">
           </div>
         </div>
       </div>
       <div class="header__form">
-        <div class="form__tab">
+        <div class="form__tab" @click="linkTo('Points')">
           <div class="tab__top">
             24,302
           </div>
@@ -31,7 +31,7 @@
             积分
           </div>
         </div>
-        <div class="form__tab">
+        <div class="form__tab" @click="linkTo('CardList')">
           <div class="tab__top">
             81
           </div>
@@ -39,7 +39,7 @@
             卡卷 
           </div>
         </div>
-        <div class="form__tab">
+        <div class="form__tab" @click="linkTo('Friend')">
           <div class="tab__top">
             63
           </div>
@@ -47,7 +47,7 @@
             好友
           </div>
         </div>
-        <div class="form__tab">
+        <div class="form__tab" @click="linkTo('Dating')">
           <div class="tab__top">
             25
           </div>
@@ -60,16 +60,16 @@
 
     <div class="mine__menu">
       <div class="menu__top">
-        <div class="menu top__money clearfix">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的余额</span></span>
-          <span class="menu__right"><span>263,983.32</span><i class="arrow"></i></span>
-        </div>
-        <div class="menu top__bonus clearfix">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">云影红包</span></span>
-          <span class="menu__right"><span>3个红包派发中</span><i class="arrow"></i></span>
-        </div>
-        <div class="menu top__follow clearfix">
+        <div class="menu top__money clearfix" @click="linkTo('Collect')">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的关注</span></span>
+          <span class="menu__right"><i class="arrow"></i></span>
+        </div>
+        <div class="menu bottom__rank clearfix" @click="linkTo('Rank')">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">积分排行榜</span></span>
+          <span class="menu__right"><span>已连续5天排行前三</span><i class="arrow"></i></span>
+        </div>
+        <div class="menu top__follow clearfix" @click="linkTo('Message')">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的消息</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
       </div>
@@ -78,22 +78,22 @@
         <!-- <div class="menu bottom__rank"><i class="icon"></i>积分排行榜</div>
         <div class="menu bottom__comment"><i class="icon"></i>我的影评</div>
         <div class="menu bottom__ticket"><i class="icon"></i>我的票根</div> -->
-        <div class="menu bottom__rank clearfix">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">积分排行榜</span></span>
-          <span class="menu__right"><span>已连续5天排行前三</span><i class="arrow"></i></span>
-        </div>
-        <div class="menu bottom__comment clearfix">
+        <div class="menu bottom__comment clearfix" @click="linkTo('MyComment')">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的影评</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
-        <div class="menu bottom__ticket clearfix">
+        <div class="menu bottom__ticket clearfix" @click="linkTo('Ticket')">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的票根</span></span>
+          <span class="menu__right"><i class="arrow"></i></span>
+        </div>
+        <div class="menu bottom__rank clearfix" @click="linkTo('Record')">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">我的核销</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
       </div>
 
       <div class="menu__setting">
-        <div class="menu setting clearfix">
+        <div class="menu setting clearfix" @click="linkTo('Setting')">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">设置</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>

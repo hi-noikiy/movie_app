@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="sign__btn">
+    <div class="sign__btn" @click="signIn">
       <span>签到</span>
     </div>
 
@@ -73,7 +73,12 @@
             value: null
           })
         }
-        
+      }
+    },
+
+    methods: {
+      signIn() {
+        this.$confirm('(第一次) 签到1天赠送10积分/签到连续2天签到赠送20积分，明天连续签到送30积分哦！')
       }
     },
 

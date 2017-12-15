@@ -111,10 +111,6 @@
       </div>
     </div>
 
-    <div class="picker">
-      <picker :data='years' v-model='year1' @on-change='change'></picker>
-    </div>
-
     <div class="edit__btn">
       <span class="btn">放弃修改</span>
       <span class="btn sure">保存</span>

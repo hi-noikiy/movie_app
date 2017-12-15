@@ -32,7 +32,7 @@
       </tab>
       <swiper v-model="index" :show-dots="false" height="100px" ref="swiper">
         <swiper-item v-for="(item, index) in list2" :key="index">
-          <div class="item__wrap" ref="items">
+          <div class="item__wrap" ref="items" @click="linkTo('Goods')">
             <Item />
             <Item />
             <Item />

@@ -1,6 +1,6 @@
 <template>
   <div id="friend">
-    <div class="friend__apply">
+    <div class="friend__apply" @click="linkTo('Friending')">
       <MenuOnce :img="require('../../assets/newfriend.png')" class="friend__apply__img">
         <template slot="left">好友申请</template>
         <template slot="right">3个好友申请</template>

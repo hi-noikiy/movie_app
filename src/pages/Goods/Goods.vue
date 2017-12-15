@@ -47,7 +47,7 @@
         <div class="intro__content">
           <Merchant />
         </div>
-        <div class="intro__more">
+        <div class="intro__more" @click="linkTo('Merchants')">
           <span>查看全部8家门店</span>
           <i class="arrow"></i>
         </div>

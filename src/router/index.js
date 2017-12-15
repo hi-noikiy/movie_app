@@ -55,6 +55,8 @@ import Goods from '@/pages/Goods/Goods'
 import Merchants from '@/pages/Merchants/Merchants'
 //编辑个人资料
 import Edit from '@/pages/Edit/Edit'
+//玩游戏
+import Game from '@/pages/Game/Game'
 
 Vue.use(Router)
 
@@ -194,6 +196,11 @@ export default new Router({
       path: '/edit',
       name: 'Edit',
       component: Edit
+    },
+    {
+      path: '/game',
+      name: 'Game',
+      component: Game
     }
   ]
 })
