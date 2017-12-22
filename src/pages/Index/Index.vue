@@ -166,6 +166,16 @@
       
     },
 
+    mounted() {
+      this.$Api.getMovieList(1).then((res) => {
+        console.log(res)
+      })
+
+      this.$Api.getSetting().then((res) => {
+        console.log(res)
+      })
+    },
+
     methods: {
     }
   }

@@ -7,9 +7,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
 import 'normalize.css'
 import Confirm from '@/components/Confirm/Confirm.js'
+import Api from '@/Api/Api'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Vue.use(Confirm);
+
+Vue.prototype.$Api = Api;
 
 Vue.mixin({
   methods: {
