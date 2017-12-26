@@ -79,7 +79,7 @@ const Api = {
    * 
    * @returns 
    */
-  getMovieList (a) {
+  getMovieList(a) {
     return axiosApi(ApiUrl, {
       params: {
         json: {
@@ -88,6 +88,43 @@ const Api = {
           q: {
             a
           }
+        }
+      }
+    })
+  },
+
+  /**
+   * 27业务，电影详情 MovieDetails（H5、 APP）
+   * 
+   * @param {id} 电影 id 
+   * @returns 
+   */
+  getMovieDetails(id) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'MovieDetails',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            id
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 36业务，票房排行榜列表 MovieRankingList（H5、 APP）
+   * 
+   * @returns 
+   */
+  getMovieRankingList() {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'MovieRankingList',
+          s: sessionId?sessionId:getSession(),
+          q: {}
         }
       }
     })

@@ -64,28 +64,22 @@
     <!-- 上映电影 -->
     <div class="index__movie">
       <div class="movie__tarbar">
-        <span class="tarbar active">近期上映</span>
-        <span class="tarbar">即将上映</span>
+        <span class="tarbar" :class="{'active': type == 'near'}" @click="changeType('near')">近期上映</span>
+        <span class="tarbar" :class="{'active': type == 'now'}" @click="changeType('now')">即将上映</span>
       </div>
-      <div class="movie__list">
-        <div class="list" @click="linkTo('Movie')">
+      <div class="movie__list" v-show="type == 'near'">
+        <div class="list" @click="linkToUrl('movie?id='+movie.id)" :data-id="movie.id" v-for="(movie,index) in NearMovie" :key="index">
           <img src="../../assets/movie.png" alt="">
         </div>
-        <div class="list" @click="linkTo('Movie')">
+      </div>
+      <div class="movie__list" v-show="type == 'now'">
+        <div class="list" @click="linkToUrl('movie?id='+movie.id)" :data-id="movie.id" v-for="(movie,index) in NowMovie" :key="index">
           <img src="../../assets/movie.png" alt="">
         </div>
-        <div class="list" @click="linkTo('Movie')">
+        <!-- <div class="list" @click="linkTo('Movie')">
           <img src="../../assets/movie.png" alt="">
         </div>
-        <div class="list" @click="linkTo('Movie')">
-          <img src="../../assets/movie.png" alt="">
-        </div>
-        <div class="list" @click="linkTo('Movie')">
-          <img src="../../assets/movie.png" alt="">
-        </div>
-        <div class="list" @click="linkTo('Movie')">
-          <img src="../../assets/movie.png" alt="">
-        </div>
+        !-->
       </div>
     </div>
     <!-- 上映电影 -->
@@ -105,8 +99,7 @@
           </thead>
 
           <tbody>
-
-            <tr class="rank">
+            <!-- <tr class="rank">
               <td class="rank__movie">
                 <div class="rank__movie__name">全球风暴</div>
                 <div class="rank__movie__days">上映14天</div>
@@ -143,8 +136,21 @@
             </tr>
             <tr class="empty">
               <td colspan="4"></td>
-            </tr>
-
+            </tr> -->
+            <template v-for="(movie,index) in MovieRank">
+              <tr class="rank">
+                <td class="rank__movie">
+                  <div class="rank__movie__name">全球风暴</div>
+                  <div class="rank__movie__days">上映14天</div>
+                </td>
+                <td>1121.36</td>
+                <td>14.3%</td>
+                <td class="rank__popular">14.3%</td>
+              </tr>
+              <tr class="empty">
+                <td colspan="4"></td>
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>
@@ -159,7 +165,12 @@
 <script>
   export default {
     data() {
-      return {}
+      return {
+        type: 'near',
+        NearMovie: [],
+        NowMovie: [],
+        MovieRank: []
+      }
     },
 
     created() {
@@ -167,16 +178,45 @@
     },
 
     mounted() {
-      this.$Api.getMovieList(1).then((res) => {
-        console.log(res)
-      })
+      
+      this.getMovieList(1);
+      this.getMovieList(2); //预加载
 
+      this.getMovieRankingList();
       this.$Api.getSetting().then((res) => {
         console.log(res)
       })
     },
 
     methods: {
+      //切换电影类型
+      changeType(type) {
+        this.type = type;
+      },
+
+      //获取电影列表
+      getMovieList(type) {
+        this.$Api.getMovieList(type).then((res) => {
+          console.log(res)
+          if(res.q.s ==0) {
+            if(type == 1) {
+              this.NearMovie = res.q.movies
+            }else {
+              this.NowMovie = res.q.movies
+            }
+          }
+        })
+      },
+
+      //获取排行榜列表
+      getMovieRankingList() {
+        this.$Api.getMovieRankingList().then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.MovieRank = res.q.movieRankings
+          }
+        })
+      }
     }
   }
 </script>

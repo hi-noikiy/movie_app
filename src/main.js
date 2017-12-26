@@ -18,6 +18,10 @@ Vue.mixin({
   methods: {
     linkTo(name) {
       this.$router.push({name})
+    },
+
+    linkToUrl(url) {
+      this.$router.push(url)
     }
   }
 })

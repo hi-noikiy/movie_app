@@ -5,13 +5,13 @@
         <img src="../../assets/movie_big.png" alt="">
       </div>
       <div class="movie__detail__info">
-        <div class="info__name">雷神3：诸神黄昏</div>
+        <div class="info__name">{{movie.name}}</div>
         <div class="info__rate">
-          <span class="info__rate__num"></span>
+          <span class="info__rate__num" :class="rateType"></span>
           <span class="info__rate__comment">5128人评论</span>
         </div>
         <div class="info__intro">
-          测试测查手册测试测查手册测试测查手册测试测查手册测试测查手册测试测查手册测试测查手册测试测查手册测试测查手册测试测查手册测试测查手册测试测查手册
+          {{movie.content}}
         </div>
       </div>
     </div>
@@ -21,10 +21,10 @@
         <div class="tab__title">影评</div>
         <div class="tab__list">
           <div class="tab active">全部</div>
-          <div class="tab">好评22088</div>
-          <div class="tab">中评1325</div>
-          <div class="tab">差评737</div>
-          <div class="tab">图片2712</div>
+          <div class="tab">好评{{movie.statGoodsReview}}</div>
+          <div class="tab">中评{{movie.statMiddleReview}}</div>
+          <div class="tab">差评{{movie.statBadReview}}</div>
+          <div class="tab">图片{{movie.statImageReview}}</div>
         </div>
       </div>
 
@@ -57,12 +57,31 @@
   export default {
     data() {
       return {
-        rate: 4
+        movie: null,
+        rateType: 'rate1'
       }
     },
+
+    created() {
+      console.log(this.$route)
+      let id = this.$route.query.id;
+      if(id) {
+        this.getMovieDetails(id);
+      }
+    },
+
     methods: {
-      test() {
-        console.log(1)
+      //获取电影详情
+      getMovieDetails(id) {
+        this.$Api.getMovieDetails(id).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.movie = res.q.movie;
+            if(res.q.movie.starRating == '5.00') {
+              this.rateType = 'rate5'
+            }
+          }
+        })
       }
     },
     components: {
@@ -106,16 +125,61 @@
 
       .info__rate {
         margin: boxValue(10) 0;
-        height: 24px;
-        line-height: 24px;
+        height: boxValue(48);
+        line-height: boxValue(48);
         overflow: hidden;
 
         .info__rate__num {
           display: inline-block;
-          width: 83px;
-          height: 15px;
+          width: boxValue(166);
+          height: boxValue(30);
           background: url('../../assets/rates.png');
           vertical-align: middle;
+        }
+
+        .rate0_5 {
+          background: url('../../assets/rates_half.png');
+          background-position: boxValue(-138) 0;
+        }
+
+        .rate1 {
+          background-position: boxValue(-132) 0;
+        }
+
+        .rate1_5 {
+          background: url('../../assets/rates_half.png');
+          background-position: boxValue(-106) 0;
+        }
+
+        .rate2 {
+          background-position: boxValue(-98) 0;
+        }
+
+        .rate2_5 {
+          background: url('../../assets/rates_half.png');
+          background-position: boxValue(-106) 0;
+        }
+
+        .rate3 {
+          background-position: boxValue(-64) 0;
+        }
+
+        .rate3_5 {
+          background: url('../../assets/rates_half.png');
+          background-position: boxValue(-70) 0;
+        }
+
+        .rate4 {
+          background-position: boxValue(-32) 0;
+        }
+
+        .rate4_5 {
+          background: url('../../assets/rates_half.png');
+          background-position: boxValue(-38) 0;
+        }
+
+        .rate5 {
+          background-position: boxValue(0) 0;
         }
 
         .info__rate__comment {
