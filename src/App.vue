@@ -55,4 +55,57 @@
   #app {
     height: 100%;
   }
+
+  .rate__num {
+    display: inline-block;
+    width: boxValue(166);
+    height: boxValue(30);
+    background: url('./assets/rates.png');
+    vertical-align: middle;
+  }
+
+  .rate__num.rate0_5 {
+    background: url('./assets/rates_half.png');
+    background-position: boxValue(-138) 0;
+  }
+
+  .rate__num.rate1 {
+    background-position: boxValue(-132) 0;
+  }
+
+  .rate__num.rate1_5 {
+    background: url('./assets/rates_half.png');
+    background-position: boxValue(-106) 0;
+  }
+
+  .rate__num.rate2 {
+    background-position: boxValue(-98) 0;
+  }
+
+  .rate__num.rate2_5 {
+    background: url('./assets/rates_half.png');
+    background-position: boxValue(-106) 0;
+  }
+
+  .rate__num.rate3 {
+    background-position: boxValue(-64) 0;
+  }
+
+  .rate__num.rate3_5 {
+    background: url('./assets/rates_half.png');
+    background-position: boxValue(-70) 0;
+  }
+
+  .rate__num.rate4 {
+    background-position: boxValue(-32) 0;
+  }
+
+  .rate__num.rate4_5 {
+    background: url('./assets/rates_half.png');
+    background-position: boxValue(-38) 0;
+  }
+
+  .rate__num.rate5 {
+    background-position: boxValue(0) 0;
+  }
 </style>

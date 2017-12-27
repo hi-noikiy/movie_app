@@ -1,12 +1,40 @@
-import Toast from './Confirm.vue';
+import Confirm from './Confirm.vue';
+import ToastComponent from './ToastComponent.vue';
 
-var toast = {};
+var Util = {};
 var toastVM = null;
+var confirmVM = null;
 
-Toast.install = function(Vue, options) {
+Util.install = function(Vue, options) {
   Vue.prototype.$confirm = (content, type) => {
+    if(!confirmVM) {
+      let toastTpl = Vue.extend(Confirm);
+      confirmVM = new toastTpl();
+      let tpl = confirmVM.$mount().$el
+      document.body.appendChild(tpl)
+    }
+
+    confirmVM.show = true;
+    confirmVM.content = content;
+
+    return new Promise((resolve, reject) => {
+      let sure = confirmVM.sure;
+      let cancel = confirmVM.cancel;
+      confirmVM.sure = () => {
+        sure()
+        resolve('sure');
+      }
+
+      confirmVM.cancel = () => {
+        cancel()
+        resolve('cancel');
+      }
+    })
+  }
+
+  Vue.prototype.$toast = (content, type, time) => {
     if(!toastVM) {
-      let toastTpl = Vue.extend(Toast);
+      let toastTpl = Vue.extend(ToastComponent);
       toastVM = new toastTpl();
       let tpl = toastVM.$mount().$el
       document.body.appendChild(tpl)
@@ -14,21 +42,12 @@ Toast.install = function(Vue, options) {
 
     toastVM.show = true;
     toastVM.content = content;
+    toastVM.type = type?type:'success';
 
-    return new Promise((resolve, reject) => {
-      let sure = toastVM.sure;
-      let cancel = toastVM.cancel;
-      toastVM.sure = () => {
-        sure()
-        resolve('sure');
-      }
-
-      toastVM.cancel = () => {
-        cancel()
-        resolve('cancel');
-      }
-    })
+    setTimeout(() => {
+      toastVM.show = false;
+    }, time?time:800)
   }
 }
 
-export default Toast;
+export default Util;

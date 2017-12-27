@@ -1,5 +1,5 @@
 <template>
-  <div class="list clearfix">
+  <!-- <div class="list clearfix">
     <div class="list__left">
       <img src="../../assets/avatar.png" alt="">
     </div>
@@ -33,6 +33,38 @@
         </div>
       </div>
     </div>
+  </div> -->
+  <div class="list__wrap">
+    <div class="list clearfix" v-for="(comment,index) in commentList" :key="index">
+      <div class="list__left">
+        <img :src="comment.user.imagePath" alt="" v-if="comment.user.imagePath">
+        <img src="../../assets/avatar.png" alt="" v-else>
+      </div>
+      <div class="list__right">
+        <div class="list__right__info">
+          <div class="info__name">{{comment.user.nickname?comment.user.nickname:'暂无'}}</div>
+          <div class="rate__num scale"></div>
+        </div>
+        <div class="list__right__comment">
+          <div class="comment__text">{{comment.content}}</div>
+
+          <div class="comment__imgs">
+            <img class="img" :src="$ImgUrl + img.path" alt="" v-for="img in comment.images">
+          </div>
+
+          <div class="comment__info">
+            <div class="info__left">
+              <span class="time">{{comment.addTime}}</span>
+              <span class="del">删除</span>
+            </div>
+            <div class="info__right">
+              <span class="praise"><i class="praise__icon"></i>{{comment.statPraise}}</span>
+              <span class="comment"><i class="comment__icon"></i>{{comment.statComment}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,6 +72,7 @@
   import { Rater } from 'vux'
 
   export default {
+    props: ['commentList'],
     components: {
       Rater
     }
@@ -120,6 +153,7 @@
         }
 
         .comment__info {
+          margin-top: boxValue(10);
           height: boxValue(60);
           line-height: boxValue(60);
           font-size: boxValue(24);
@@ -133,7 +167,7 @@
             }
 
             .del {
-              color: #444;
+              color: #888;
             }
           }
 
@@ -177,6 +211,11 @@
         width: 100%;
         border-bottom: 1px solid #eee;
       }
+    }
+
+    .scale {
+      transform: scale(0.7);
+      transform-origin: 0 boxValue(-20);
     }
   }
 </style>

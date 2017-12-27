@@ -1,6 +1,7 @@
 import axios from 'axios'
 // const ApiUrl = 'http://139.199.68.39/api';
 const ApiUrl = '/api';
+const ImgUrl = 'http://139.199.68.39/uploadfiles/';
 let sessionId;
 
 function fetchAjax({
@@ -114,6 +115,62 @@ const Api = {
   },
 
   /**
+   * 28业务，电影评价列表 ReviewList（H5、 APP）
+   * 
+   * @param {a} 0 全部； 1 好评； 2 中评； 3 差评； 4 有图；5 我的影评；
+   * @param {id} 电影 id
+   * @param {pa}
+   * @param {li}
+   * @param {userId} 用户 id
+   * @returns 
+   */
+  getReviewList({a, id, pa, li, userId}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'ReviewList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a,
+            id,
+            pa,
+            li,
+            userId
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 29业务，电影评价发布 ReviewSubmit（H5、 APP）
+   * 
+   * @param {movieId}  电影 id
+   * @param {starRating}  评分
+   * @param {content}  评价
+   * @param {images}   配图 
+   * @returns 
+   */
+  ReviewSubmit(movieId, starRating, content, images) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'ReviewSubmit',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            review: {
+              movieId,
+              starRating,
+              content,
+              images
+            }
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 36业务，票房排行榜列表 MovieRankingList（H5、 APP）
    * 
    * @returns 
@@ -128,6 +185,15 @@ const Api = {
         }
       }
     })
+  },
+
+  /**
+   * 返回图片链接
+   * 
+   * @returns 
+   */
+  getImgUrl() {
+    return ImgUrl;
   }
 }
 

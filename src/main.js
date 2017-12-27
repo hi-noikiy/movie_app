@@ -13,6 +13,7 @@ Vue.config.productionTip = false;
 Vue.use(Confirm);
 
 Vue.prototype.$Api = Api;
+Vue.prototype.$ImgUrl = Api.getImgUrl();
 
 Vue.mixin({
   methods: {

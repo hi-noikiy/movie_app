@@ -2,15 +2,17 @@
   <div id="movie">
     <div class="movie__detail">
       <div class="movie__detail__swiper">
-        <img src="../../assets/movie_big.png" alt="">
+        <!-- <img src="../../assets/movie_big.png" alt=""> -->
+        <!-- <img :src="$ImgUrl + movie.imagePath" alt="" v-if="movie"> -->
+        <swiper :list="imgList" :aspect-ratio="320/350" dots-position="center"></swiper>
       </div>
       <div class="movie__detail__info">
-        <div class="info__name">{{movie.name}}</div>
+        <div class="info__name" v-if="movie">{{movie.name}}</div>
         <div class="info__rate">
           <span class="info__rate__num" :class="rateType"></span>
           <span class="info__rate__comment">5128人评论</span>
         </div>
-        <div class="info__intro">
+        <div class="info__intro" v-if="movie">
           {{movie.content}}
         </div>
       </div>
@@ -19,12 +21,12 @@
     <div class="movie__comment">
       <div class="movie__comment__tab">
         <div class="tab__title">影评</div>
-        <div class="tab__list">
-          <div class="tab active">全部</div>
-          <div class="tab">好评{{movie.statGoodsReview}}</div>
-          <div class="tab">中评{{movie.statMiddleReview}}</div>
-          <div class="tab">差评{{movie.statBadReview}}</div>
-          <div class="tab">图片{{movie.statImageReview}}</div>
+        <div class="tab__list" v-if="movie">
+          <div class="tab" :class="{'active': activeIndex == 0}" @click="changeComment(0)">全部</div>
+          <div class="tab" :class="{'active': activeIndex == 1}" @click="changeComment(1)">好评{{movie.statGoodsReview}}</div>
+          <div class="tab" :class="{'active': activeIndex == 2}" @click="changeComment(2)">中评{{movie.statMiddleReview}}</div>
+          <div class="tab" :class="{'active': activeIndex == 3}" @click="changeComment(3)">差评{{movie.statBadReview}}</div>
+          <div class="tab" :class="{'active': activeIndex == 4}" @click="changeComment(4)">图片{{movie.statImageReview}}</div>
         </div>
       </div>
 
@@ -37,8 +39,7 @@
             <div class="userInfo__type"></div>
           </div>
           <div class="comment__detail" @click="linkTo('Comment')">
-            <List></List>
-            <List></List>
+            <List :commentList="commentList"></List>
           </div>
         </div>
       </div>
@@ -51,14 +52,17 @@
 </template>
 
 <script>
-  import { Rater } from 'vux'
+  import { Rater,Swiper } from 'vux'
   import List from '@/components/List/List'
 
   export default {
     data() {
       return {
         movie: null,
-        rateType: 'rate1'
+        rateType: 'rate1', //星星等级
+        imgList: [],  //轮播图列表
+        commentList: [],  //评论列表
+        activeIndex: 0
       }
     },
 
@@ -67,6 +71,14 @@
       let id = this.$route.query.id;
       if(id) {
         this.getMovieDetails(id);
+        let param = {
+          a: 0,
+          id,
+          pa: 1,
+          li: 10
+        }
+
+        this.getReviewList(param);
       }
     },
 
@@ -80,12 +92,56 @@
             if(res.q.movie.starRating == '5.00') {
               this.rateType = 'rate5'
             }
+
+            let url = [];
+            let mainObj = {
+              url: 'javascript:',
+              img: this.$ImgUrl + this.movie.imagePath
+            }
+
+            url.push(mainObj);
+
+            for(let i in this.movie.images) {
+              let imgObj = {
+                url: 'javascript:',
+                img: this.$ImgUrl + this.movie.images[i].path
+              }
+
+              url.push(imgObj);
+            }
+
+            this.imgList = url;            
           }
         })
+      },
+
+      //获取电影详情
+      getReviewList(param) {
+        this.$Api.getReviewList(param).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.commentList = res.q.reviews;
+          }
+        })
+      },
+
+      changeComment(type) {
+        this.activeIndex = type;
+        let id = this.$route.query.id;
+        
+        let param = {
+          a: type,
+          id,
+          pa: 1,
+          li: 10
+        }
+
+        this.getReviewList(param);
       }
     },
     components: {
       Rater,
+      Swiper,
       List
     }
   }
@@ -101,8 +157,8 @@
   .movie__detail {
     background: #fff;
 
+    .vux-slider,
     .movie__detail__swiper {
-      height: boxValue(358);
       width: 100%;
 
       img {

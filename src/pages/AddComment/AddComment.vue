@@ -3,16 +3,16 @@
     <div class="add__rate">
       <span class="rate__title">电影评分</span>
       <div class="rate__control">
-        <span class="star"></span>
-        <span class="star"></span>
-        <span class="star"></span>
-        <span class="star"></span>
-        <span class="star"></span>
+        <span class="star" :class="{'gray': starIndex < 1}" @click="changeStar(1)"></span>
+        <span class="star" :class="{'gray': starIndex < 2}" @click="changeStar(2)"></span>
+        <span class="star" :class="{'gray': starIndex < 3}" @click="changeStar(3)"></span>
+        <span class="star" :class="{'gray': starIndex < 4}" @click="changeStar(4)"></span>
+        <span class="star" :class="{'gray': starIndex < 5}" @click="changeStar(5)"></span>
       </div>
     </div>
 
     <div class="add__text">
-      <textarea class="text__input" placeholder="快来说说你的看法~" name="" id=""></textarea>
+      <textarea class="text__input" placeholder="快来说说你的看法~" name="" id="" v-model="value"></textarea>
     </div>
 
     <div class="add__img">
@@ -28,6 +28,8 @@
         </div>
       </div>
     </div>
+
+    <div class="add__btn" @click="submit">立即发布</div>
   </div>
 </template>
 
@@ -35,8 +37,10 @@
   export default {
     data() {
       return {
+        starIndex: 5,
         uploadList: [],
-        data: 1
+        data: 1,
+        value: null
       }
     },
     methods: {
@@ -58,6 +62,17 @@
         };
 
         event.target.value=null
+      },
+
+      //改变评价
+      changeStar(type) {
+        this.starIndex = type;
+      },
+
+      submit() {
+        if(!this.value) {
+          this.$toast('请输入评论', 'fail');
+        }
       }
     }
   }
@@ -90,6 +105,10 @@
         background: url('../../assets/star.png') no-repeat;
         background-size: cover;
         background-position: center center;
+
+        &.gray {
+          background-image: url('../../assets/star_g.png');
+        }
       }
     }
 
@@ -109,6 +128,7 @@
     }
 
     .add__img {
+      margin-top: boxValue(20);
       background: #fff;
 
       .add__img__title {
@@ -155,6 +175,19 @@
           }
         }
       }
+    }
+
+    .add__btn {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: boxValue(70);
+      line-height: boxValue(70);
+      text-align: center;
+      background: #27adff;
+      font-size: boxValue(28);
+      color: #fff;
     }
 
     #upload {
