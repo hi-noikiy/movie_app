@@ -57,8 +57,26 @@
         index: 0,
       }
     },
-    methods: {
+
+    created() {
+      this.getCategoryList();
     },
+    
+    mounted() {
+      let items = document.querySelector('.item__wrap')
+      this.$nextTick(() => {
+        this.$refs.swiper.xheight = items.offsetHeight + 'px'
+      })
+    },
+
+    methods: {
+      getCategoryList() {
+        this.$Api.getCategoryList().then((res) => {
+          console.log(res)
+        })
+      }
+    },
+
     components: {
       Tab,
       TabItem,
@@ -66,12 +84,6 @@
       SwiperItem,
       Item
     },
-    mounted() {
-      let items = document.querySelector('.item__wrap')
-      this.$nextTick(() => {
-        this.$refs.swiper.xheight = items.offsetHeight + 'px'
-      })
-    }
   }
 </script>
 

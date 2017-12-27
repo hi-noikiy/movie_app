@@ -57,6 +57,8 @@ import Merchants from '@/pages/Merchants/Merchants'
 import Edit from '@/pages/Edit/Edit'
 //玩游戏
 import Game from '@/pages/Game/Game'
+//登录
+import Login from '@/pages/Login/Login'
 
 Vue.use(Router)
 
@@ -201,6 +203,11 @@ export default new Router({
       path: '/game',
       name: 'Game',
       component: Game
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })

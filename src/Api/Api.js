@@ -73,6 +73,69 @@ const Api = {
     })
   },
 
+
+  /**
+   * 3 公共，短信验证码 SMSCode（H5、 APP）
+   * 
+   * @param {any} a 
+   * @param {any} type 
+   * @returns 
+   */
+  getSMSCode(a, type, mobile, code) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'SMSCode',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a,
+            type,
+            mobile,
+            code
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 4 公共， 分类列表 CategoryList（H5、 APP）
+   * 
+   * @returns 
+   */
+  getCategoryList() {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'CategoryList',
+          q: {
+            a: 1
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 13用户，个人详情 UserDetails（H5、 APP）
+   * 
+   * @param {id}  
+   * @returns 
+   */
+  getUserDetails(id) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'UserDetails',
+          // s: sessionId?sessionId:getSession(),
+          q: {
+            id
+          }
+        }
+      }
+    })
+  },
+
   /**
    * 26业务，电影列表 MovieList（H5、APP）
    * 
