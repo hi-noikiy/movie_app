@@ -38,7 +38,7 @@
             </div>
             <div class="userInfo__type"></div>
           </div>
-          <div class="comment__detail" @click="linkTo('Comment')">
+          <div class="comment__detail">
             <List :commentList="commentList"></List>
           </div>
         </div>

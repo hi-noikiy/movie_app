@@ -8,7 +8,7 @@
       </div>
       <div class="header__info clearfix">
         <div class="info__left">
-          <div class="left__name">Monster</div>
+          <div class="left__name">{{userDetail.nickname}}</div>
           <div class="left__tips" @click="linkTo('Edit')">完善资料，送1000积分></div>
           <div class="left__tab">
             <span class="tab tab__member">大众会员</span>
@@ -18,14 +18,15 @@
         </div>
         <div class="info__right">
           <div class="right__avatar" @click="linkTo('Edit')">
-            <img src="../../assets/avatar.png" alt="">
+            <img :src="$ImgUrl + userDetail.imagePath" alt="" v-if="userDetail.imagePath">
+            <img src="../../assets/avatar.png" alt="" v-else>
           </div>
         </div>
       </div>
       <div class="header__form">
         <div class="form__tab" @click="linkTo('Points')">
           <div class="tab__top">
-            24,302
+            {{userDetail.canUseIntegral}}
           </div>
           <div class="tab__bottom">
             积分
@@ -33,7 +34,7 @@
         </div>
         <div class="form__tab" @click="linkTo('CardList')">
           <div class="tab__top">
-            81
+            {{userDetail.statNewCoupon}}
           </div>
           <div class="tab__bottom">
             卡卷 
@@ -41,7 +42,7 @@
         </div>
         <div class="form__tab" @click="linkTo('Friend')">
           <div class="tab__top">
-            63
+            {{userDetail.statFriends}}
           </div>
           <div class="tab__bottom">
             好友
@@ -49,7 +50,7 @@
         </div>
         <div class="form__tab" @click="linkTo('Dating')">
           <div class="tab__top">
-            25
+            {{userDetail.statDate}}
           </div>
           <div class="tab__bottom">
             约影
@@ -92,15 +93,40 @@
         </div>
       </div>
 
-      <div class="menu__setting">
+      <!-- <div class="menu__setting">
         <div class="menu setting clearfix" @click="linkTo('Setting')">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">设置</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        userDetail: {}
+      }
+    },
+
+    created() {
+      this.getUserDetail();
+    },
+
+    methods: {
+      getUserDetail() {
+        this.$Api.getUserDetails().then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.userDetail = res.q.user;
+          }
+        })
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
 @import '../../scss/mixin.scss';

@@ -44,9 +44,12 @@ Util.install = function(Vue, options) {
     toastVM.content = content;
     toastVM.type = type?type:'success';
 
-    setTimeout(() => {
-      toastVM.show = false;
-    }, time?time:800)
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        toastVM.show = false;
+        resolve();
+      }, time?time:800)
+    })
   }
 }
 

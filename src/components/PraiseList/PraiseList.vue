@@ -1,20 +1,21 @@
 <template>
   <div class="praise__wrap">
-    <div class="praise__list clearfix">
+    <div class="praise__list clearfix" v-for="(item, index) in praiseList" :key="index">
       <div class="praise__list__left">
+        <img :src="$ImgUrl + item.user.imagePath" alt="" v-if="item.user.imagePath">
         <img src="../../assets/avatar.png" alt="">
       </div>
       <div class="praise__list__right">
         <div class="right__info">
-          <div class="info__name">咸鱼Diane</div>
+          <div class="info__name">{{item.user.nickname}}</div>
           <div class="info__control">
-            <span class="time">今天15:32</span>
+            <span class="time">{{item.addTime}}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="praise__list clearfix">
+    <!-- <div class="praise__list clearfix">
       <div class="praise__list__left">
         <img src="../../assets/avatar.png" alt="">
       </div>
@@ -26,10 +27,16 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </template>
+
+<script>
+  export default {
+    props: ['praiseList']
+  }
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';

@@ -4,13 +4,13 @@
 
     <div class="comment__respone">
       <div class="comment__respone__tab">
-        <span class="tab__comment" :class="{'active':type == 'comment'}" @click="changeType('comment')">评论 (3264)</span>
-        <span class="tab__praise" :class="{'active':type == 'praise'}" @click="changeType('praise')">点赞 (3264)</span>
+        <span class="tab__comment" :class="{'active':type == 'comment'}" @click="changeType('comment')">评论 ({{$route.query.comment}})</span>
+        <span class="tab__praise" :class="{'active':type == 'praise'}" @click="changeType('praise')">点赞 ({{$route.query.praise}})</span>
       </div>
 
       <div class="comment__respone__reply">
-        <UserList class="respone__reply" v-show="type == 'comment'"/>
-        <PraiseList class="respone__praise" v-show="type == 'praise'"/>
+        <UserList :userList="userList" class="respone__reply" v-show="type == 'comment'"/>
+        <PraiseList :praiseList="praiseList" class="respone__praise" v-show="type == 'praise'"/>
       </div>
     </div>
 
@@ -28,12 +28,40 @@
   export default {
     data() {
       return {
-        type: 'comment'
+        type: 'comment',
+        userList: [],
+        praiseList: []
       }
     },
+
+    created() {
+      let id = this.$route.query.id;
+
+      this.getCommentList(id);
+      this.getPraiseList(id);
+    },
+
     methods: {
       changeType(type) {
         this.type = type
+      },
+
+      getCommentList(id) {
+        this.$Api.getCommentList(id, 1, 100).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.userList = res.q.comments;
+          }
+        })
+      },
+
+      getPraiseList(id) {
+        this.$Api.getPraiseList(id, 1, 100).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.praiseList = res.q.praises;
+          }
+        })
       }
     },
     components: {

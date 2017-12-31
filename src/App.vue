@@ -108,4 +108,51 @@
   .rate__num.rate5 {
     background-position: boxValue(0) 0;
   }
+
+  .button {
+    margin: 0 auto;
+    width: boxValue(580);
+    height: boxValue(70);
+    line-height: boxValue(70);
+    text-align: center;
+    font-size: boxValue(30);
+    color: #fff;
+    background: #02a9ff;
+    border-radius: boxValue(8);
+  }
+
+
+  //重新vux样式
+  a {
+    text-decoration: none;
+  }
+
+  .weui-cell {
+    font-size: boxValue(26);
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .weui-cells {
+    margin-top: 0!important;
+    margin-bottom: boxValue(20)!important;
+  }
+
+  .weui-cells:before {
+    border-top: none!important;
+  }
+
+  .weui-cells:after {
+    border-bottom: none!important;
+  }
+
+  .vux-cell-value {
+    color: #666!important;
+  }
+
+  .vux-cell-box:before {
+    border-top: none!important;
+  }
 </style>

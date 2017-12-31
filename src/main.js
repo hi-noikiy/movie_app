@@ -8,9 +8,11 @@ import router from './router'
 import 'normalize.css'
 import Confirm from '@/components/Confirm/Confirm.js'
 import Api from '@/Api/Api'
+import { DatetimePlugin } from 'vux'
 
 Vue.config.productionTip = false;
 Vue.use(Confirm);
+Vue.use(DatetimePlugin);
 
 Vue.prototype.$Api = Api;
 Vue.prototype.$ImgUrl = Api.getImgUrl();
@@ -18,6 +20,7 @@ Vue.prototype.$ImgUrl = Api.getImgUrl();
 Vue.mixin({
   methods: {
     linkTo(name) {
+      console.log(name);
       this.$router.push({name})
     },
 

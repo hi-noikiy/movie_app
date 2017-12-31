@@ -4,20 +4,6 @@ const ApiUrl = '/api';
 const ImgUrl = 'http://139.199.68.39/uploadfiles/';
 let sessionId;
 
-function fetchAjax({
-  url,
-  option
-}) {
-  console.log(33333)
-  let promise = new Promise((resolve, reject) => {
-    fetch(url, option).then((res) => {
-      console.log(res)
-      resolve(res)
-    })
-  })
-  return promise;
-}
-
 function axiosApi(url, option, method='get',stopLogin=false) {
   let promise;
 
@@ -116,6 +102,40 @@ const Api = {
     })
   },
 
+  UploadFiles(file) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'UploadFiles'
+        }
+      },
+      data: file,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }, 'post')
+  },
+
+  /**
+   * 7 公共，广告列表 AdList（H5、 APP）
+   * 
+   * @param {action} 1 影讯； 2 卡券
+   * @returns 
+   */
+  getAdList(a) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'AdList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a
+          }
+        }
+      }
+    })
+  },
+
   /**
    * 13用户，个人详情 UserDetails（H5、 APP）
    * 
@@ -131,6 +151,110 @@ const Api = {
           q: {
             id
           }
+        }
+      }
+    })
+  },
+
+  /**
+   * 14用户，用户更新 UserUpdate（H5、 APP）
+   * 
+   * @param {any} {
+   *     a,   1 个人资料； 2 约影资料； 3 设置/重设支付密码； 4 修改支付密码； 5 更新坐标位置； 6 验证身份信息
+   *     nickname,  Action=1，昵称
+   *     imagePath, Action=1，头像
+   *     sex,       Action=1，性别： 1 男； 2 女； 3 未知；
+   *     images,    Action=1，用户相册
+   *     birthday,  Action=1，生日年-月-日；
+   *     loveStatus,  Action=1，恋爱状态： 1 隐藏； 2 单身； 3 情侣； 4 已婚；
+   *     favoriteTypes,  Action=1，喜欢类型
+   *     favoriteSuperStars,  Action=1，喜欢明星
+   *     signature,           Action=1，个性签名
+   *     industryId,          Action=1，行业 id
+   *     regionId,            Action=1，区级地区 id
+   *     cinemaId,            Action=2，约影院 id
+   *     matchSex,            Action=2，匹配性别
+   *     matchAgeMin,         Action=2，匹配年龄最小值
+   *     matchAgeMax,         Action=2，匹配年龄最大值
+   *     payPassword,         Action=2，匹配年龄最大值
+   *     oldPassword,         Action=4；原密码（md5）；
+   *     longitude,           Action=5；经度；
+   *     latitude,            Action=5；纬度；
+   *     realname,            Action=6；姓名；
+   *     idNumber}            Action=6；身份证号；
+   * @returns 
+   */
+  UserUpdate({
+    a, 
+    nickname,
+    imagePath,
+    sex,
+    images,
+    birthday,
+    loveStatus,
+    favoriteTypes,
+    favoriteSuperStars,
+    signature,
+    industryId,
+    regionId,
+    cinemaId,
+    matchSex,
+    matchAgeMin,
+    matchAgeMax,
+    payPassword,
+    oldPassword,
+    longitude,
+    latitude,
+    realname,
+    idNumber}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'UserUpdate',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a,
+            user: {
+              nickname,
+              imagePath,
+              sex,
+              images,
+              birthday,
+              loveStatus,
+              favoriteTypes,
+              favoriteSuperStars,
+              signature,
+              industryId,
+              regionId,
+              cinemaId,
+              matchSex,
+              matchAgeMin,
+              matchAgeMax,
+              payPassword,
+              oldPassword,
+              longitude,
+              latitude,
+              realname,
+              idNumber
+            }
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 16用户，用户积分排行榜 UserRankList（H5、 APP）
+   * 
+   * @returns 
+   */
+  getUserRankList() {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'UserRankList',
+          s: sessionId?sessionId:getSession(),
+          q: {}
         }
       }
     })
@@ -227,6 +351,54 @@ const Api = {
               content,
               images
             }
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 31业务，评价评论列表 CommentList（H5、 APP）
+   * 
+   * @param {id}  评价 id
+   * @param {pa}  页数
+   * @param {li}  条数
+   * @returns 
+   */
+  getCommentList(id, pa, li) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'CommentList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            id,
+            pa,
+            li
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 34业务，评价赞列表 PraiseList（H5、 APP）
+   * 
+   * @param {id}  评价 id
+   * @param {pa}  页数
+   * @param {li}  条数
+   * @returns 
+   */
+  getPraiseList(id, pa, li) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'PraiseList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            id,
+            pa,
+            li
           }
         }
       }

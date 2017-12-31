@@ -57,6 +57,8 @@ import Merchants from '@/pages/Merchants/Merchants'
 import Edit from '@/pages/Edit/Edit'
 //玩游戏
 import Game from '@/pages/Game/Game'
+//玩游戏
+import Signature from '@/pages/Signature/Signature'
 //登录
 import Login from '@/pages/Login/Login'
 
@@ -203,6 +205,11 @@ export default new Router({
       path: '/game',
       name: 'Game',
       component: Game
+    },
+    {
+      path: '/signature',
+      name: 'Signature',
+      component: Signature
     },
     {
       path: '/login',

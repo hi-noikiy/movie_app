@@ -53,6 +53,28 @@
   </div>
 </template>
 
+<script>
+  export default {
+    data() {
+      return {
+        list: []
+      }
+    },
+
+    created() {
+      this.getUserRankList();
+    },
+
+    methods: {
+      getUserRankList() {
+        this.$Api.getUserRankList().then((res) => {
+          console.log(res)
+        })
+      }
+    }
+  }
+</script>
+
 <style lang="scss">
   @import '../../scss/mixin.scss';
   

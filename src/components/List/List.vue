@@ -59,7 +59,7 @@
             </div>
             <div class="info__right">
               <span class="praise"><i class="praise__icon"></i>{{comment.statPraise}}</span>
-              <span class="comment"><i class="comment__icon"></i>{{comment.statComment}}</span>
+              <span class="comment" @click="linkToUrl('comment?id=' + comment.id + '&praise=' + comment.statPraise + '&comment=' + comment.statComment)"><i class="comment__icon"></i>{{comment.statComment}}</span>
             </div>
           </div>
         </div>
@@ -132,6 +132,7 @@
         font-size: boxValue(24);
 
         .comment__text {
+          word-break: break-all;
           padding-right: boxValue(8);
           color: #444;
         }

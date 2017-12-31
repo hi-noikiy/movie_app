@@ -4,12 +4,13 @@
     <div class="index__header">
       <div class="header__left">
         <div class="header__left__avatar" @click="linkTo('Mine')">
-          <img src="../../assets/avatar.png" alt="">
+          <img :src="$ImgUrl + userDetail.imagePath" alt="" v-if="userDetail.imagePath">
+          <img src="../../assets/avatar.png" alt="" v-else>
         </div>
-        <div class="header__left__user">
-          <div class="user__name">William</div>
+        <div class="header__left__user" v-if="userDetail">
+          <div class="user__name">{{userDetail.nickname}}</div>
           <div class="user__points">
-            <span class="points">24320</span>
+            <span class="points">{{userDetail.canUseIntegral}}</span>
             <span>积分</span>
           </div>
         </div>
@@ -69,12 +70,14 @@
       </div>
       <div class="movie__list" v-show="type == 'near'">
         <div class="list" @click="linkToUrl('movie?id='+movie.id)" :data-id="movie.id" v-for="(movie,index) in NearMovie" :key="index">
-          <img src="../../assets/movie.png" alt="">
+          <img :src="$ImgUrl + movie.imagePath" alt="" v-if="movie.imagePath">
+          <img src="../../assets/movie.png" alt="" v-else>
         </div>
       </div>
       <div class="movie__list" v-show="type == 'now'">
         <div class="list" @click="linkToUrl('movie?id='+movie.id)" :data-id="movie.id" v-for="(movie,index) in NowMovie" :key="index">
-          <img src="../../assets/movie.png" alt="">
+          <img :src="$ImgUrl + movie.imagePath" alt="" v-if="movie.imagePath">
+          <img src="../../assets/movie.png" alt="" v-else>
         </div>
         <!-- <div class="list" @click="linkTo('Movie')">
           <img src="../../assets/movie.png" alt="">
@@ -169,7 +172,8 @@
         type: 'near',
         NearMovie: [],
         NowMovie: [],
-        MovieRank: []
+        MovieRank: [],
+        userDetail: null
       }
     },
 
@@ -178,10 +182,18 @@
     },
 
     mounted() {
-      
+      //用户信息
+      this.getUserDetail();
+
+      //广告列表
+  
+      //上映列表
       this.getMovieList(1);
       this.getMovieList(2); //预加载
 
+      //获取用户信息
+
+      //排行列表
       this.getMovieRankingList();
       this.$Api.getSetting().then((res) => {
         console.log(res)
@@ -192,6 +204,22 @@
       //切换电影类型
       changeType(type) {
         this.type = type;
+      },
+
+      getAdList(type) {
+        this.$Api.getAdList(1).then((res) => {
+          console.log(res)
+        })
+      },
+
+      getUserDetail() {
+        console.log(123)
+        this.$Api.getUserDetails().then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.userDetail = res.q.user;
+          }
+        })
       },
 
       //获取电影列表
