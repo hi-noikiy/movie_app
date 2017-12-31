@@ -382,6 +382,32 @@ const Api = {
   },
 
   /**
+   * 32业务，评价评论发布 CommentSubmit（H5、 APP）
+   * 
+   * @param {reviewId}  评价 id
+   * @param {content}  评论
+   * @param {replyUserId}  被回复人 id
+   * @returns 
+   */
+  CommentSubmit(reviewId, content, replyUserId) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'CommentSubmit',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            comment: {
+              reviewId,
+              content,
+              replyUserId
+            }
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 34业务，评价赞列表 PraiseList（H5、 APP）
    * 
    * @param {id}  评价 id
@@ -399,6 +425,28 @@ const Api = {
             id,
             pa,
             li
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 35业务，评价赞操作 PraiseSwitch（H5、 APP）
+   * 
+   * @param {id}  评价 id
+   * @param {open} 1 赞； 2 取消赞；
+   * @returns 
+   */
+  PraiseSwitch(id, open) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'PraiseSwitch',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            id,
+            open
           }
         }
       }

@@ -3,7 +3,7 @@
     <div class="user__list clearfix" v-for="(item, index) in userList" :key="index">
       <div class="user__list__left">
         <img :src="$ImgUrl + item.user.imagePath" alt="" v-if="item.user.imagePath">
-        <img src="../../assets/avatar.png" alt="">
+        <img src="../../assets/avatar.png" alt="" v-else>
       </div>
       <div class="user__list__right">
         <div class="right__info">

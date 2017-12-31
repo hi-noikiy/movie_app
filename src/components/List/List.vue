@@ -37,7 +37,7 @@
   <div class="list__wrap">
     <div class="list clearfix" v-for="(comment,index) in commentList" :key="index">
       <div class="list__left">
-        <img :src="comment.user.imagePath" alt="" v-if="comment.user.imagePath">
+        <img :src="$ImgUrl + comment.user.imagePath" alt="" v-if="comment.user.imagePath">
         <img src="../../assets/avatar.png" alt="" v-else>
       </div>
       <div class="list__right">
@@ -58,7 +58,7 @@
               <span class="del">删除</span>
             </div>
             <div class="info__right">
-              <span class="praise"><i class="praise__icon"></i>{{comment.statPraise}}</span>
+              <span class="praise" :class="{'praised': comment.isPraise == 1}" @click="praise(comment.id, comment)"><i class="praise__icon"></i>{{comment.statPraise}}</span>
               <span class="comment" @click="linkToUrl('comment?id=' + comment.id + '&praise=' + comment.statPraise + '&comment=' + comment.statComment)"><i class="comment__icon"></i>{{comment.statComment}}</span>
             </div>
           </div>
@@ -73,6 +73,33 @@
 
   export default {
     props: ['commentList'],
+
+    methods: {
+      praise(id, comment) {
+        console.log(comment)
+        if(comment.isPraise == 1) {
+          this.$Api.PraiseSwitch(id, 2).then((res) => {
+            console.log(res);
+            if(res.q.s == 0) {
+              comment.isPraise = 2;
+              comment.statPraise++;
+            }else {
+              this.$toast(res.q.d, 'fail')
+            }
+          })
+        }else {
+          this.$Api.PraiseSwitch(id, 2).then((res) => {
+            if(res.q.s == 0) {
+                comment.isPraise = 1;
+                comment.statPraise--;
+              }else {
+                this.$toast(res.q.d, 'fail')
+              }
+          })
+        }
+      }      
+    },
+
     components: {
       Rater
     }
@@ -186,6 +213,12 @@
                 height: boxValue(24);
                 background: url('../../assets/praiseh.png');
                 background-size: 100%;
+              }
+            }
+
+            .praised {
+              .praise__icon {
+                background-image: url('../../assets/praise.png');
               }
             }
 

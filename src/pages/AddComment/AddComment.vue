@@ -12,7 +12,7 @@
     </div>
 
     <div class="add__text">
-      <textarea class="text__input" placeholder="快来说说你的看法~" name="" id="" v-model="value"></textarea>
+      <textarea class="text__input" placeholder="快来说说你的看法~" name="" id="" v-model="content"></textarea>
     </div>
 
     <div class="add__img">
@@ -20,7 +20,7 @@
       <div class="add__img__list">
         <div class="list" v-for="(list,index) in uploadList" :key="index">
           <img :src="list" alt="">
-          <span class="list__del"></span>
+          <span class="list__del" @click="del(index)"></span>
         </div>
         <div class="add">
           <img src="../../assets/imgadd.png" alt="" @click="open">
@@ -39,8 +39,9 @@
       return {
         starIndex: 5,
         uploadList: [],
+        imgList: [],
         data: 1,
-        value: null
+        content: null
       }
     },
     methods: {
@@ -52,14 +53,20 @@
       upload(event) {
         var oFile = document.getElementById("upload").files[0];
         let oFReader = new FileReader();
-        oFReader.readAsDataURL(oFile);
-        
-        oFReader.onload = (oFREvent) => {
-          console.log(oFREvent);
-          this.uploadList.push(oFREvent.currentTarget.result);
-          oFile.value = '';
-          console.log(oFile.value)
-        };
+        let formData = new FormData();
+        formData.append('file[]', oFile);
+
+        this.$Api.UploadFiles(formData).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            oFReader.readAsDataURL(oFile);
+            oFReader.onload = (oFREvent) => {
+              this.uploadList.push(oFREvent.currentTarget.result);
+              this.imgList.push(res.q.files[0]);
+              oFile.value = '';
+            };
+          }
+        })
 
         event.target.value=null
       },
@@ -69,10 +76,33 @@
         this.starIndex = type;
       },
 
+      //删除照片
+      del(index) {
+        this.uploadList.splice(index, 1);
+        this.imgList.splice(index, 1);
+      },
+
       submit() {
-        if(!this.value) {
+        if(!this.content) {
           this.$toast('请输入评论', 'fail');
+          return false;
         }
+
+        let id = this.$route.query.id;
+        let starRating = this.starIndex;
+        let content = this.content;
+        let images = this.imgList;
+
+        console.log(id, starRating, content, images);
+
+        this.$Api.ReviewSubmit(id, starRating, content, images).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.$toast('提交成功').then(() => {
+              this.$router.go(-1);
+            });
+          }
+        })
       }
     }
   }

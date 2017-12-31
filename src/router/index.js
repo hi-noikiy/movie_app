@@ -59,6 +59,8 @@ import Edit from '@/pages/Edit/Edit'
 import Game from '@/pages/Game/Game'
 //玩游戏
 import Signature from '@/pages/Signature/Signature'
+//回复评论
+import ReplyComment from '@/pages/ReplyComment/ReplyComment'
 //登录
 import Login from '@/pages/Login/Login'
 
@@ -210,6 +212,11 @@ export default new Router({
       path: '/signature',
       name: 'Signature',
       component: Signature
+    },
+    {
+      path: '/replyComment',
+      name: 'ReplyComment',
+      component: ReplyComment
     },
     {
       path: '/login',

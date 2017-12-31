@@ -43,8 +43,10 @@
     width: 100%;
     height: 100%;
     background: rgba(0,0,0, 0.3);
+    z-index: 99;
 
     .toast {
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -53,6 +55,7 @@
       height: auto;
       background: #fff;
       border-radius: 5px;
+      z-index: 999;
 
       .toast__content {
         margin-top: boxValue(26);
