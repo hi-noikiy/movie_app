@@ -20,7 +20,7 @@
           大众会员
         </span>
         <span class="header__right__singIn" @click="linkTo('Sign')">
-          签到+60
+          签到+{{userDetail.getFromSign}}
         </span>
       </div>
     </div>
@@ -173,7 +173,7 @@
         NearMovie: [],
         NowMovie: [],
         MovieRank: [],
-        userDetail: null
+        userDetail: {}
       }
     },
 
@@ -213,9 +213,7 @@
       },
 
       getUserDetail() {
-        console.log(123)
         this.$Api.getUserDetails().then((res) => {
-          console.log(res)
           if(res.q.s == 0) {
             this.userDetail = res.q.user;
           }

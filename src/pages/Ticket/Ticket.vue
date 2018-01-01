@@ -1,20 +1,11 @@
 <template>
   <div id="ticket">
     <div class="ticket__list clearfix">
-      <div class="ticket">
+      <!-- <div class="ticket">
         <img src="../../assets/image.png" alt="">
-      </div>
-      
-      <div class="ticket">
-        <img src="../../assets/image.png" alt="">
-      </div>
-
-      <div class="ticket">
-        <img src="../../assets/image.png" alt="">
-      </div>
-
-      <div class="ticket">
-        <img src="../../assets/image.png" alt="">
+      </div> -->
+      <div class="ticket" v-for="(item,index) in ticket" :key="index">
+        <img :src="$ImgUrl + item.imagePath" alt="">
       </div>
     </div>
 
@@ -23,6 +14,31 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        ticket: []
+      }
+    },
+
+    created() {
+      this.getTicketList()
+    },
+
+    methods: {
+      getTicketList() {
+        this.$Api.getTicketList().then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.ticket = res.q.tickets;
+          }
+        })
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';

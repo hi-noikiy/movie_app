@@ -99,6 +99,31 @@
   </div>
 </template>
 
+<script>
+  export default {
+    data() {
+      return {}
+    },
+
+    created() {
+      this.getCouponList();
+    },
+
+    methods: {
+      getCouponList() {
+        let param = {
+          a: 2,
+          li: 16, 
+          isRecommend: 1
+        }
+        this.$Api.getCouponList(param).then((res) => {
+          console.log(res)
+        })
+      }
+    }
+  }
+</script>
+
 <style lang="scss">
   @import '../../scss/mixin.scss';
 

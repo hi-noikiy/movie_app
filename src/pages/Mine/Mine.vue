@@ -13,7 +13,7 @@
           <div class="left__tab">
             <span class="tab tab__member">大众会员</span>
             <span class="tab tab__friend">交友达人</span>
-            <span class="tab tab__singIn" @click="linkTo('Sign')">签到+60</span>
+            <span class="tab tab__singIn" @click="linkTo('Sign')">签到+{{userDetail.getFromSign}}</span>
           </div>
         </div>
         <div class="info__right">

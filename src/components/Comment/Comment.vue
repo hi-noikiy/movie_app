@@ -1,49 +1,97 @@
 <template>
-  <div class="list clearfix">
-    <div class="list__left">
-      <img src="../../assets/avatar.png" alt="">
-    </div>
-    <div class="list__right">
-      <div class="list__right__info">
-        <div class="info__name">咸鱼Diane</div>
-        <div class="info__rate"></div>
+  <div id="comment">
+    <!-- <div class="list clearfix">
+      <div class="list__left">
+        <img src="../../assets/avatar.png" alt="">
       </div>
-      <div class="list__right__comment">
-        <div class="comment__text">测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试</div>
-
-        <div class="comment__imgs">
-          <img class="img" src="../../assets/image.png" alt="">
-          <img class="img" src="../../assets/image.png" alt="">
-          <img class="img" src="../../assets/image.png" alt="">
-          <img class="img" src="../../assets/image.png" alt="">
-          <img class="img" src="../../assets/image.png" alt="">
-          <img class="img" src="../../assets/image.png" alt="">
-          <img class="img" src="../../assets/image.png" alt="">
+      <div class="list__right">
+        <div class="list__right__info">
+          <div class="info__name">咸鱼Diane</div>
+          <div class="info__rate"></div>
         </div>
+        <div class="list__right__comment">
+          <div class="comment__text">测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试</div>
 
-        <div class="comment__movie" v-if="type=='comment'">
-          <div class="movie__img">
-            <img src="../../assets/movie.png" alt="">
+          <div class="comment__imgs">
+            <img class="img" src="../../assets/image.png" alt="">
+            <img class="img" src="../../assets/image.png" alt="">
+            <img class="img" src="../../assets/image.png" alt="">
+            <img class="img" src="../../assets/image.png" alt="">
+            <img class="img" src="../../assets/image.png" alt="">
+            <img class="img" src="../../assets/image.png" alt="">
+            <img class="img" src="../../assets/image.png" alt="">
           </div>
-          <div class="movie__info">
-            <div class="info__name">
-              雷神3：诸神黄昏
+
+          <div class="comment__movie" v-if="type=='comment'">
+            <div class="movie__img">
+              <img src="../../assets/movie.png" alt="">
             </div>
-            <div class="info__rate">
-              <span class="rate"></span>
-              <span>512人评论</span>
+            <div class="movie__info">
+              <div class="info__name">
+                雷神3：诸神黄昏
+              </div>
+              <div class="info__rate">
+                <span class="rate"></span>
+                <span>512人评论</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="comment__info">
+            <div class="info__left">
+              <span class="time">今天15:32</span>
+              <span class="del">删除</span>
+            </div>
+            <div class="info__right">
+              <span class="praise"><i class="praise__icon"></i>2587</span>
+              <span class="comment"><i class="comment__icon"></i>442</span>
             </div>
           </div>
         </div>
+      </div>
+    </div> -->
+    <div class="list clearfix" v-for="(item,index) in comment" :key="index">
+      <div class="list__left">
+        <img :src="$ImgUrl + item.user.imagePath" alt="" v-if="item.user.imagePath">
+        <img src="../../assets/avatar.png" alt="" v-else>
+      </div>
+      <div class="list__right">
+        <div class="list__right__info">
+          <div class="info__name">{{item.user.nickname}}</div>
+          <div class="rate__num rate__scale"></div>
+        </div>
+        <div class="list__right__comment">
+          <div class="comment__text">{{item.content}}</div>
 
-        <div class="comment__info">
-          <div class="info__left">
-            <span class="time">今天15:32</span>
-            <span class="del">删除</span>
+          <div class="comment__imgs">
+            <img class="img" :src="$ImgUrl + img" alt="" v-for="img in item.images">
           </div>
-          <div class="info__right">
-            <span class="praise"><i class="praise__icon"></i>2587</span>
-            <span class="comment"><i class="comment__icon"></i>442</span>
+
+          <div class="comment__movie" v-if="type=='comment'">
+            <div class="movie__img">
+              <img :src="$ImgUrl + item.movie.imagePath" alt="" v-if="item.movie.imagePath">
+              <img src="../../assets/movie.png" alt="" v-else>
+            </div>
+            <div class="movie__info">
+              <div class="info__name">
+                {{item.movie.name}}
+              </div>
+              <div class="info__rate">
+                <span class="rate"></span>
+                <span>{{item.movie.statReview}}人评论</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="comment__info">
+            <div class="info__left">
+              <span class="time">{{item.addTime}}</span>
+              <span class="del">删除</span>
+            </div>
+            <div class="info__right">
+              <span class="praise"><i class="praise__icon"></i>{{item.starRating}}</span>
+              <span class="comment"><i class="comment__icon"></i>{{item.statComment}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -55,7 +103,7 @@
   import { Rater } from 'vux'
 
   export default {
-    props: ['type'],
+    props: ['type', 'comment'],
     components: {
       Rater
     }
@@ -108,6 +156,7 @@
           height: 11px;
           background: url('../../assets/rates_small.png');
         }
+
       }
 
       .list__right__comment {

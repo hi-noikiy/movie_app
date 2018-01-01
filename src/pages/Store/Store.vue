@@ -2,7 +2,8 @@
   <div id="store">
     <div class="store__top">
       <div class="store__top__swiper">
-        <img src="../../assets/swiper.png" alt="">
+        <!-- <img src="../../assets/swiper.png" alt=""> -->
+        <swiper :list="adList" :aspect-ratio="290/640" dots-position="center"></swiper>
       </div>
       <div class="store__top__search">
         <div class="search__point">
@@ -18,28 +19,37 @@
           最新动态
         </div>
         <div class="news__detail">
+          <!-- <swiper class="detail__list" auto height="30px" direction="vertical" :interval=2000 :show-dots="false">
+            <swiper-item><p>义务爱了 完成传奇世界H5-王者归来任务 获得20金币</p></swiper-item>
+            <swiper-item><p>基本世神 兑换《传奇世界H5》畅玩级礼包 消耗30金币</p></swiper-item>
+            <swiper-item><p>零哥章魚 完成传奇世界H5-王者归来任务 获得30金币</p></swiper-item>
+            <swiper-item><p>做迎而為 兑换【饿了么】畅享美食红包 消耗20金币</p></swiper-item>
+            <swiper-item><p>只知道不知道 兑换【饿了么】畅享美食红包 消耗20金币</p></swiper-item>
+            <swiper-item><p>基本世神 兑换《传奇世界H5》畅玩级礼包 消耗30金币</p></swiper-item>
+          </swiper> -->
+          
           <ul class="detail__list">
-            <li class="detail">monster刚刚抢了保利影院100元红包</li>
-            <li class="detail">monster刚刚抢了保利影院100元红包</li>
+            <swiper auto loop height="30px" direction="vertical" :interval=1000 :show-dots="false">
+              <swiper-item v-for="item in newList"><li class="detail">{{item.title}}</li></swiper-item>
+            </swiper>
           </ul>
         </div>
       </div>
     </div>
 
     <div>
-       <tab :line-width=2 active-color='#01a9ff' v-model="index" custom-bar-width="40%">
-        <tab-item class="vux-center" v-for="(item, index) in list2" @click="demo2 = item" :key="index">{{item}}</tab-item>
-      </tab>
-      <swiper v-model="index" :show-dots="false" height="100px" ref="swiper">
-        <swiper-item v-for="(item, index) in list2" :key="index">
-          <div class="item__wrap" ref="items" @click="linkTo('Goods')">
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-          </div>
-        </swiper-item>
-      </swiper>
+      <div class="tab" style="overflow-y:hidden">
+        <tab  style="width:500px;" :line-width=2 active-color='#01a9ff' v-model="index" custom-bar-width="40%">
+          <tab-item class="vux-center" v-for="(item, index) in list" @on-item-click="changeType(item.id)" :key="index">{{item.name}}</tab-item>
+        </tab>
+      </div>
+
+      <div class="item__wrap" ref="items" @click="linkTo('Goods')">
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+      </div>
     </div>
   </div>
 </template>
@@ -47,32 +57,92 @@
 <script>
   import { Tab, TabItem, Swiper, SwiperItem } from 'vux'
   import Item from '@/components/Item/Item'
-  const list = () => ['电影票', '手机', '电脑', '家电', '家居', '数码', '服装']
 
   export default {
     data () {
       return {
         index01: 0,
-        list2: list(),
+        list: null,
+        adList: [],
+        newList: [],
         index: 0,
       }
     },
 
     created() {
       this.getCategoryList();
+      this.getAdList();
+      this.getNews();
     },
     
     mounted() {
-      let items = document.querySelector('.item__wrap')
-      this.$nextTick(() => {
-        this.$refs.swiper.xheight = items.offsetHeight + 'px'
-      })
+      // let items = document.querySelector('.item__wrap')
+      // this.$nextTick(() => {
+      //   this.$refs.swiper.xheight = items.offsetHeight + 'px'
+      // })
     },
 
     methods: {
+      changeType(id) {
+        console.log(id);
+      },
+
       getCategoryList() {
         this.$Api.getCategoryList().then((res) => {
           console.log(res)
+          if(res.q.s == 0) {
+            this.list = res.q.categorys;
+            if(this.list.length > 0) {
+              // this.getCouponList(1, this.list[0].id);
+            }
+          }
+        })
+      },
+
+      //卡卷列表
+      getCouponList(pa, categoryId) {
+        let param = {
+          a:1, 
+          pa, 
+          li: 10, 
+          categoryId
+        }
+        this.$Api.getCouponList(param).then((res) => {
+          console.log(res);
+          if(res.q.s == 0) {
+            this.list = [].concat(this.list, res.q.coupons);
+          }
+        })
+      },
+
+      //广告列表
+      getAdList() {
+        this.$Api.getAdList(2).then((res) => {
+          if(res.q.s == 0) {
+            let data = res.q.ads;
+            let url = [];
+
+            for(let i in data) {
+              let imgObj = {
+                url: 'http://'+data[i].link,
+                img: this.$ImgUrl + data[i].imagePath
+              }
+
+              url.push(imgObj);
+            }
+
+            this.adList = url;            
+          }
+        })
+      },
+
+      //滚动列表
+      getNews() {
+        this.$Api.getNews().then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.newList = res.q.news.lists;
+          }
         })
       }
     },
@@ -163,14 +233,17 @@
         }
 
         .news__detail {
+          padding-right: boxValue(30);
+          width: 100%;
+
           .detail__list {
             padding: boxValue(7);
             margin: 0;
             list-style-type: none;
 
             .detail {
-              height: boxValue(30);
-              line-height: boxValue(30);
+              height: 30px;
+              line-height: 30px;
             }
           }
         }

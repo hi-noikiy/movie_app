@@ -117,6 +117,25 @@ const Api = {
   },
 
   /**
+   * 6 公共，心跳 HeartbeatAction（H5、 APP）
+   * 
+   * @param {a} 1 签到；
+   * @returns 
+   */
+  HeartbeatAction() {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'HeartbeatAction',
+          q: {
+            a: 1
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 7 公共，广告列表 AdList（H5、 APP）
    * 
    * @param {action} 1 影讯； 2 卡券
@@ -130,6 +149,25 @@ const Api = {
           s: sessionId?sessionId:getSession(),
           q: {
             a
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 8 公共，最新动态（公告栏） News（H5、 APP）
+   * 
+   * @returns 
+   */
+  getNews() {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'News',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a:1
           }
         }
       }
@@ -465,6 +503,78 @@ const Api = {
           n: 'MovieRankingList',
           s: sessionId?sessionId:getSession(),
           q: {}
+        }
+      }
+    })
+  },
+
+  /**
+   * 37业务，票根列表 TicketList（H5、 APP）
+   * 
+   * @param {pa}  
+   * @param {li}  
+   * @returns 
+   */
+  getTicketList(pa, li) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'TicketList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            pa,
+            li
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 38业务，上传票根 TicketSubmit（H5、 APP）
+   * 
+   * @param {imagePath}  
+   * @returns 
+   */
+  TicketSubmit(imagePath) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'TicketSubmit',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            ticket: {
+              imagePath
+            }
+          }
+        }
+      }
+    })
+  },
+
+  /**`
+   * 41业务，卡券列表 CouponList（H5、 APP）
+   * 
+   * @param {a} 1 积分商城；2 积分商城（不含 type4：积分+现金券）3 我的关注；
+   * @param {categoryId}  Action=1|2，分类 id； 0 为全部
+   * @param {isRecommend}  Action=1|2，分类 id； 0 为全部
+   * @param {searchKey} sk，商品名称
+   * @returns 
+   */
+  getCouponList({a, pa, li, categoryId, isRecommend, searchKey}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'CouponList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a,
+            pa,
+            li,
+            categoryId,
+            isRecommend,
+            searchKey
+          }
         }
       }
     })

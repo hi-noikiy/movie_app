@@ -4,18 +4,71 @@
       <span>票根照片</span>
     </div>
     <div class="uploadTicket__pic">
-      <div class="pic">
-        <img src="../../assets/imgadd.png" alt="">
+      <div class="pic" @click="open">
+        <img :src="img" alt="" v-if="img">
+        <img src="../../assets/imgadd.png" alt="" v-else>
       </div>
+      <input type="file" class="hide" id="upload" v-on:change="upload">
     </div>
     <div class="uploadTicket__tips">
       请尽量保证票根清晰以供审核，审核通过才能获得积分
     </div>
-    <div class="uploadTicket__submit">
+    <div class="uploadTicket__submit" @click="submit">
       立即上传
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        img: null
+      }
+    },
+
+    methods: {
+      open() {
+        let upload = document.getElementById('upload')
+        upload.click()
+      },
+
+      upload(event) {
+        var oFile = document.getElementById("upload").files[0];
+        let oFReader = new FileReader();
+        let formData = new FormData();
+        formData.append('file[]', oFile);
+
+        this.$Api.UploadFiles(formData).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            oFReader.readAsDataURL(oFile);
+            oFReader.onload = (oFREvent) => {
+              this.img = oFREvent.currentTarget.result;
+              oFile.value = '';
+            };
+          }
+        })
+
+        event.target.value=null
+      },
+
+      submit() {
+        if(!this.img) {
+          this.$toast('请提交图片', 'fail');
+          return false;
+        }
+        this.$Api.TicketSubmit().then((res) => {
+          if(res.q.s == 0) {
+            this.$toast('提交成功').then(() => {
+              this.$router.go(-1);
+            })
+          }
+        })
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';
@@ -65,6 +118,10 @@
       text-align: center;
       background: #02a9ff;
       border-radius: boxValue(16);
+    }
+
+    #upload {
+      display: none;
     }
   }
 </style>

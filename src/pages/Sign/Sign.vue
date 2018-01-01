@@ -26,12 +26,12 @@
       </div>
       <div class="date__list">
         <div class="date__wrap" v-for="(date,index) in dateList" :key="index">
-          <span class="date" :class="{'signed': date.sign, 'passed': date.passed}">{{date.value}}</span>
+          <span class="date" :class="{'signed': date.signed, 'passed': date.passed}">{{date.value}}</span>
         </div>
       </div>
     </div>
 
-    <div class="sign__btn" @click="signIn">
+    <div class="sign__btn" :class="{'btn_unactive': userDetail.isSign == 1}" @click="signIn">
       <span>签到</span>
     </div>
 
@@ -51,34 +51,81 @@
   export default {
     data() {
       return {
-        dateList: []
+        dateList: [],
+        userDetail: {},
+        monthFirst: 0
       }
     },
 
     created() {
-      let now = new Date();
-      let monthFirst = new Date(now.getFullYear(), parseInt(now.getMonth()), 1).getDay();
-      let monthEnd = new Date(now.getFullYear(), parseInt(now.getMonth()) + 1, 0).getDate();
-      let nowaday = now.getDate();
-      let dayCount = 1;
-      for(let i = 0; i < 42; i++ ) {
-        if( i >= monthFirst && i<=  (monthEnd + monthFirst - 1)) {
-          this.dateList.push({
-            value: dayCount++,
-            sign: i == 15? true:false,
-            passed: i <= (nowaday + monthFirst - 1)? true : false
-          })
-        }else {
-          this.dateList.push({
-            value: null
-          })
-        }
-      }
+      this.initDate().then(() => {
+        this.getUserDetail();
+      })
     },
 
     methods: {
       signIn() {
-        this.$confirm('(第一次) 签到1天赠送10积分/签到连续2天签到赠送20积分，明天连续签到送30积分哦！')
+        if(this.userDetail.isSign == 1) {
+          this.$toast('已经签到', 'fail');
+          return false;
+        }
+        this.$Api.HeartbeatAction().then((res) => {
+          console.log(res);
+          if(res.q.s == 0) {
+            this.$confirm('(第一次) 签到1天赠送10积分/签到连续2天签到赠送20积分，明天连续签到送30积分哦！')
+            //更新资料
+            this.getUserDetail();
+          }else {
+            this.$toast(res.q.d, 'fail');
+          }
+        })
+      },
+
+      //获取用户信息
+      getUserDetail() {
+        this.$Api.getUserDetails().then((res) => {
+          if(res.q.s == 0) {
+            this.userDetail = res.q.user;
+            let signDays = this.userDetail.signDays;
+            if(signDays.length > 0) {
+              for(let i in signDays) {
+                let index = parseInt(signDays[i]) + parseInt(this.monthFirst) - 1;
+                this.dateList[index].signed = true;
+                let obj = this.dateList[index];
+                this.dateList.splice(index, 1, obj);
+              }
+            }
+          }
+        })
+      },
+
+      initDate() {
+        return new Promise((resolve, reject) => {
+          let now = new Date();
+          let monthFirst = new Date(now.getFullYear(), parseInt(now.getMonth()), 1).getDay();
+          let monthEnd = new Date(now.getFullYear(), parseInt(now.getMonth()) + 1, 0).getDate();
+          let nowaday = now.getDate();
+          let dayCount = 1;
+          console.log(monthFirst)
+          this.monthFirst = monthFirst;
+
+          for(let i = 0; i < 42; i++ ) {
+            console.log('1')
+            if( i >= monthFirst && i<=  (monthEnd + monthFirst - 1)) {
+              this.dateList.push({
+                value: dayCount++,
+                // sign: i == 2? true:false,
+                passed: i <= (nowaday + monthFirst - 1)? true : false
+              })
+            }else {
+              this.dateList.push({
+                value: null
+              })
+            }
+          }
+
+          resolve()
+        })
       }
     },
 

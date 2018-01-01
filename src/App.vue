@@ -109,6 +109,11 @@
     background-position: boxValue(0) 0;
   }
 
+  .rate__scale {
+    transform: scale(0.7);
+    transform-origin: 0 boxValue(-20);
+  }
+
   .button {
     margin: 0 auto;
     width: boxValue(580);
@@ -119,6 +124,10 @@
     color: #fff;
     background: #02a9ff;
     border-radius: boxValue(8);
+  }
+
+  .btn_unactive {
+    background: #86919b !important;
   }
 
 
