@@ -11,7 +11,7 @@
         </div>
         <div class="search__input">
           <span class="search__input__icon"></span>
-          <input class="search__input__value" type="text">
+          <input class="search__input__value" type="text" placeholder="请输入搜索词">
         </div>
       </div>
       <div class="store__top__news">
@@ -19,18 +19,9 @@
           最新动态
         </div>
         <div class="news__detail">
-          <!-- <swiper class="detail__list" auto height="30px" direction="vertical" :interval=2000 :show-dots="false">
-            <swiper-item><p>义务爱了 完成传奇世界H5-王者归来任务 获得20金币</p></swiper-item>
-            <swiper-item><p>基本世神 兑换《传奇世界H5》畅玩级礼包 消耗30金币</p></swiper-item>
-            <swiper-item><p>零哥章魚 完成传奇世界H5-王者归来任务 获得30金币</p></swiper-item>
-            <swiper-item><p>做迎而為 兑换【饿了么】畅享美食红包 消耗20金币</p></swiper-item>
-            <swiper-item><p>只知道不知道 兑换【饿了么】畅享美食红包 消耗20金币</p></swiper-item>
-            <swiper-item><p>基本世神 兑换《传奇世界H5》畅玩级礼包 消耗30金币</p></swiper-item>
-          </swiper> -->
-          
           <ul class="detail__list">
             <swiper auto loop height="30px" direction="vertical" :interval=1000 :show-dots="false">
-              <swiper-item v-for="item in newList"><li class="detail">{{item.title}}</li></swiper-item>
+              <swiper-item v-for="(item,index) in newList" :key="index"><li class="detail">{{item.title}}</li></swiper-item>
             </swiper>
           </ul>
         </div>
@@ -44,11 +35,8 @@
         </tab>
       </div>
 
-      <div class="item__wrap" ref="items" @click="linkTo('Goods')">
-        <Item />
-        <Item />
-        <Item />
-        <Item />
+      <div class="item__wrap" ref="items">
+        <Item :couponList="couponList"/>
       </div>
     </div>
   </div>
@@ -65,6 +53,7 @@
         list: null,
         adList: [],
         newList: [],
+        couponList: [],
         index: 0,
       }
     },
@@ -85,6 +74,7 @@
     methods: {
       changeType(id) {
         console.log(id);
+        this.getCouponList(1, id);
       },
 
       getCategoryList() {
@@ -94,6 +84,7 @@
             this.list = res.q.categorys;
             if(this.list.length > 0) {
               // this.getCouponList(1, this.list[0].id);
+              this.getCouponList(1, 4);
             }
           }
         })
@@ -102,7 +93,7 @@
       //卡卷列表
       getCouponList(pa, categoryId) {
         let param = {
-          a:1, 
+          a:2, 
           pa, 
           li: 10, 
           categoryId
@@ -110,7 +101,7 @@
         this.$Api.getCouponList(param).then((res) => {
           console.log(res);
           if(res.q.s == 0) {
-            this.list = [].concat(this.list, res.q.coupons);
+            this.couponList =  res.q.coupons;
           }
         })
       },

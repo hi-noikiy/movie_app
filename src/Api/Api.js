@@ -581,6 +581,75 @@ const Api = {
   },
 
   /**
+   * 42业务，卡券详情 CouponDetails（H5、 APP）
+   * 
+   * @param {id}  卡卷id
+   * @returns 
+   */
+  getCouponDetails(id) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'CouponDetails',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            id
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 43业务，卡券关注操作 CouponSwitch（H5、 APP）
+   * 
+   * @param {id}  
+   * @returns 
+   */
+  CouponSwitch(id, open) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'CouponSwitch',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            id,
+            open
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 46业务，订单提交（领取卡券） OrderSubmit
+   * 
+   * @param {a} 1 提交新订单； 2 待支付订单重新支付；
+   * @param {id} action=2 时，传入旧订单 id；
+   * @param {couponId}  action=1 时，传入卡券 id；
+   * @param {transferWay} 支付方式： 1 余额； 2 支付宝； 3 微信； 4 银联
+   * @returns 
+   */
+  OrderSubmit({a, id, couponId, transferWay}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'OrderSubmit',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a,
+            order: {
+              id,
+              couponId,
+              transferWay
+            }
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 返回图片链接
    * 
    * @returns 

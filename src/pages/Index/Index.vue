@@ -29,14 +29,8 @@
     <!-- 轮播图 -->
     <div class="index__carousel">
       <div class="carousel__list">
-        <img src="../../assets/swiper.png" alt="">
-      </div>
-      <div class="carousel__control">
-        <span class="control"></span>
-        <span class="control"></span>
-        <span class="control active"></span>
-        <span class="control"></span>
-        <span class="control"></span>
+        <!-- <img src="../../assets/swiper.png" alt=""> -->
+        <swiper :list="adList" :aspect-ratio="290/640" dots-position="center"></swiper>
       </div>
     </div>
     <!-- 轮播图 -->
@@ -143,12 +137,12 @@
             <template v-for="(movie,index) in MovieRank">
               <tr class="rank">
                 <td class="rank__movie">
-                  <div class="rank__movie__name">全球风暴</div>
-                  <div class="rank__movie__days">上映14天</div>
+                  <div class="rank__movie__name">{{movie.name}}</div>
+                  <div class="rank__movie__days">上映{{movie.duration}}天</div>
                 </td>
-                <td>1121.36</td>
-                <td>14.3%</td>
-                <td class="rank__popular">14.3%</td>
+                <td>{{movie.receipts}}</td>
+                <td>{{movie.occupancyRate}}%</td>
+                <td class="rank__popular">{{movie.exclusivePieceRate}}%</td>
               </tr>
               <tr class="empty">
                 <td colspan="4"></td>
@@ -166,6 +160,7 @@
 </template>
 
 <script>
+  import { Swiper, SwiperItem } from 'vux'
   export default {
     data() {
       return {
@@ -173,19 +168,17 @@
         NearMovie: [],
         NowMovie: [],
         MovieRank: [],
+        adList: [], //广告列表
         userDetail: {}
       }
     },
 
     created() {
-      
-    },
-
-    mounted() {
       //用户信息
       this.getUserDetail();
 
       //广告列表
+      this.getAdList();
   
       //上映列表
       this.getMovieList(1);
@@ -206,9 +199,25 @@
         this.type = type;
       },
 
-      getAdList(type) {
+      //广告列表
+      getAdList() {
         this.$Api.getAdList(1).then((res) => {
           console.log(res)
+          if(res.q.s == 0) {
+            let data = res.q.ads;
+            let url = [];
+
+            for(let i in data) {
+              let imgObj = {
+                url: 'http://'+data[i].link,
+                img: this.$ImgUrl + data[i].imagePath
+              }
+
+              url.push(imgObj);
+            }
+
+            this.adList = url;            
+          }
         })
       },
 
@@ -243,6 +252,9 @@
           }
         })
       }
+    },
+    components: {
+      Swiper
     }
   }
 </script>
@@ -577,7 +589,8 @@ $base: 32rem;
           font-size: boxValue(26);
           font-weight: 600;
           color: #333;
-          padding-bottom: boxValue(18);
+          padding: boxValue(18);
+          padding-left: 0;
         }
 
         .rank__movie__days {

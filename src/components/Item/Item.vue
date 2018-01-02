@@ -1,24 +1,32 @@
 <template>
-  <div class="item">
-    <div class="item__left">
-      <img src="../../assets/shop.png" alt="">
-    </div>
-    <div class="item__right">
-      <div class="right__title">
-        Apple iPhone X 64GB 深空灰 移动联通电信4G手机
+  <div class="item__wrap">
+    <div class="item" v-for="(item, index) in couponList" :key="index" @click="linkToUrl('goods?id=' + item.id)">
+      <div class="item__left">
+        <img :src="$ImgUrl + item.imagePath" alt="">
       </div>
-      <div class="right__price">
-        <span>面值</span>
-        <span class="price__num">50</span>
-        <span>元</span>
-      </div>
-      <div class="right__date">
-        <span>核销时间</span>
-        <span>2017.12.11 13:22</span>
+      <div class="item__right">
+        <div class="right__title">
+          {{item.name}}
+        </div>
+        <div class="right__price">
+          <span>面值</span>
+          <span class="price__num">{{item.price}}</span>
+          <span>元</span>
+        </div>
+        <div class="right__date" v-if="false">
+          <span>核销时间</span>
+          <span>2017.12.11 13:22</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    props: ['couponList']
+  }
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';
