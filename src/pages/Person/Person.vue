@@ -86,10 +86,10 @@
     </group>
     
     <div class="person__bottomBtn">
-      <span class="button">发信息</span>
-      <span class="button">送积分</span>
-      <span class="button">送卡卷</span>
-      <span class="button invite">立即约影</span>
+      <span class="buttonBtn">发信息</span>
+      <span class="buttonBtn">送积分</span>
+      <span class="buttonBtn">送卡卷</span>
+      <span class="buttonBtn invite">立即约影</span>
     </div>
   </div>
 </template>
@@ -249,7 +249,7 @@
       border-top: 1px solid #eee;
       background: #fff;
 
-      .button {
+      .buttonBtn {
         position: relative;
         display: inline-block;
         width: 25%;        

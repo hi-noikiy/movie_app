@@ -299,6 +299,92 @@ const Api = {
   },
 
   /**
+   * 17业务，影院列表 CinemaList（H5、 APP）
+   * 
+   * @param {pa}
+   * @param {li}
+   * @returns 
+   */
+  getCinemaList(pa, li) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'CinemaList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            pa,
+            li
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   *18业务，约影列表 DateList（H5、 APP） 
+   * 
+   * @param {pa} 
+   * @param {li} 
+   * @returns 
+   */
+  getDateList(pa,li) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'DateList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            pa,
+            li
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 19业务，约影申请 DateSubmit（H5、 APP）
+   * 
+   * @param {any} id 
+   * @returns 
+   */
+  DateSubmit(id) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'DateSubmit',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            id
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 21业务，用户/约影赞操作 DateSwitch（H5、 APP）
+   * 
+   * @param {id}   对方用户 id；
+   * @param {open} 1 赞； 2 取消赞；
+   * @returns 
+   */
+  DateSwitch(id, open) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'DateSwitch',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            id,
+            open
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 26业务，电影列表 MovieList（H5、APP）
    * 
    * @param (a) 1 近期热映；2 即将上映；

@@ -176,7 +176,7 @@
           position: absolute;
           bottom: boxValue(-16);
           left: boxValue(30);
-          width: 100%;
+          width: boxValue(610);
           border-bottom: 1px solid #eee; 
         }
         

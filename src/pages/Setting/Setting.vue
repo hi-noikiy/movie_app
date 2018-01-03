@@ -1,64 +1,113 @@
 <template>
   <div id="setting">
     <group class="setting__movie">
-      <cell class="movie" title="约电影" value="飞扬影城" is-link @click.native="showPopup"></cell>
+      <popup-picker title="约电影" :data="cinemasList" v-model="cinemasListSelect" value-text-align="right"></popup-picker>
     </group>
 
     <group class="setting__sex">
-      <cell class="sex" title="匹配性别" value="女" is-link @click.native="showPopup"></cell>
+      <popup-picker title="性别" :data="[['男', '女']]" v-model="sexSelect" value-text-align="right"></popup-picker>
     </group>
 
     <group class="setting__age">
-      <cell class="age" title="年龄区间" value="18-32" is-link @click.native="showPopup"></cell>
+      <popup-picker title="年龄区间" :data="ageList" v-model="age" :display-format="format"></popup-picker>
     </group>
 
-    <div class="setting__btn">确认</div>
-
-    <div v-transfer-dom>
-      <popup v-model="show" position="bottom" max-height="50%">
-        <group>
-          <cell v-for="i in 20" :key="i" :title="i"></cell>
-        </group>
-        <div style="padding: 15px;">
-          <x-button @click.native="show13 = false" plain type="primary"> Close Me </x-button>
-        </div>
-      </popup>
-    </div>
+    <div class="setting__btn" @click="submit">确认</div>
   </div>
 </template>
 
 <script>
 
-import { TransferDom, Popup, XButton, Range, Group, Cell } from 'vux'
+import { PopupPicker, Popup, Group, Cell } from 'vux'
 
 export default {
-  directives: {
-    TransferDom
-  },
   data() {
     return {
       show: false,
-      data1: 0,
-      min: 0,
-      max: 100,
-      step: 1,
-      dynamiValue: 0
+      sexSelect: ['男'],
+      cinemas: null,
+      cinemasList: [[]],
+      cinemasListSelect: [],
+      ageList: [[],[]], //年龄列表
+      age: [[20], [22]],
+      format: function (value, name) {
+        return `${value[0]} - ${value[1]}`
+      }
     }
   },
+
+  created() {
+    this.getCinemaList();
+
+    let i = 1;
+    while(i <= 100) {
+      this.ageList[0].push(i);
+      this.ageList[1].push(i);
+      i++;
+    }
+  },
+
   methods: {
     showPopup() {
       this.show = true
     },
-    onChange() {
 
+    //获取影院
+    getCinemaList() {
+      this.$Api.getCinemaList().then((res) => {
+        console.log(res)
+        if(res.q.s == 0) {
+          this.cinemas = res.q.cinemas;
+          if(this.cinemas.length > 0) {
+            this.cinemasListSelect.push(this.cinemas[0].name);
+          }
+          for(let i in res.q.cinemas) {
+            this.cinemasList[0].push(res.q.cinemas[i].name);
+          }
+        }
+      })
+    },
+
+    submit() {
+      let sex = this.sexSelect[0] == '男'?1:2;
+      let matchAgeMin = this.age[0][0];
+      let matchAgeMax = this.age[1][0];
+      let cinema = this.cinemas.find((item) => {
+        if(item.name == this.cinemasListSelect[0]) {
+          return true;
+        }
+      })
+      let cinemaId;
+      if(cinema) {
+        cinemaId = cinema.id;
+      }
+
+      if(matchAgeMax < matchAgeMin) {
+        this.$toast('匹配最小值不能超过最大值')
+        return false;
+      }
+
+      let param = {
+        a: 2,
+        matchSex: sex,
+        matchAgeMin,
+        matchAgeMax,
+        cinemaId
+      }
+
+      console.log(param);
+      this.$Api.UserUpdate(param).then((res) => {
+        console.log(res)
+        if(res.q.s == 0) {
+          this.$toast('更新成功!')
+        }
+      })
     }
   },
   components: {
+    PopupPicker,
     Group,
-    Cell,
-    Popup,
-    XButton,
-    Range
+    Cell
   }
 }
 </script>

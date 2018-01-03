@@ -40,7 +40,7 @@
           <div class="control__btn__next">
             <span>下一个</span>
           </div>
-          <div class="control__btn__now">
+          <div class="control__btn__now" @click="DateSubmit">
             <span>约电影</span>
           </div>
         </div>
@@ -156,8 +156,34 @@ import { ButtonTab, ButtonTabItem } from 'vux'
         demo01: 0
       }
     },
-    methods: {
 
+    created() {
+      this.getDateList();
+    },
+    
+    methods: {
+      //约影列表
+      getDateList() {
+        this.$Api.getDateList(1,1).then((res) => {
+          
+        })
+      },
+
+      //约电影
+      DateSubmit() {
+        this.$Api.DateSubmit(id).then((res) => {
+          if(res.q.s == 0) {
+            this.$toast('已发出约影请求');
+          }
+        })
+      },
+
+      //点赞
+      DateSwitch(id, open) {
+        this.$Api.DateSwitch(id, open).then((res) => {
+          console.log(res)
+        })
+      }
     },
     components: {
       ButtonTab,

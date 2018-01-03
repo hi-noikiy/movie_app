@@ -153,14 +153,25 @@
       </div>
     </div>
     <!-- 排行榜 -->
-    <div class="footer">
-
-    </div>
+    <tabbar>
+      <tabbar-item>
+        <span slot="label" link="/mine">Wechat</span>
+      </tabbar-item>
+      <tabbar-item show-dot link="/mine">
+        <span slot="label">Message</span>
+      </tabbar-item>
+      <tabbar-item selected link="/mine">
+        <span slot="label">Explore</span>
+      </tabbar-item>
+      <tabbar-item badge="2" link="/mine">
+        <span slot="label">News</span>
+      </tabbar-item>
+    </tabbar>
   </div>
 </template>
 
 <script>
-  import { Swiper, SwiperItem } from 'vux'
+  import { Swiper, SwiperItem,Tabbar, TabbarItem } from 'vux'
   export default {
     data() {
       return {
@@ -254,7 +265,9 @@
       }
     },
     components: {
-      Swiper
+      Swiper,
+      Tabbar, 
+      TabbarItem
     }
   }
 </script>

@@ -1,10 +1,25 @@
 <template>
   <div id="app">
     <router-view/>
+    <tabbar style="position:fixed">
+      <tabbar-item link="/">
+        <span slot="label" >首页</span>
+      </tabbar-item>
+      <tabbar-item link="/game">
+        <span slot="label">游戏</span>
+      </tabbar-item>
+      <tabbar-item  link="/store">
+        <span slot="label">商城</span>
+      </tabbar-item>
+      <tabbar-item  link="/mine">
+        <span slot="label">我的</span>
+      </tabbar-item>
+    </tabbar>
   </div>
 </template>
 
 <script>
+  import { Tabbar, TabbarItem } from 'vux'
   export default {
     name: 'app',
     created() {
@@ -16,6 +31,10 @@
           }
         })
       }
+    },
+    components: {
+      Tabbar,
+      TabbarItem
     }
   }
 </script>
