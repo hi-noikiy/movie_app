@@ -43,7 +43,7 @@
       <div class="list__right">
         <div class="list__right__info">
           <div class="info__name">{{comment.user.nickname?comment.user.nickname:'暂无'}}</div>
-          <div class="rate__num scale"></div>
+          <div class="rate__num scale" :class="countRate(comment.starRating)"></div>
         </div>
         <div class="list__right__comment">
           <div class="comment__text">{{comment.content}}</div>
@@ -97,7 +97,35 @@
               }
           })
         }
-      }      
+      },
+
+      countRate(num) {
+        let number = parseFloat(num);
+
+        if(number <= 0.5) {
+          return 'rate0'
+        }else if(1 > number && number >= 0.5){
+          return 'rate0_5'
+        }else if(1.5 > number && number >= 1){
+          return 'rate1'
+        }else if(2 > number && number >= 1.5){
+          return 'rate1.5'
+        }else if(2.5 > number && number >= 2){
+          return 'rate2'
+        }else if(3 > number && number >= 2.5){
+          return 'rate2_5'
+        }else if(3.5 > number && number >= 3){
+          return 'rate3'
+        }else if(4 > number && number >= 3.5){
+          return 'rate3_5'
+        }else if(4.5 > number && number >= 4){
+          return 'rate4'
+        }else if(5 > number && number >= 4.5){
+          return 'rate4_5'
+        }else if(number == 5) {
+          return 'rate5'
+        }
+      }
     },
 
     components: {
@@ -117,15 +145,16 @@
     .list__left {
       float: left;
       display: inline-block;
-      margin: 0 boxValue(15) 0 boxValue(30);
-      width: boxValue(84);
-      height: boxValue(84);
+      margin: 0 boxValue(17) 0 boxValue(28);
+      width: boxValue(82);
+      height: boxValue(82);
 
       img {
         width: 100%;
         height: 100%;
         vertical-align: middle;
         border-radius: 50%;
+        border: 1px solid #eee;
       }
     }
 
@@ -165,7 +194,7 @@
         }
 
         .comment__imgs {
-          margin-top: boxValue(20);
+          // margin-top: boxValue(20);
           font-size: 0;
 
           .img {

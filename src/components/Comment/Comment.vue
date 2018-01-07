@@ -1,55 +1,5 @@
 <template>
   <div id="comment">
-    <!-- <div class="list clearfix">
-      <div class="list__left">
-        <img src="../../assets/avatar.png" alt="">
-      </div>
-      <div class="list__right">
-        <div class="list__right__info">
-          <div class="info__name">咸鱼Diane</div>
-          <div class="info__rate"></div>
-        </div>
-        <div class="list__right__comment">
-          <div class="comment__text">测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试测试赛所所所所所所测试</div>
-
-          <div class="comment__imgs">
-            <img class="img" src="../../assets/image.png" alt="">
-            <img class="img" src="../../assets/image.png" alt="">
-            <img class="img" src="../../assets/image.png" alt="">
-            <img class="img" src="../../assets/image.png" alt="">
-            <img class="img" src="../../assets/image.png" alt="">
-            <img class="img" src="../../assets/image.png" alt="">
-            <img class="img" src="../../assets/image.png" alt="">
-          </div>
-
-          <div class="comment__movie" v-if="type=='comment'">
-            <div class="movie__img">
-              <img src="../../assets/movie.png" alt="">
-            </div>
-            <div class="movie__info">
-              <div class="info__name">
-                雷神3：诸神黄昏
-              </div>
-              <div class="info__rate">
-                <span class="rate"></span>
-                <span>512人评论</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="comment__info">
-            <div class="info__left">
-              <span class="time">今天15:32</span>
-              <span class="del">删除</span>
-            </div>
-            <div class="info__right">
-              <span class="praise"><i class="praise__icon"></i>2587</span>
-              <span class="comment"><i class="comment__icon"></i>442</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="list clearfix" v-for="(item,index) in comment" :key="index">
       <div class="list__left">
         <img :src="$ImgUrl + item.user.imagePath" alt="" v-if="item.user.imagePath">
@@ -58,7 +8,7 @@
       <div class="list__right">
         <div class="list__right__info">
           <div class="info__name">{{item.user.nickname}}</div>
-          <div class="rate__num rate__scale"></div>
+          <div class="rate__num rate__scale" :class="countRate(item.starRating)"></div>
         </div>
         <div class="list__right__comment">
           <div class="comment__text">{{item.content}}</div>
@@ -67,7 +17,7 @@
             <img class="img" :src="$ImgUrl + img" alt="" v-for="img in item.images">
           </div>
 
-          <div class="comment__movie" v-if="type=='comment'">
+          <div class="comment__movie" v-if="type=='comment' && item.movie" @click="linkToUrl('movie?id=' + item.movie.id)">
             <div class="movie__img">
               <img :src="$ImgUrl + item.movie.imagePath" alt="" v-if="item.movie.imagePath">
               <img src="../../assets/movie.png" alt="" v-else>
@@ -77,8 +27,8 @@
                 {{item.movie.name}}
               </div>
               <div class="info__rate">
-                <span class="rate"></span>
-                <span>{{item.movie.statReview}}人评论</span>
+                <span class="rate__num rate__scale_l" :class="countRate(item.movie.starRating)"></span>
+                <span class="rate__comment">{{item.movie.statReview}}人评论</span>
               </div>
             </div>
           </div>
@@ -86,7 +36,7 @@
           <div class="comment__info">
             <div class="info__left">
               <span class="time">{{item.addTime}}</span>
-              <span class="del">删除</span>
+              <span class="del" @click="del(item.id)">删除</span>
             </div>
             <div class="info__right">
               <span class="praise"><i class="praise__icon"></i>{{item.starRating}}</span>
@@ -104,6 +54,48 @@
 
   export default {
     props: ['type', 'comment'],
+    methods: {
+      del(id) {
+        this.$confirm('你确定删除吗?','删除', 'confirm').then((res) => {
+          console.log(res)
+          if(res == 'sure') {
+            this.$Api.ReviewUpdate(id).then((res) => {
+              console.log(res)
+              if(res.q.s == 0) {
+                this.$toast('删除成功!')
+              }
+            })
+          }
+        });
+      },
+      countRate(num) {
+        let number = parseFloat(num);
+
+        if(number <= 0.5) {
+          return 'rate0'
+        }else if(1 > number && number >= 0.5){
+          return 'rate0_5'
+        }else if(1.5 > number && number >= 1){
+          return 'rate1'
+        }else if(2 > number && number >= 1.5){
+          return 'rate1.5'
+        }else if(2.5 > number && number >= 2){
+          return 'rate2'
+        }else if(3 > number && number >= 2.5){
+          return 'rate2_5'
+        }else if(3.5 > number && number >= 3){
+          return 'rate3'
+        }else if(4 > number && number >= 3.5){
+          return 'rate3_5'
+        }else if(4.5 > number && number >= 4){
+          return 'rate4'
+        }else if(5 > number && number >= 4.5){
+          return 'rate4_5'
+        }else if(number == 5) {
+          return 'rate5'
+        }
+      }
+    },
     components: {
       Rater
     }
@@ -142,7 +134,7 @@
       vertical-align: middle;
 
       .list__right__info {
-        font-size: 13px;
+        font-size: boxValue(26);
         line-height: boxValue(42);
         height: boxValue(84);
 
@@ -152,9 +144,8 @@
         }
 
         .info__rate {
-          width: 64px;
-          height: 11px;
-          background: url('../../assets/rates_small.png');
+          display: flex;
+          align-items: center;
         }
 
       }
@@ -168,7 +159,6 @@
         }
 
         .comment__imgs {
-          margin-top: boxValue(20);
           font-size: 0;
 
           .img {
@@ -270,7 +260,19 @@
         padding-bottom: boxValue(30);
 
         span {
+          display: inline-block;
           color: #faaf00;
+        }
+
+        .info__rate {
+          display: flex;
+          align-items: center;
+          height: 30px;
+          line-height: 30px;
+
+          .rate__comment {
+            margin-left: -10px;
+          }
         }
       }
     }

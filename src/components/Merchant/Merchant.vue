@@ -1,14 +1,36 @@
 <template>
-  <div class="merchant border_line">
-    <div class="merchant__left">
-      <div class="left__name">飞扬影城(高德置地)</div>
-      <div class="left__content">天河区珠江新城天河区珠江新城天河区珠江新城天河区珠江新城天河区珠江新城</div>
+  <div class="merchant__list">
+    <div class="merchant border_line" v-if="cinema">
+      <div class="merchant__left">
+        <div class="left__name">{{cinema.name}}</div>
+        <div class="left__content">{{cinema.address}}</div>
+      </div>
+      <div class="merchant__right">
+        <span class="merchant__right__phone"></span>
+      </div>
     </div>
-    <div class="merchant__right">
-      <span class="merchant__right__phone"></span>
+    <div class="merchant border_line" v-else-if="cinemaList" v-for="cinema in cinemaList">
+      <div class="merchant__left">
+        <div class="left__name">{{cinema.name}}</div>
+        <div class="left__content">{{cinema.address}}</div>
+      </div>
+      <div class="merchant__right">
+        <span class="merchant__right__phone"></span>
+      </div>
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    props: ['cinema', 'cinemaList'],
+    data() {
+      return {
+
+      }
+    }
+  }  
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';

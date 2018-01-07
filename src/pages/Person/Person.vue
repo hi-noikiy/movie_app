@@ -61,12 +61,12 @@
     </div>
 
     <group class="person__comment">
-      <cell class="comment" title="TA的影评" value="13条" is-link></cell>
+      <cell class="comment" title="TA的影评" :value="user.statMovieReview + '条'" is-link @click.native="linkToUrl('myComment?id=' + id)"></cell>
     </group>
     
-    <div class="person__bottomBtn">
+    <div class="person__bottomBtn" v-if="id">
       <span class="buttonBtn" @click="linkToUrl('addFriend?id='+ $route.query.id)">加好友</span>
-      <span class="buttonBtn invite">立即约影</span>
+      <span class="buttonBtn invite" @click="DateSubmit">立即约影</span>
     </div>
   </div>
 </template>
@@ -77,7 +77,8 @@
   export default {
     data() {
       return {
-        user: {}
+        user: {},
+        id: this.$route.query.id?this.$route.query.id:''
       }
     },
     created() {
@@ -94,6 +95,21 @@
             this.user = res.q.user;
           }
         })
+      },
+
+      //约电影
+      DateSubmit() {
+        let userId = this.$route.query.id;
+        this.$Api.DateSubmit(userId).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.$toast('已发送约影请求！')
+          }
+        })
+      },
+
+      test() {
+        console.log(1)
       }
     },
     components: {

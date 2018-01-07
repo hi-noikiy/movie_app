@@ -111,60 +111,71 @@
 
   .rate__num {
     display: inline-block;
-    width: boxValue(166);
-    height: boxValue(30);
+    width: 83px;
+    height: 15px;
     background: url('./assets/rates.png');
     vertical-align: middle;
   }
+  
+  .rate__num {
+    &.rate0 {
+      background-position: -83px 0;
+    }
 
-  .rate__num.rate0_5 {
-    background: url('./assets/rates_half.png');
-    background-position: boxValue(-138) 0;
-  }
+    &.rate0_5 {
+      background: url('./assets/rates_half.png');
+      background-position: -69px 0;
+    }
 
-  .rate__num.rate1 {
-    background-position: boxValue(-132) 0;
-  }
+    &.rate1 {
+      background-position: -66px 0;
+    }
 
-  .rate__num.rate1_5 {
-    background: url('./assets/rates_half.png');
-    background-position: boxValue(-106) 0;
-  }
+    &.rate1_5 {
+      background: url('./assets/rates_half.png');
+      background-position: -53px 0;
+    }
 
-  .rate__num.rate2 {
-    background-position: boxValue(-98) 0;
-  }
+    &.rate2 {
+      background-position: -49px 0;
+    }
 
-  .rate__num.rate2_5 {
-    background: url('./assets/rates_half.png');
-    background-position: boxValue(-106) 0;
-  }
+    &.rate2_5 {
+      background: url('./assets/rates_half.png');
+      background-position: -35px 0;
+    }
 
-  .rate__num.rate3 {
-    background-position: boxValue(-64) 0;
-  }
+    &.rate3 {
+      background-position: -32px 0;
+    }
 
-  .rate__num.rate3_5 {
-    background: url('./assets/rates_half.png');
-    background-position: boxValue(-70) 0;
-  }
+    &.rate3_5 {
+      background: url('./assets/rates_half.png');
+      background-position: -19px 0;
+    }
 
-  .rate__num.rate4 {
-    background-position: boxValue(-32) 0;
-  }
+    &.rate4 {
+      background-position: -16px 0;
+    }
 
-  .rate__num.rate4_5 {
-    background: url('./assets/rates_half.png');
-    background-position: boxValue(-38) 0;
-  }
+    &.rate4_5 {
+      background: url('./assets/rates_half.png');
+      background-position: -1px 0;
+    }
 
-  .rate__num.rate5 {
-    background-position: boxValue(0) 0;
+    &.rate5 {
+      background-position: 0 0;
+    }
   }
 
   .rate__scale {
     transform: scale(0.7);
-    transform-origin: 0 boxValue(-20);
+    transform-origin: 0 -10px;
+  }
+
+  .rate__scale_l {
+    transform: scale(0.7);
+    transform-origin: boxValue(0) 4px;
   }
 
   .button {

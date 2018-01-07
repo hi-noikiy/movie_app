@@ -49,10 +49,10 @@
           适用门店
         </div>
         <div class="intro__content">
-          <Merchant />
+          <Merchant :cinema ="cinema"/>
         </div>
         <div class="intro__more" @click="linkTo('Merchants')">
-          <span>查看全部8家门店</span>
+          <span>查看全部{{cinemaList.length}}家门店</span>
           <i class="arrow"></i>
         </div>
       </div>
@@ -107,7 +107,9 @@
         coupon: {},
         id: this.$route.query.id,
         showShop: false,
-        showUse: false
+        showUse: false,
+        cinema: {},
+        cinemaList: []
       }
     },
     created() {
@@ -119,6 +121,14 @@
           console.log(res);
           if(res.q.s == 0) {
             this.coupon = res.q.coupon;
+            if(this.coupon.shops.length == 0) {
+              this.getCinemaList();
+              return false;
+            }
+            this.cinemaList = this.coupon.shops;
+            this.cinema = this.coupon.shops[0];
+            let json = JSON.stringify(this.cinemaList);
+            sessionStorage.setItem('cinemaList', json);
           }
         })
       },
@@ -152,6 +162,18 @@
         }else {
           this.showUse = !this.showUse;
         }
+      },
+
+      getCinemaList() {
+        this.$Api.getCinemaList().then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.cinemaList = res.q.cinemas;
+            this.cinema = res.q.cinemas[0];
+            let json = JSON.stringify(this.cinemaList);
+            sessionStorage.setItem('cinemaList', json);
+          }
+        })
       },
 
       submit() {

@@ -57,15 +57,16 @@
     .user__list__left {
       float: left;
       display: inline-block;
-      margin: 0 boxValue(15) 0 boxValue(30);
-      width: boxValue(84);
-      height: boxValue(84);
+      margin: 0 boxValue(17) 0 boxValue(28);
+      width: boxValue(82);
+      height: boxValue(82);
 
       img {
         width: 100%;
         height: 100%;
         vertical-align: middle;
         border-radius: 50%;
+        border: 1px solid #eee;
       }
     }
 

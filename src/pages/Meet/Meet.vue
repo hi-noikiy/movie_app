@@ -53,7 +53,7 @@
           </div>
         </div>
 
-        <div class="control__like" :class="{'gray': false}"></div>
+        <div class="control__like" :class="{'gray': activeUser.isPraise == 1}" @click="DateSwitch(activeUser.id)"></div>
       </div>
     </template>
 
@@ -196,9 +196,25 @@
       },
 
       //点赞
-      DateSwitch(id, open) {
+      DateSwitch(id) {
+        let open = 1;
+        let activeUser = this.activeUser;
+        if(activeUser.isPraise == 1) {
+          open = 2;
+        }
         this.$Api.DateSwitch(id, open).then((res) => {
           console.log(res)
+          if(res.q.s == 0) {
+            if(open == 1) {
+              this.$toast('点赞成功!').then(() => {
+                this.activeUser.isPraise = 1;
+              });
+            }else {
+              this.$toast('取消成功!').then(() => {
+                this.activeUser.isPraise = 2;
+              });
+            }
+          }
         })
       },
 

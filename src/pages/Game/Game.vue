@@ -1,20 +1,34 @@
 <template>
   <div id="game">
     <div class="game__list">
-      <div class="game">
+      <div class="game" @click="link(1)">
         <img src="../../assets/1.jpg" alt="">
       </div>
       
-      <div class="game">
+      <div class="game" @click="link(2)">
         <img src="../../assets/2.jpg" alt="">
       </div>
 
-      <div class="game">
+      <div class="game" @click="link(3)">
         <img src="../../assets/3.jpg" alt="">
       </div>
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {}
+    },
+    
+    methods: {
+      link(type) {
+        location.href = 'http://139.199.68.39/app/game_' + type + '.html'
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';

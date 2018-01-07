@@ -23,7 +23,7 @@
         <div class="collection__btn" @click="CouponSwitch(item.id)">
           取消关注
         </div>
-        <div class="collection__date">
+        <div class="collection__date" v-if="false">
           已过期
         </div>
       </div>

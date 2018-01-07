@@ -7,7 +7,7 @@
       </div>
       <div class="store__top__search">
         <div class="search__point">
-          我的积分: 2331
+          我的积分: {{userDetail.totalIntegral}}
         </div>
         <div class="search__input">
           <span class="search__input__icon"></span>
@@ -55,6 +55,7 @@
         newList: [],
         couponList: [],
         index: 0,
+        userDetail: {}
       }
     },
 
@@ -62,13 +63,9 @@
       this.getCategoryList();
       this.getAdList();
       this.getNews();
-    },
-    
-    mounted() {
-      // let items = document.querySelector('.item__wrap')
-      // this.$nextTick(() => {
-      //   this.$refs.swiper.xheight = items.offsetHeight + 'px'
-      // })
+
+      let result = this.getUserStorage();
+      this.userDetail = result;
     },
 
     methods: {

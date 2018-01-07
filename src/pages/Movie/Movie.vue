@@ -93,9 +93,7 @@
           console.log(res)
           if(res.q.s == 0) {
             this.movie = res.q.movie;
-            if(res.q.movie.starRating == '5.00') {
-              this.rateType = 'rate5'
-            }
+            this.rateType = this.countRate(res.q.movie.starRating);
 
             let url = [];
             let mainObj = {
@@ -145,6 +143,33 @@
 
       transition() {
         this.showDetail = !this.showDetail;
+      },
+
+      countRate(num) {
+        let number = parseFloat(num);
+        if(number <= 0.5) {
+          return 'rate0'
+        }else if(1 > number && number >= 0.5){
+          return 'rate0_5'
+        }else if(1.5 > number && number >= 1){
+          return 'rate1'
+        }else if(2 > number && number >= 1.5){
+          return 'rate1.5'
+        }else if(2.5 > number && number >= 2){
+          return 'rate2'
+        }else if(3 > number && number >= 2.5){
+          return 'rate2_5'
+        }else if(3.5 > number && number >= 3){
+          return 'rate3'
+        }else if(4 > number && number >= 3.5){
+          return 'rate3_5'
+        }else if(4.5 > number && number >= 4){
+          return 'rate4'
+        }else if(5 > number && number >= 4.5){
+          return 'rate4_5'
+        }else if(number == 5) {
+          return 'rate5'
+        }
       }
     },
     components: {
@@ -203,6 +228,10 @@
           vertical-align: middle;
         }
 
+        .rate0 {
+          background-position: boxValue(-166) 0;
+        }
+
         .rate0_5 {
           background: url('../../assets/rates_half.png');
           background-position: boxValue(-138) 0;
@@ -223,7 +252,7 @@
 
         .rate2_5 {
           background: url('../../assets/rates_half.png');
-          background-position: boxValue(-106) 0;
+          background-position: boxValue(-70) 0;
         }
 
         .rate3 {
@@ -232,7 +261,7 @@
 
         .rate3_5 {
           background: url('../../assets/rates_half.png');
-          background-position: boxValue(-70) 0;
+          background-position: boxValue(-38) 0;
         }
 
         .rate4 {
@@ -241,7 +270,7 @@
 
         .rate4_5 {
           background: url('../../assets/rates_half.png');
-          background-position: boxValue(-38) 0;
+          background-position: boxValue(-2) 0;
         }
 
         .rate5 {

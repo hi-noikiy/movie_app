@@ -11,7 +11,9 @@
           <div class="left__name">{{userDetail.nickname}}</div>
           <div class="left__tips" @click="linkTo('Edit')">完善资料，送1000积分></div>
           <div class="left__tab">
-            <span class="tab tab__member">大众会员</span>
+            <span class="tab tab__member">
+              {{userDetail.integralLevel == '1'?'大众会员':userDetail.integralLevel == '2'?'黄金会员':userDetail.integralLevel == '3'?'铂金会员':userDetail.integralLevel == '4'?'钻石会员':userDetail.integralLevel == '5'?'至尊会员':''}}
+            </span>
             <span class="tab tab__friend">交友达人</span>
             <span class="tab tab__singIn" @click="linkTo('Sign')">签到+{{userDetail.getFromSign}}</span>
           </div>
@@ -85,7 +87,7 @@
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的票根</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
-        <div class="menu bottom__rank clearfix" @click="linkTo('Record')">
+        <div class="menu bottom__rank clearfix" @click="linkTo('Record')" v-if="userDetail.type == 2">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的核销</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
@@ -103,7 +105,13 @@
     },
 
     created() {
-      this.getUserDetail();
+      let result = this.getUserStorage();
+      if(result) {
+        this.userDetail = result;
+      }else {
+        //用户信息
+        this.getUserDetail();
+      }
     },
 
     methods: {
@@ -190,8 +198,10 @@
 
           .left__tab {
             margin-top: boxValue(13);
+            font-size: 0;
 
             .tab {
+              margin: 0 boxValue(4);
               height: boxValue(46);
               color: #fff;
               font-size: boxValue(20);

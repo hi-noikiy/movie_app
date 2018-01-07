@@ -17,7 +17,7 @@
       </div>
       <div class="header__rihgt">
         <span class="header__right__tag" @click="linkTo('Mine')">
-          大众会员
+          {{userDetail.integralLevel == '1'?'大众会员':userDetail.integralLevel == '2'?'黄金会员':userDetail.integralLevel == '3'?'铂金会员':userDetail.integralLevel == '4'?'钻石会员':userDetail.integralLevel == '5'?'至尊会员':''}}
         </span>
         <span class="header__right__singIn" @click="linkTo('Sign')">
           签到+{{userDetail.getFromSign}}
@@ -170,8 +170,13 @@
     },
 
     created() {
-      //用户信息
-      this.getUserDetail();
+      let result = this.getUserStorage();
+      if(result) {
+        this.userDetail = result;
+      }else {
+        //用户信息
+        this.getUserDetail();
+      }
 
       //广告列表
       this.getAdList();

@@ -3,11 +3,11 @@
     <div id="toast" v-if="show" >
       <div class="toast">
         <div class="toast__top">
-          <div class="toast__icon">
+          <div class="toast__icon" v-if="type == 'success'">
             <img src="../../assets/succeed.png" alt="">
           </div>
           <div class="toast__title">
-            签到成功
+            {{title}}
           </div>
         </div>
         <div class="toast__content">
@@ -27,7 +27,9 @@
     data() {
       return {
         content: '默认',
-        show: false
+        show: false,
+        type: 'success',
+        title: '签到成功'
       }
     },
     
@@ -107,6 +109,7 @@
         .toast__icon {
           width: boxValue(94);
           height: boxValue(94);
+          padding-bottom: boxValue(22);
 
           img {
             width: 100%;
@@ -116,6 +119,7 @@
 
         .toast__title {
           padding: boxValue(22) 0;
+          padding-top: boxValue(0);
           font-size: boxValue(32);
           font-weight: 600;
         }

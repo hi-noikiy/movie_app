@@ -6,7 +6,7 @@ var toastVM = null;
 var confirmVM = null;
 
 Util.install = function(Vue, options) {
-  Vue.prototype.$confirm = (content, type) => {
+  Vue.prototype.$confirm = (content,title,type) => {
     if(!confirmVM) {
       let toastTpl = Vue.extend(Confirm);
       confirmVM = new toastTpl();
@@ -16,6 +16,12 @@ Util.install = function(Vue, options) {
 
     confirmVM.show = true;
     confirmVM.content = content;
+    if(title) {
+      confirmVM.title = title;
+    }
+    if(type) {
+      confirmVM.type = type;
+    }
 
     return new Promise((resolve, reject) => {
       let sure = confirmVM.sure;

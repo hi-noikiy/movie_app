@@ -1,21 +1,7 @@
 <template>
   <div id="merchants">
     <div class="merchants__list">
-      <div class="merchant">
-        <Merchant />
-      </div>
-      <div class="merchant">
-        <Merchant />
-      </div>
-      <div class="merchant">
-        <Merchant />
-      </div>
-      <div class="merchant">
-        <Merchant />
-      </div>
-      <div class="merchant">
-        <Merchant />
-      </div>
+      <Merchant :cinemaList="cinemaList"/>
     </div>
 
     <div class="merchants__location">
@@ -28,6 +14,15 @@
   import Merchant from '@/components/Merchant/Merchant';
 
   export default {
+    data() {
+      return {
+        cinemaList: []
+      }
+    },
+    created() {
+      let json = sessionStorage.getItem('cinemaList');
+      this.cinemaList = JSON.parse(json);
+    },
     components: {
       Merchant
     }

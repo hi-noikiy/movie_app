@@ -566,6 +566,27 @@ const Api = {
   },
 
   /**
+   * 30业务，电影评价操作 ReviewUpdate（H5、 APP）
+   * 
+   * @param {any} id 
+   * @returns 
+   */
+  ReviewUpdate(id) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'ReviewUpdate',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a: 1,
+            id
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 31业务，评价评论列表 CommentList（H5、 APP）
    * 
    * @param {id}  评价 id
