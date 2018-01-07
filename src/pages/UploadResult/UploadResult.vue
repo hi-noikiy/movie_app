@@ -5,12 +5,22 @@
     </div>
     <div class="uploadResult__pic">
       <div class="pic">
-        <img src="../../assets/imgadd.png" alt="">
+        <img :src="$ImgUrl + img" alt="">
       </div>
       <span class="pic__passed">已通过</span>
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        img: this.$route.query.img
+      }
+    },
+  }
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';

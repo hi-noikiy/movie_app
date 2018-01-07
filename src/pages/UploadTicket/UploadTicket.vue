@@ -23,7 +23,8 @@
   export default {
     data() {
       return {
-        img: null
+        img: null,
+        imagePath: ''
       }
     },
 
@@ -47,6 +48,8 @@
               this.img = oFREvent.currentTarget.result;
               oFile.value = '';
             };
+
+            this.imagePath = res.q.files[0].path;
           }
         })
 
@@ -58,13 +61,27 @@
           this.$toast('请提交图片', 'fail');
           return false;
         }
-        this.$Api.TicketSubmit().then((res) => {
-          if(res.q.s == 0) {
-            this.$toast('提交成功').then(() => {
-              this.$router.go(-1);
-            })
-          }
-        })
+
+        let id = this.$route.query.id;
+        if(id) {
+          this.$Api.DateUpdate(3, id, this.imagePath).then((res) => {
+            console.log(res);
+            if(res.q.s == 0) {
+              this.$toast('提交成功').then(() => {
+                this.$router.go(-1);
+              })
+            }
+          })
+        }else {
+          this.$Api.TicketSubmit(this.imagePath).then((res) => {
+            console.log(res)
+            if(res.q.s == 0) {
+              this.$toast('提交成功').then(() => {
+                this.$router.go(-1);
+              })
+            }
+          })
+        }
       }
     }
   }

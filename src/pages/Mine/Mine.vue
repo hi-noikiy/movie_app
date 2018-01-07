@@ -42,7 +42,7 @@
         </div>
         <div class="form__tab" @click="linkTo('Friend')">
           <div class="tab__top">
-            {{userDetail.statFriends}}
+            <span class="num">{{userDetail.statFriends}}<span class="tab__num" v-if="userDetail.statNewFriends > 0">{{userDetail.statNewFriends}}</span></span>
           </div>
           <div class="tab__bottom">
             好友
@@ -50,7 +50,7 @@
         </div>
         <div class="form__tab" @click="linkTo('Dating')">
           <div class="tab__top">
-            {{userDetail.statDate}}
+            <span class="num"> {{userDetail.statDate}}<span class="tab__num" v-if="userDetail.statNewDate > 0">{{userDetail.statNewDate}}</span></span>
           </div>
           <div class="tab__bottom">
             约影
@@ -67,7 +67,7 @@
         </div>
         <div class="menu bottom__rank clearfix" @click="linkTo('Rank')">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">积分排行榜</span></span>
-          <span class="menu__right"><span>已连续5天排行前三</span><i class="arrow"></i></span>
+          <span class="menu__right"><span v-if="userDetail.lastsDaysRanking > 0">已连续{{userDetail.lastsDaysRanking}}天排行前三</span><i class="arrow"></i></span>
         </div>
         <div class="menu top__follow clearfix" @click="linkTo('Message')">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的消息</span></span>
@@ -76,9 +76,7 @@
       </div>
 
       <div class="menu__bottom">
-        <!-- <div class="menu bottom__rank"><i class="icon"></i>积分排行榜</div>
-        <div class="menu bottom__comment"><i class="icon"></i>我的影评</div>
-        <div class="menu bottom__ticket"><i class="icon"></i>我的票根</div> -->
+
         <div class="menu bottom__comment clearfix" @click="linkTo('MyComment')">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的影评</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
@@ -92,13 +90,6 @@
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
       </div>
-
-      <!-- <div class="menu__setting">
-        <div class="menu setting clearfix" @click="linkTo('Setting')">
-          <span class="menu__left"><i class="icon"></i><span class="icon__text">设置</span></span>
-          <span class="menu__right"><i class="arrow"></i></span>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -121,6 +112,8 @@
           console.log(res)
           if(res.q.s == 0) {
             this.userDetail = res.q.user;
+            let json = JSON.stringify(this.userDetail);
+            sessionStorage.setItem('user', json);
           }
         })
       }
@@ -230,6 +223,7 @@
               width: 100%;
               height: 100%;
               border-radius: 50%;
+              border: 1px solid #eee;
             }
           }
         }
@@ -249,8 +243,12 @@
           width: 25%;
 
           .tab__top {
+            position: relative;
             font-size: boxValue(26);
             color: #222;
+            .num {
+              position: relative;
+            }
           }
 
           .tab__bottom {
@@ -348,6 +346,20 @@
         }
         
       }
+    }
+
+    .tab__num {
+      position: absolute;
+      right: boxValue(-40);
+      top: boxValue(-6);
+      height: boxValue(28);
+      width: boxValue(28);
+      text-align: center;
+      font-size: boxValue(20);
+      line-height: boxValue(28);
+      color: #fff;
+      border-radius: boxValue(14);
+      background: #ff4444;
     }
   }
 </style>

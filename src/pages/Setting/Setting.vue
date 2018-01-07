@@ -29,7 +29,7 @@ export default {
       cinemasList: [[]],
       cinemasListSelect: [],
       ageList: [[],[]], //年龄列表
-      age: [[20], [22]],
+      age: [20, 22],
       format: function (value, name) {
         return `${value[0]} - ${value[1]}`
       }
@@ -70,8 +70,8 @@ export default {
 
     submit() {
       let sex = this.sexSelect[0] == '男'?1:2;
-      let matchAgeMin = this.age[0][0];
-      let matchAgeMax = this.age[1][0];
+      let matchAgeMin = parseInt(this.age[0]);
+      let matchAgeMax = parseInt(this.age[1]);
       let cinema = this.cinemas.find((item) => {
         if(item.name == this.cinemasListSelect[0]) {
           return true;
@@ -83,6 +83,7 @@ export default {
       }
 
       if(matchAgeMax < matchAgeMin) {
+        console.log(matchAgeMin,matchAgeMax)
         this.$toast('匹配最小值不能超过最大值')
         return false;
       }

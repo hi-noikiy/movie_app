@@ -12,8 +12,11 @@
           <span class="info__rate__num" :class="rateType"></span>
           <span class="info__rate__comment">5128人评论</span>
         </div>
-        <div class="info__intro" v-if="movie">
+        <div class="info__intro" :class="{'limit':!showDetail, 'no__limit': showDetail}" v-if="movie">
           {{movie.content}}
+        </div>
+        <div class="arrow__control" @click="transition">
+          <span class="arrow" :class="{'up':showDetail}"></span>
         </div>
       </div>
     </div>
@@ -62,7 +65,8 @@
         rateType: 'rate1', //星星等级
         imgList: [],  //轮播图列表
         commentList: [],  //评论列表
-        activeIndex: 0
+        activeIndex: 0,
+        showDetail: false
       }
     },
 
@@ -137,6 +141,10 @@
         }
 
         this.getReviewList(param);
+      },
+
+      transition() {
+        this.showDetail = !this.showDetail;
       }
     },
     components: {
@@ -169,6 +177,7 @@
 
     .movie__detail__info {
       padding: boxValue(26);
+      padding-bottom: 0;
 
       .info__name {
         font-size: boxValue(32);
@@ -176,6 +185,7 @@
       }
 
       .info__intro {
+        // transition: all 1s;
         color: #333;
       }
 
@@ -311,6 +321,38 @@
 
     .text {
       vertical-align: middle;
+    }
+  }
+
+  .limit {
+    max-height: boxValue(100);
+    height: auto;
+    overflow: hidden;
+  }
+
+  .no__limit {
+    max-height: auto;
+  }
+
+  .arrow__control {
+    height: boxValue(40);
+    line-height: boxValue(40);
+    text-align: center;
+
+    .arrow {
+      display: inline-block;
+      height: boxValue(19);
+      width: boxValue(32);
+      transform: rotate(0);
+      background-image: url('../../assets/arrow_down.png');
+      background-repeat: no-repeat;
+      background-size: 100%;
+      vertical-align: middle;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .arrow.up {
+      transform: rotate(180deg);
     }
   }
 }

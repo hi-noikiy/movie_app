@@ -1,20 +1,6 @@
 <template>
   <div id="app">
     <router-view/>
-    <tabbar style="position:fixed">
-      <tabbar-item link="/">
-        <span slot="label" >首页</span>
-      </tabbar-item>
-      <tabbar-item link="/game">
-        <span slot="label">游戏</span>
-      </tabbar-item>
-      <tabbar-item  link="/store">
-        <span slot="label">商城</span>
-      </tabbar-item>
-      <tabbar-item  link="/mine">
-        <span slot="label">我的</span>
-      </tabbar-item>
-    </tabbar>
   </div>
 </template>
 
@@ -31,7 +17,51 @@
           }
         })
       }
+
+      if(!sessionStorage.getItem('location')) {
+        var map, geolocation;
+        //加载地图，调用浏览器定位服务
+        map = new AMap.Map('container', {
+            resizeEnable: true
+        });
+        map.plugin('AMap.Geolocation', function() {
+          geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            buttonPosition:'RB'
+          });
+          map.addControl(geolocation);
+          geolocation.getCurrentPosition();
+          AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+          AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+        });
+        //解析定位结果
+        function onComplete(data) {
+          var str=['定位成功'];
+          str.push('经度：' + data.position.getLng());
+          str.push('纬度：' + data.position.getLat());
+          if(data.accuracy){
+            str.push('精度：' + data.accuracy + ' 米');
+          }//如为IP精确定位结果则没有精度信息
+          console.log(str);
+          let obj = {
+            lat: data.position.getLat(),
+            lng: data.position.getLng()
+          }
+
+          let json = JSON.stringify(obj)
+          console.log(json);
+          sessionStorage.setItem('location', json);
+        }
+
+        function onError(err) {
+          console.log(err);
+        }
+      }
     },
+
     components: {
       Tabbar,
       TabbarItem
@@ -44,6 +74,10 @@
 
   * {
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  }
+
+  img {
+    object-fit: cover;
   }
 
   .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
@@ -182,5 +216,38 @@
 
   .vux-cell-box:before {
     border-top: none!important;
+  }
+
+  //展开
+  .limit {
+    max-height: boxValue(100);
+    height: auto;
+    overflow: hidden;
+  }
+
+  .no__limit {
+    max-height: auto;
+  }
+
+  .arrow__control {
+    height: boxValue(40);
+    line-height: boxValue(40);
+    text-align: center;
+
+    .arrow {
+      display: inline-block;
+      height: boxValue(19);
+      width: boxValue(32);
+      transform: rotate(0);
+      background-image: url('assets/arrow_down.png');
+      background-repeat: no-repeat;
+      background-size: 100%;
+      vertical-align: middle;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .arrow.up {
+      transform: rotate(180deg);
+    }
   }
 </style>

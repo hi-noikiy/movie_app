@@ -175,6 +175,36 @@ const Api = {
   },
 
   /**
+   * 12用户，用户列表 UserList（H5、 APP）
+   * 
+   * @param {a} 0 全部； 1 附近； 2 我的好友； 3 好友申请；
+   * @param {pa}
+   * @param {li}
+   * @param {sk}
+   * @param {longitude}
+   * @param {latitude}
+   * @returns 
+   */
+  getUserList({a, pa, li, sk, longitude, latitude}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'UserList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a,
+            pa,
+            li,
+            sk,
+            longitude,
+            latitude
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 13用户，个人详情 UserDetails（H5、 APP）
    * 
    * @param {id}  
@@ -282,6 +312,34 @@ const Api = {
   },
 
   /**
+   * 15用户，好友操作 FriendUpdate（H5、 APP）
+   * 
+   * @param {a}         1 同意添加好友； 2 赠送积分； 3 赠送卡券； 4 删除好友； 5 添加好友； 6 拒绝添加好友； 7 删除好友申请；
+   * @param {userId}    action=1|2|3|4|5|6|7，用户 id
+   * @param {integral}  
+   * @param {orderId}  
+   * @param {validationInfo}  action=5，添加好友；
+   * @returns 
+   */
+  FriendUpdate({a, userId, integral, orderId, validationInfo}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'FriendUpdate',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a,
+            userId,
+            integral,
+            orderId,
+            validationInfo
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 16用户，用户积分排行榜 UserRankList（H5、 APP）
    * 
    * @returns 
@@ -356,6 +414,32 @@ const Api = {
           s: sessionId?sessionId:getSession(),
           q: {
             id
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 20业务，约影操作 DateUpdate（H5、 APP）
+   * 
+   * @param {a}         1 接受邀请； 2 拒绝邀请； 3 晒票根
+   * @param {id}        约影 id
+   * @param {imagePath} Action=3；票根；
+   * @returns 
+   */
+  DateUpdate(a,id,imagePath) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'DateUpdate',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            a,
+            date: {
+              id,
+              imagePath
+            }
           }
         }
       }
@@ -729,6 +813,28 @@ const Api = {
               couponId,
               transferWay
             }
+          }
+        }
+      }
+    })
+  },
+  
+  /**
+   * 48财务，积分列表 IntegralList（H5、 APP）
+   * 
+   * @param {any} pa 
+   * @param {any} li 
+   * @returns 
+   */
+  getIntegralList(pa, li) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'IntegralList',
+          s: sessionId?sessionId:getSession(),
+          q: {
+            pa,
+            li
           }
         }
       }

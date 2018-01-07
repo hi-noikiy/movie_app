@@ -63,6 +63,8 @@ import Signature from '@/pages/Signature/Signature'
 import ReplyComment from '@/pages/ReplyComment/ReplyComment'
 //登录
 import Login from '@/pages/Login/Login'
+//添加好友申请
+import AddFriend from '@/pages/AddFriend/AddFriend'
 
 Vue.use(Router)
 
@@ -221,6 +223,11 @@ export default new Router({
       path: '/replyComment',
       name: 'ReplyComment',
       component: ReplyComment
+    },
+    {
+      path: '/addFriend',
+      name: 'AddFriend',
+      component: AddFriend
     },
     {
       path: '/login',

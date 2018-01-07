@@ -13,132 +13,62 @@
     </div>
 
     <template v-if="demo01 == 0">
-      <div class="meet__user" @click="linkTo('Person')">
-        <div class="user__img">
-          <img src="../../assets/photo.png" alt="">
-        </div>
-        <div class="user__info">
-          <div class="user__info__name">
-            <span class="name">祖琦Jokie</span>
-            <span class="sex"><i class="girl"></i>27</span>
+      
+      
+      <swiper :options="swiperOption" ref="mySwiper">
+        <!-- slides -->
+        <swiper-slide  v-for="item in userList">
+          <div class="meet__user" @click="linkToUrl('person?id='+item.id)">
+            <div class="user__img">
+              <img :src="$ImgUrl + item.imagePath" alt="">
+            </div>
+            <div class="user__info">
+              <div class="user__info__name">
+                <span class="name">{{item.nickname}}</span>
+                <span class="sex"><i class="girl"></i>{{item.age}}</span>
+              </div>
+              <div class="user__info__tags">
+                <span class="tags">科幻</span>
+                <span class="tags">喜剧</span>
+                <span class="tags">悬疑</span>
+                <span class="tags">动作</span>
+              </div>
+              <div class="user__info__location">
+                <span class="location__usually">常出没于{{item.cinemaName}}</span>
+                <span class="location__pos">{{item.distance}}km</span>
+              </div>
+            </div>
           </div>
-          <div class="user__info__tags">
-            <span class="tags">科幻</span>
-            <span class="tags">喜剧</span>
-            <span class="tags">悬疑</span>
-            <span class="tags">动作</span>
-          </div>
-          <div class="user__info__location">
-            <span class="location__usually">常出没于飞扬影院（天河店）</span>
-            <span class="location__pos">2.5km</span>
-          </div>
-        </div>
-      </div>
+        </swiper-slide>
+      </swiper>
+      
 
       <div class="meet__control">
         <div class="control__btn">
-          <div class="control__btn__next">
+          <div class="control__btn__next" @click="nextUser">
             <span>下一个</span>
           </div>
-          <div class="control__btn__now" @click="DateSubmit">
+          <div class="control__btn__now" @click="DateSubmit(activeUser.id)">
             <span>约电影</span>
           </div>
         </div>
 
-        <div class="control__like"></div>
+        <div class="control__like" :class="{'gray': false}"></div>
       </div>
     </template>
 
     <template v-else>
       <div class="meet__list">
-        <div class="meet">
+        <div class="meet" v-for="item in nearList">
           <div class="meet__left">
-            <img src="../../assets/avatar.png" alt="">
+            <img :src="$ImgUrl + item.imagePath" alt="">
           </div>
           <div class="meet__right">
             <div class="meet__right__info">
-              <div class="info__name">咸鱼Diane</div>
-              <div class="info__dis">1.2km</div>
+              <div class="info__name">{{item.nickname}}</div>
+              <div class="info__dis">{{item.distance}}m</div>
             </div>
-            <div class="meet__right__btn">约电影</div>
-          </div>
-        </div>
-
-        <div class="meet">
-          <div class="meet__left">
-            <img src="../../assets/avatar.png" alt="">
-          </div>
-          <div class="meet__right">
-            <div class="meet__right__info">
-              <div class="info__name">咸鱼Diane</div>
-              <div class="info__dis">1.2km</div>
-            </div>
-            <div class="meet__right__btn">约电影</div>
-          </div>
-        </div>
-
-        <div class="meet">
-          <div class="meet__left">
-            <img src="../../assets/avatar.png" alt="">
-          </div>
-          <div class="meet__right">
-            <div class="meet__right__info">
-              <div class="info__name">咸鱼Diane</div>
-              <div class="info__dis">1.2km</div>
-            </div>
-            <div class="meet__right__btn">约电影</div>
-          </div>
-        </div>
-
-        <div class="meet">
-          <div class="meet__left">
-            <img src="../../assets/avatar.png" alt="">
-          </div>
-          <div class="meet__right">
-            <div class="meet__right__info">
-              <div class="info__name">咸鱼Diane</div>
-              <div class="info__dis">1.2km</div>
-            </div>
-            <div class="meet__right__btn">约电影</div>
-          </div>
-        </div>
-
-        <div class="meet">
-          <div class="meet__left">
-            <img src="../../assets/avatar.png" alt="">
-          </div>
-          <div class="meet__right">
-            <div class="meet__right__info">
-              <div class="info__name">咸鱼Diane</div>
-              <div class="info__dis">1.2km</div>
-            </div>
-            <div class="meet__right__btn">约电影</div>
-          </div>
-        </div>
-        
-        <div class="meet">
-          <div class="meet__left">
-            <img src="../../assets/avatar.png" alt="">
-          </div>
-          <div class="meet__right">
-            <div class="meet__right__info">
-              <div class="info__name">咸鱼Diane</div>
-              <div class="info__dis">1.2km</div>
-            </div>
-            <div class="meet__right__btn">约电影</div>
-          </div>
-        </div>
-        
-        <div class="meet">
-          <div class="meet__left">
-            <img src="../../assets/avatar.png" alt="">
-          </div>
-          <div class="meet__right">
-            <div class="meet__right__info">
-              <div class="info__name">咸鱼Diane</div>
-              <div class="info__dis">1.2km</div>
-            </div>
-            <div class="meet__right__btn">约电影</div>
+            <div class="meet__right__btn" @click="DateSubmit(item.id)">约电影</div>
           </div>
         </div>
       </div>
@@ -147,33 +77,120 @@
 </template>
 
 <script>
-import { ButtonTab, ButtonTabItem } from 'vux'
+  import { ButtonTab, ButtonTabItem } from 'vux'
+  import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
   export default {
     data() {
       return {
         tabPosition: 'meet',
-        demo01: 0
+        demo01: 0,
+        userList: [],
+        nearList: [],
+        activeUser: {},
+        swiperOption: {
+          on: {
+            init: function(){
+              //Swiper初始化了
+              console.log('当前的slide序号是'+this.activeIndex);
+            }, 
+            reachEnd :() => {
+              // this.userList.push(1);
+              if(this.userList.length > 0) {
+                console.log('111')
+                this.getUserList();
+              }
+            },
+            slideChange: () => {
+              console.log('当前的slide序号是'+this.swiper.activeIndex);
+              this.activeUser = this.userList[this.swiper.activeIndex];
+              console.log(this.activeUser);
+            }
+          }
+        },
+        page: 1,
+        noMore: false
+      }
+    },
+
+    computed: {
+      swiper() {
+        return this.$refs.mySwiper.swiper
       }
     },
 
     created() {
-      this.getDateList();
+      this.getUserList();
+      this.getNearList();
     },
     
     methods: {
       //约影列表
-      getDateList() {
-        this.$Api.getDateList(1,1).then((res) => {
-          
+      getUserList() {
+        if(this.noMore) {
+          this.$toast('没有更多了', 'fail')
+          return false;
+        }
+
+        let loc = {};
+        let json = sessionStorage.getItem('location');  
+        if(json) {
+          loc = JSON.parse(json);
+        }
+
+        let params = {
+          a: 1,
+          pa: this.page++,
+          li: 3,
+          longitude: loc.lng,
+          latitude: loc.lat
+        }
+
+        this.$Api.getUserList(params).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            if(res.q.users.length == 0) {
+              // this.$toast('没有更多了', 'fail')
+              this.noMore = true;
+              return false;
+            }
+            if(this.userList.length == 0) {
+              this.activeUser = res.q.users[0];
+            }
+            this.userList.push(...res.q.users);
+          }
+        })
+      },
+
+      getNearList() {
+        let loc = {};
+        let json = sessionStorage.getItem('location');  
+        if(json) {
+          loc = JSON.parse(json);
+        }
+
+        let params = {
+          a: 1,
+          pa: 1,
+          longitude: loc.lng,
+          latitude: loc.lat
+        }
+
+        this.$Api.getUserList(params).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.nearList.push(...res.q.users);
+          }
         })
       },
 
       //约电影
-      DateSubmit() {
-        this.$Api.DateSubmit(id).then((res) => {
+      DateSubmit(id) {
+        let userId = id;
+        this.$Api.DateSubmit(userId).then((res) => {
+          console.log(res)
           if(res.q.s == 0) {
-            this.$toast('已发出约影请求');
+            this.$toast('已发送约影请求！')
           }
         })
       },
@@ -183,11 +200,18 @@ import { ButtonTab, ButtonTabItem } from 'vux'
         this.$Api.DateSwitch(id, open).then((res) => {
           console.log(res)
         })
+      },
+
+      //下一个
+      nextUser() {
+        this.swiper.slideNext();
       }
     },
     components: {
       ButtonTab,
-      ButtonTabItem
+      ButtonTabItem,
+      swiper,
+      swiperSlide
     }
   }
 </script>
@@ -199,7 +223,7 @@ import { ButtonTab, ButtonTabItem } from 'vux'
   position: relative; 
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  // overflow: hidden;
   background: #f5f5f5;
 
   /* 头部tarbar */
@@ -261,14 +285,15 @@ import { ButtonTab, ButtonTabItem } from 'vux'
   /* 相册 */
   .meet__user {
     margin: 0 auto;
-    height: boxValue(756);
-    width: boxValue(614);
+    height: 66.5vh;
+    width: 95vw;
     background: #fff;
     border-radius: boxValue(20);
+    overflow: hidden;
 
     .user__img {
       width: 100%;
-      height: boxValue(576);
+      height: 50.7vh;
 
       img {
         width: 100%;
@@ -321,14 +346,15 @@ import { ButtonTab, ButtonTabItem } from 'vux'
 
 
   .meet__control {
-    position: absolute;
-    bottom: boxValue(100);
+    margin-top: boxValue(40);
+    position: relative;
     width: 100%;
 
     .control__btn {
       text-align: center;
       margin: 0 auto;
 
+      .control__btn__preview,
       .control__btn__next,
       .control__btn__now {
         display: inline-block;
@@ -444,6 +470,17 @@ import { ButtonTab, ButtonTabItem } from 'vux'
         }
       }
     }
+  }
+
+  .gray { 
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    
+    filter: grayscale(100%);
+  
+    filter: gray;
   }
 }
 </style>

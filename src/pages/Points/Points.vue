@@ -3,13 +3,13 @@
     <div class="points__header">
       <div class="points__header__left">
         <div class="left__img">
-          <img src="../../assets/avatar.png" alt="">
+          <img :src="$ImgUrl + userDetail.imagePath" alt="">
         </div>
         <div class="left__info">
-          <div class="info__name">Monster</div>
+          <div class="info__name">{{userDetail.nickname}}</div>
           <div class="info__points">
-            <span>3,232积分</span>
-            <span>积分记录 ></span>
+            <span>{{userDetail.totalIntegral}}积分</span>
+            <span @click="linkTo('Stream')">积分记录 ></span>
           </div>
         </div>
       </div>
@@ -21,7 +21,17 @@
       <div class="recommend__title">推荐卡卷</div>
       
       <div class="recommend__list clearfix">
-        <div class="recommend">
+        <div class="recommend" v-for="(item, index) in coupons" :key="index" @click="linkToUrl('goods?id=' + item.id)">
+          <div class="recommend__img">
+            <img :src="$ImgUrl + item.imagePath" alt="">
+          </div>
+          <div class="recommend__info">
+            <div class="info__name">{{item.name}}</div>
+            <div class="info__price">{{item.integral}}积分</div>
+          </div>
+        </div>
+
+        <!-- <div class="recommend">
           <div class="recommend__img">
             <img src="../../assets/shop.png" alt="">
           </div>
@@ -79,17 +89,7 @@
             <div class="info__name">iPhoneX 64ssss</div>
             <div class="info__price">2500积分+1000元</div>
           </div>
-        </div>
-
-        <div class="recommend">
-          <div class="recommend__img">
-            <img src="../../assets/shop.png" alt="">
-          </div>
-          <div class="recommend__info">
-            <div class="info__name">iPhoneX 64ssss</div>
-            <div class="info__price">2500积分+1000元</div>
-          </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -102,10 +102,17 @@
 <script>
   export default {
     data() {
-      return {}
+      return {
+        coupons: [],
+        userDetail: {}
+      }
     },
 
     created() {
+      let result = this.getUserStorage();
+      if(result) {
+        this.userDetail = result;
+      }
       this.getCouponList();
     },
 
@@ -118,6 +125,9 @@
         }
         this.$Api.getCouponList(param).then((res) => {
           console.log(res)
+          if(res.q.s == 0) {
+            this.coupons = res.q.coupons;
+          }
         })
       }
     }

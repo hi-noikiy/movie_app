@@ -26,6 +26,26 @@
   </div>
 </template>
 
+<script>
+  export default {
+    data() {
+      return {}
+    },
+
+    created() {
+      this.getIntegralList();
+    },
+
+    methods: {
+      getIntegralList() {
+        this.$Api.getIntegralList().then((res) => {
+          console.log(res);
+        })
+      }
+    }
+  }
+</script>
+
 <style lang="scss">
   @import '../../scss/mixin.scss';
 

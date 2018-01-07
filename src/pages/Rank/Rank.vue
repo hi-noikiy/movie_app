@@ -6,28 +6,28 @@
     <div class="rank__myself">
       <div class="myself__left">
         <div class="left__img">
-          <img src="../../assets/avatar.png" alt="">
+          <img :src="$ImgUrl + userDetail.imagePath" alt="">
         </div>
         <div class="left__info">
-          <div class="info__name">William</div>
-          <div class="info__detail">第2名，已连续5天排行前三</div>
+          <div class="info__name">{{userDetail.nickname}}</div>
+          <div class="info__detail" v-if="userDetail.ranking > 0">第{{userDetail.ranking}}名<span v-if="userDetail.lastsDaysRanking > 0">，已连续{{userDetail.lastsDaysRanking}}天排行前三</span></div>
         </div>
       </div>
-      <div class="myself__right">8646</div>
+      <div class="myself__right">{{userDetail.totalIntegral}}</div>
     </div>
 
     <div class="rank__list">
-      <div class="rank">
+      <div class="rank" v-for="(item, index) in list" :key="index">
         <div class="rank__left">
-          <div class="rank__left__num">1</div>
+          <div class="rank__left__num">{{index + 1}}</div>
           <div class="rank__left__img">
-            <img src="../../assets/avatar.png" alt="">
+            <img :src="$ImgUrl + item.imagePath" alt="">
           </div>
-          <div class="rank__left__name">医仔小太妹</div>
+          <div class="rank__left__name">{{item.nickname}}</div>
         </div>
-        <div class="rank__right">19292</div>
+        <div class="rank__right">{{item.totalIntegral}}</div>
       </div>
-
+<!-- 
       <div class="rank">
         <div class="rank__left">
           <div class="rank__left__num">2</div>
@@ -48,7 +48,7 @@
           <div class="rank__left__name">医仔小太妹</div>
         </div>
         <div class="rank__right">19292</div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -57,11 +57,17 @@
   export default {
     data() {
       return {
-        list: []
+        list: [],
+        userDetail: {}
       }
     },
 
     created() {
+      let result = this.getUserStorage();
+      if(result) {
+        this.userDetail = result;
+      }
+
       this.getUserRankList();
     },
 
@@ -69,6 +75,9 @@
       getUserRankList() {
         this.$Api.getUserRankList().then((res) => {
           console.log(res)
+          if(res.q.s == 0) {
+            this.list = res.q.users;
+          }
         })
       }
     }
@@ -109,6 +118,7 @@
             height: boxValue(60);
             border-radius: 50%;
             vertical-align: middle;
+            border: 1px solid #eee;
           }
         }
 
@@ -173,6 +183,7 @@
               height: boxValue(60);
               border-radius: 50%;
               vertical-align: middle;
+              border: 1px solid #eee;
             }
           } 
 

@@ -54,13 +54,17 @@
       .ticket {
         float: left;
         margin-top: boxValue(16);
-        padding-bottom: 49%;
         width: 49%;
-        height: 0;
+        height: 49vw;
+        line-height: 49vw;
         overflow: hidden;
+        background: #fff;
+        border-radius: 10px;
 
         img {
           width: 100%;
+          height: 100%;
+          vertical-align: middle;
         }
       }
 

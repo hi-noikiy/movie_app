@@ -1,9 +1,9 @@
 <template>
   <div id="invite" class="invite__list">
     <swipeout>
-      <swipeout-item @on-close="handleEvents('on-close')" @on-open="handleEvents('on-open')" transition-mode="follow">
+      <swipeout-item @on-close="handleEvents('on-close')" @on-open="handleEvents('on-open')" transition-mode="follow" v-for="(item,index) in userList" :key="index">
         <div slot="right-menu">
-          <swipeout-button @click.native="onButtonClick('delete')" type="warn">删除</swipeout-button>
+          <swipeout-button @click.native="onButtonClick(index, item.id)" type="warn">删除</swipeout-button>
         </div>
         <div slot="content" class="demo-content vux-1px-t">
           <div class="invite">
@@ -12,45 +12,21 @@
             </div>
             <div class="invite__right">
               <div class="invite__right__info">
-                <div class="info__name">咸鱼Diane</div>
-                <div class="info__dis">1.2km</div>
+                <div class="info__name">{{item.nickname}}</div>
+                <div class="info__dis">{{item.validationInfo}}</div>
               </div>
               
-              <template v-if="false">
-                <div class="invite__right__btn sure">同意</div>
-                <div class="invite__right__btn cancel">拒绝</div>
+              <template v-if="item.status == 1">
+                <div class="invite__right__btn sure" @click="agree(index, item.id)">同意</div>
+                <div class="invite__right__btn cancel" @click="reject(index, item.id)">拒绝</div>
               </template>
 
-              <template v-else>
+              <template v-else-if="item.status == 2">
                 <div class="invite__right__btn pass">已通过</div>
               </template>
-            </div>
-          </div>
-        </div>
-      </swipeout-item>
 
-      <swipeout-item @on-close="handleEvents('on-close')" @on-open="handleEvents('on-open')" transition-mode="follow">
-        <div slot="right-menu">
-          <swipeout-button @click.native="onButtonClick('delete')" type="warn">删除</swipeout-button>
-        </div>
-        <div slot="content" class="demo-content vux-1px-t">
-          <div class="invite">
-            <div class="invite__left">
-              <img src="../../assets/avatar.png" alt="">
-            </div>
-            <div class="invite__right">
-              <div class="invite__right__info">
-                <div class="info__name">咸鱼Diane</div>
-                <div class="info__dis">1.2km</div>
-              </div>
-              
-              <template v-if="true">
-                <div class="invite__right__btn sure">同意</div>
-                <div class="invite__right__btn cancel">拒绝</div>
-              </template>
-
-              <template v-else>
-                <div class="invite__right__btn pass">已通过</div>
+              <template v-else-if="item.status == 3">
+                <div class="invite__right__btn fail">已拒绝</div>
               </template>
             </div>
           </div>
@@ -65,12 +41,57 @@
   import { GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux'
 
   export default {
+    props: ['userList'],
     methods: {
-      onButtonClick (type) {
-        alert('on button click ' + type)
+
+      onButtonClick (index, id) {
+        let param = {
+          a: 7,
+          userId: id
+        }
+        this.$Api.FriendUpdate(param).then((res) => {
+          if(res.q.s == 0) {
+            this.$toast('删除成功!');
+            this.userList.splice(index, 1);
+            this.updateUserDetail();
+          }
+        })
       },
+
       handleEvents (type) {
         console.log('event: ', type)
+      },
+
+      reject(index,id) {
+        let param = {
+          a: 6,
+          userId: id
+        }
+        this.$Api.FriendUpdate(param).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.$toast('拒绝成功!');
+            this.userList[index].status =3;
+          }
+        })
+      },
+
+      agree(index,id) {
+        let param = {
+          a: 1,
+          userId: id
+        }
+        this.$Api.FriendUpdate(param).then((res) => {
+          if(res.q.s == 0) {
+            this.$toast('添加成功!');
+            this.userList[index].status = 2;
+          }
+          console.log(res)
+        })
+      },
+
+      FriendUpdate() {
+        
       }
     },
     components: {

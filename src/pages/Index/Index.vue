@@ -152,21 +152,6 @@
         </table>
       </div>
     </div>
-    <!-- 排行榜 -->
-    <tabbar>
-      <tabbar-item>
-        <span slot="label" link="/mine">Wechat</span>
-      </tabbar-item>
-      <tabbar-item show-dot link="/mine">
-        <span slot="label">Message</span>
-      </tabbar-item>
-      <tabbar-item selected link="/mine">
-        <span slot="label">Explore</span>
-      </tabbar-item>
-      <tabbar-item badge="2" link="/mine">
-        <span slot="label">News</span>
-      </tabbar-item>
-    </tabbar>
   </div>
 </template>
 
@@ -265,9 +250,7 @@
       }
     },
     components: {
-      Swiper,
-      Tabbar, 
-      TabbarItem
+      Swiper
     }
   }
 </script>
@@ -297,12 +280,13 @@ $base: 32rem;
         margin-right: boxValue(20);
         height: boxValue(60);
         width: boxValue(60);
-        border-radius: 50%;
 
         img {
           height: 100%;
           width: 100%;
           vertical-align: middle;
+          border-radius: 50%;
+          border: 1px solid #eee;
         }
       }
 
@@ -497,6 +481,7 @@ $base: 32rem;
         height: boxValue(254);
 
         img {
+          object-fit: cover;
           width: 100%;
           height: 100%;
         }

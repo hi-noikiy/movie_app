@@ -8,11 +8,10 @@ import router from './router'
 import 'normalize.css'
 import Confirm from '@/components/Confirm/Confirm.js'
 import Api from '@/Api/Api'
-import { DatetimePlugin } from 'vux'
+import 'swiper/dist/css/swiper.css'
 
 Vue.config.productionTip = false;
 Vue.use(Confirm);
-Vue.use(DatetimePlugin);
 
 Vue.prototype.$Api = Api;
 Vue.prototype.$ImgUrl = Api.getImgUrl();
@@ -26,6 +25,25 @@ Vue.mixin({
 
     linkToUrl(url) {
       this.$router.push(url)
+    },
+
+    updateUserDetail() {
+      this.$Api.getUserDetails().then((res) => {
+        console.log(res)
+        if(res.q.s == 0) {
+          let json = JSON.stringify(res.q.user);
+          sessionStorage.setItem('user', json);
+        }
+      })
+    },
+
+    getUserStorage() {
+      let json = sessionStorage.getItem('user');
+      if(json) {
+        return JSON.parse(json);
+      }else {
+        return false;
+      }
     }
   }
 })

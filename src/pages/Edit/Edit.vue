@@ -90,8 +90,8 @@
     },
 
     created() {
-      // let user = sessionStorage.getItem('user');
-      let user = null;
+      let user = sessionStorage.getItem('user');
+      // let user = null;
       if(user) {
         let sexSelect = sessionStorage.getItem('sexSelect');
         let loveStatusSelect = sessionStorage.getItem('loveStatusSelect');
@@ -262,14 +262,17 @@
 
         this.$Api.UserUpdate(params).then((res) => {
           console.log(res)
+          if(res.q.s == 0) {
+            this.$toast('保存成功!').then(() => {
+              this.$router.push({name:'Mine'})
+            })
+          }
         })
       },
 
       //跳转个性签名
       linkToSignature(name) {
         console.log(this.userDetail);
-        // let json = JSON.stringify(this.userDetail)
-        // sessionStorage.setItem('user', json);
         this.setSessionStorage();
         this.$router.push({name})
       },

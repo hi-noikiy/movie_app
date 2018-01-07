@@ -1,34 +1,56 @@
 <template>
   <div id="dating">
-    <div class="dating__info">
+    <div class="dating__info" v-for="(item, index) in dateList" :key="index">
       <div class="info__detail clearfix">
         <div class="info__detail__left">
           <div class="left__avatar">
-            <img src="../../assets/avatar.png" alt="">
+            <img :src="$ImgUrl + item.user.imagePath" alt="">
           </div>
           
           <div class="left__detail">
             <div class="left__detail__name">
-              <span>咸鱼Diane</span>
+              <span class="name">{{item.user.nickname}}</span>
+              <span>{{item.addTime}}</span>
             </div>
             <div class="left__detail__mes">
-              <span>邀请你一起看电影</span>
+              <span>{{item.content}}</span>
             </div>
           </div>
         </div>
-        <div class="info__detail__right">
-          <span>2017.03.23</span>
-          <span>19.33</span>
-        </div>
       </div>
 
-      <div class="info__control">
-        <span class="control__left cancel">拒绝</span>
-        <span class="control__right accept">接受邀请</span>
+      <div class="info__control" v-if="item.status == 1">
+        <span class="control__left cancel" @click="reject(index, item.id)">拒绝</span>
+        <span class="control__right accept" @click="agree(index, item.id)">接受邀请</span>
+      </div>
+
+      <div class="info__control" v-else-if="item.status == 2">
+        <span class="control__left send">发信息</span>
+        <span class="control__right ticket" @click="linkToUrl('uploadTicket?id='+item.id)">晒票根</span>
+      </div>
+
+      <div class="info__control" v-else-if="item.status == 3">
+        <span class="control__left send">发信息</span>
+        <span class="control__right send" @click="linkToUrl('uploadResult?img='+item.imagePath)">查看票根</span>
+      </div>
+
+      <div class="info__control" v-else-if="item.status == 4">
+        <span class="control__left send">发信息</span>
+        <span class="control__right cancel" @click="linkToUrl('uploadTicket?id='+item.id)">重新上传票根</span>
+      </div>
+
+      <div class="info__control" v-else-if="item.status == 5">
+        <span class="control__left send">发信息</span>
+        <span class="control__right ticket" @click="linkToUrl('uploadResult?img='+item.imagePath)">查看票根</span>
+      </div>
+
+      <div class="info__control" v-else-if="item.status == 6">
+        <span class="control__left send">发信息</span>
+        <span class="control__right send">已拒绝</span>
       </div>
     </div>
     
-    <div class="dating__info">
+    <!-- <div class="dating__info">
       <div class="info__detail clearfix">
         <div class="info__detail__left">
           <div class="left__avatar">
@@ -54,9 +76,54 @@
         <span class="control__left send">发信息</span>
         <span class="control__right ticket" @click="linkTo('UploadTicket')">晒票根</span>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        dateList: []
+      }
+    },
+
+    created() {
+      this.getDateList()
+    },
+
+    methods: {
+      getDateList() {
+        this.$Api.getDateList().then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.dateList = res.q.dates;
+          }
+        })
+      },
+
+      reject(index, id) {
+        this.$Api.DateUpdate(2, id).then((res) => {
+          console.log(res);
+          if(res.q.s == 0) {
+            this.$toast('拒绝成功!');
+            this.dateList[index].status = 6;
+          }
+        })
+      },
+
+      agree(index, id) {
+        this.$Api.DateUpdate(1, id).then((res) => {
+          console.log(res);
+          if(res.q.s == 0) {
+            this.$toast('同意成功!');
+            this.dateList[index].status = 2;
+          }
+        })
+      }
+    }
+  }  
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';
@@ -73,6 +140,7 @@
 
         .info__detail__left {
           float: left;
+          width: 100%;
 
           .left__avatar {
             float: left;
@@ -92,21 +160,21 @@
             float: left;
             padding: boxValue(10) 0;
             height: boxValue(68);
+            width: boxValue(496);
             display: flex;            
             flex-direction: column;
             justify-content: space-between;
 
             .left__detail__name {
+              display: flex;
+              justify-content: space-between;
               font-size: boxValue(22);
-              font-weight: 600;
+
+              .name {
+                font-weight: 600;
+              }
             }
           }
-        }
-
-        .info__detail__right {
-          float: right;
-          padding-top: boxValue(10);
-          padding-right: boxValue(30);
         }
       }
       

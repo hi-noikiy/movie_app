@@ -1,16 +1,35 @@
 <template>
   <div id="friending">
-    <MyInvite />
+    <MyInvite :userList="userList"/>
   </div>
 </template>
 
 <script>
   import MyInvite from '@/components/Friending/Friending'
-  import MenuOnce from '@/components/Menu/Menu';
 
   export default {
+    data() {
+      return {
+        userList: []
+      }
+    },
+    created() {
+      this.getUserList();
+    },
+    methods: {
+      getUserList() {
+        let param = {
+          a: 3
+        }
+        this.$Api.getUserList(param).then((res) => {
+          console.log(res)
+          if(res.q.s == 0 ) {
+            this.userList = res.q.users;
+          }
+        })
+      }
+    },
     components: {
-      MenuOnce,
       MyInvite
     }
   }

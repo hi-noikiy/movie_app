@@ -61,8 +61,11 @@
         <div class="intro__title border_line">
           门店说明
         </div>
-        <div class="intro__text">
+        <div class="intro__text" :class="{'limit':!showShop, 'no__limit': showShop}">
           <p>{{coupon.shopInstruction}}</p>
+        </div>
+        <div class="arrow__control" @click="transition('shop')">
+          <span class="arrow" :class="{'up': showShop}"></span>
         </div>
       </div>
 
@@ -70,8 +73,11 @@
         <div class="intro__title border_line">
           使用说明
         </div>
-        <div class="intro__text">
+        <div class="intro__text" :class="{'limit':!showUse, 'no__limit': showUse}">
           <p>{{coupon.useInstruction}}</p>
+        </div>
+        <div class="arrow__control" @click="transition('use')">
+          <span class="arrow" :class="{'up': showUse}"></span>
         </div>
       </div>
     </div>
@@ -99,7 +105,9 @@
     data() {
       return {
         coupon: {},
-        id: this.$route.query.id
+        id: this.$route.query.id,
+        showShop: false,
+        showUse: false
       }
     },
     created() {
@@ -136,6 +144,14 @@
             }
           }
         })
+      },
+
+      transition(type) {
+        if(type == 'shop') {
+          this.showShop = !this.showShop;
+        }else {
+          this.showUse = !this.showUse;
+        }
       },
 
       submit() {
@@ -281,10 +297,12 @@
         }
 
         .intro__text {
-          padding: boxValue(0) boxValue(20) boxValue(20) boxValue(20);
+          padding: boxValue(20) boxValue(20) boxValue(0) boxValue(20);
           color: #999;
 
           p {
+            padding: 0;
+            margin: 0;
             color: #999;
           }
         }

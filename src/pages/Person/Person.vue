@@ -3,38 +3,17 @@
     <div class="person__wrap">
       <div class="person__header">
         <div class="header__avatar">
-          <img src="../../assets/avatar.png" alt="">
+          <img :src="$ImgUrl + user.imagePath" alt="">
         </div>
         <div class="header__name">
-          <span class="header__name__detail">祖其Jokie</span>
-          <span class="header__name__sex">22</span>
+          <span class="header__name__detail">{{user.nickname}}</span>
+          <span class="header__name__sex">{{user.age}}</span>
         </div>
       </div>
 
-      <div class="person__image">
-        <div class="image">
-          <img src="../../assets/image.png" alt="">
-        </div>
-        <div class="image">
-          <img src="../../assets/image.png" alt="">
-        </div>
-        <div class="image">
-          <img src="../../assets/image.png" alt="">
-        </div>
-        <div class="image">
-          <img src="../../assets/image.png" alt="">
-        </div>
-        <div class="image">
-          <img src="../../assets/image.png" alt="">
-        </div>
-        <div class="image">
-          <img src="../../assets/image.png" alt="">
-        </div>
-        <div class="image">
-          <img src="../../assets/image.png" alt="">
-        </div>
-        <div class="image">
-          <img src="../../assets/image.png" alt="">
+      <div class="person__image clearfix">
+        <div class="image" v-for="img in user.images">
+          <img :src="$ImgUrl + img.path" alt="">
         </div>
       </div>
 
@@ -50,12 +29,12 @@
 
       <div class="person__part">
         <div class="part__title">经常出没</div>
-        <div class="part__detail">飞扬影院(天河店)</div>
+        <div class="part__detail">{{user.cinemaName}}</div>
       </div>
 
       <div class="person__part">
         <div class="part__title">个性签名</div>
-        <div class="part__detail">你若安好 便是晴天</div>
+        <div class="part__detail">{{user.signature?user.signature:'暂无'}}</div>
       </div>
 
       <div class="person__part person__info">
@@ -63,7 +42,7 @@
         <div class="part__detail">
           <div class="detail">
             <div class="detail__left">个人情感</div>
-            <div class="detail__right">已隐藏/单身/情侣/已婚</div>
+            <div class="detail__right">{{user.loveStatus=='1'?'隐藏':user.loveStatus=='2'?'单身':user.loveStatus=='3'?'情侣':user.loveStatus=='4'?'已婚':''}}</div>
           </div>
           <div class="detail">
             <div class="detail__left">行业</div>
@@ -75,7 +54,7 @@
           </div>
           <div class="detail">
             <div class="detail__left">喜欢明星</div>
-            <div class="detail__right">刘德华、刘德华、刘德华、刘德华、刘德华、刘德华、刘德华、刘德华</div>
+            <div class="detail__right">{{user.favoriteSuperStars}}</div>
           </div>
         </div>
       </div>
@@ -86,9 +65,7 @@
     </group>
     
     <div class="person__bottomBtn">
-      <span class="buttonBtn">发信息</span>
-      <span class="buttonBtn">送积分</span>
-      <span class="buttonBtn">送卡卷</span>
+      <span class="buttonBtn" @click="linkToUrl('addFriend?id='+ $route.query.id)">加好友</span>
       <span class="buttonBtn invite">立即约影</span>
     </div>
   </div>
@@ -100,7 +77,23 @@
   export default {
     data() {
       return {
+        user: {}
+      }
+    },
+    created() {
+      let id  = this.$route.query.id;
+      console.log(this.$route)
+      this.getUserDetails(id);
+    },
 
+    methods: {
+      getUserDetails(id) {
+        this.$Api.getUserDetails(id).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.user = res.q.user;
+          }
+        })
       }
     },
     components: {
@@ -128,6 +121,7 @@
 
       .header__avatar {
         display: inline-block;
+        margin-left: 1%;
         margin-right: boxValue(20);
         height: boxValue(84);
         width: boxValue(84);
@@ -161,17 +155,18 @@
     }
 
     .person__image {
-      display: flex;
       margin: 0 1%;
-      flex-wrap: wrap;
-      justify-content: space-around;
 
       .image {
+        float: left;
         display: inline-block;
+        padding-bottom: boxValue(10);
         width: 24%;
+        height: 24vw;
 
         img {
           width: 100%;
+          height: 100%;
           border-radius: 4px;
         }
       }
@@ -224,6 +219,8 @@
     }
 
     .person__comment {
+      margin-top: boxValue(20);
+      padding-bottom: boxValue(100); 
       height: boxValue(74);
 
       .comment {
@@ -245,14 +242,13 @@
       width: 100%;
       height: boxValue(70);
       font-size: 0;
-      box-shadow: 1px -3px 6px 0px #ececec;
       border-top: 1px solid #eee;
       background: #fff;
 
       .buttonBtn {
         position: relative;
         display: inline-block;
-        width: 25%;        
+        width: 50%;        
         font-size: 13px;
         line-height: boxValue(70);
         text-align: center;
