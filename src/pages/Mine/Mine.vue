@@ -114,6 +114,17 @@
       }
     },
 
+    mounted() {
+      var count = 0; // needed for safari
+      window.onpopstate = () => { 
+        history.pushState('back', null, null);              
+        if(count == 1){
+          this.$router.push({name: 'Index'})
+        }
+      }
+      setTimeout(function(){count = 1;},200);
+    },
+
     methods: {
       getUserDetail() {
         this.$Api.getUserDetails().then((res) => {

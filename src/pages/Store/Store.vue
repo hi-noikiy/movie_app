@@ -68,6 +68,17 @@
       this.userDetail = result;
     },
 
+    mounted() {
+      var count = 0; // needed for safari
+      window.onpopstate = () => { 
+        history.pushState('back', null, null);              
+        if(count == 1){
+          this.$router.push({name: 'Index'})
+        }
+      }
+      setTimeout(function(){count = 1;},200);
+    },
+
     methods: {
       changeType(id) {
         console.log(id);
@@ -80,7 +91,6 @@
           if(res.q.s == 0) {
             this.list = res.q.categorys;
             if(this.list.length > 0) {
-              // this.getCouponList(1, this.list[0].id);
               this.getCouponList(1, 4);
             }
           }

@@ -35,26 +35,21 @@
       </group>
 
       <group>
-        <x-address :title="'地区'" :list="addressData" v-model="userDetail.addressSelect"  @on-shadow-change="onShadowChange"></x-address>
+        <x-address :title="'地区'" :list="addressData" v-model="addressSelect"  @on-shadow-change="onShadowChange"></x-address>
       </group>
 
       <group>
-        <popup-picker title="行业" :data="[['互联网', '餐饮', '保险']]" v-model="industrySelect" value-text-align="right" @on-change="selectIndustry"></popup-picker>
+        <cell title="行业" :value="industryText" is-link @click.native="linkToUrl('checkList?type=1')"></cell>
+        <!-- <popup-picker title="行业" :data="[['互联网', '餐饮', '保险']]" v-model="industrySelect" value-text-align="right" @on-change="selectIndustry"></popup-picker> -->
       </group>
 
       <group>
         <cell title="个性签名" is-link @click.native="linkToSignature('Signature')"></cell>
       </group>
 
-      <div class="input">
-        <div class="input__left">
-          <span>喜欢类型</span>
-        </div>
-        <div class="input__right">
-          <span class="input__right__value">悬疑、悬疑、悬疑、悬疑、悬疑</span>
-          <span class="input__right__arrow"></span>
-        </div>
-      </div>
+      <group>
+        <cell title="喜欢类型" :value="type" is-link @click.native="linkToUrl('checkList')"></cell>
+      </group>
 
       <group>
         <x-input title="喜欢明星" v-model="userDetail.favoriteSuperStars" text-align="right" placeholder="请输入喜爱明星"></x-input>
@@ -66,7 +61,7 @@
     </div>
 
     <div class="edit__btn">
-      <span class="btn">放弃修改</span>
+      <span class="btn" @click="cancelEdit">放弃修改</span>
       <span class="btn sure" @click="submit">保存</span>
     </div>
   </div>
@@ -75,6 +70,7 @@
 <script>
   import { Group, Cell, XAddress, XInput, Datetime, PopupPicker, ChinaAddressV4Data } from 'vux';
   import UploadImg from '@/components/UploadImg/UploadImg';
+  import { movieType,industryType } from '@/data/data.js';
 
   export default {
     data() {
@@ -86,6 +82,9 @@
         loveStatusSelect: [], //情感状态
         addressSelect: [],  //地址
         industrySelect: [], //行业
+        addressSelect: [], //地区
+        type: '',
+        industryText: ''
       }
     },
 
@@ -93,16 +92,94 @@
       let user = sessionStorage.getItem('user');
       // let user = null;
       if(user) {
-        let sexSelect = sessionStorage.getItem('sexSelect');
-        let loveStatusSelect = sessionStorage.getItem('loveStatusSelect');
-        let addressSelect = sessionStorage.getItem('addressSelect');
-        let industrySelect = sessionStorage.getItem('industrySelect');
+        let sexSelectJSON = sessionStorage.getItem('sexSelect');
+        let loveStatusSelectJSON = sessionStorage.getItem('loveStatusSelect');
+        let addressSelectJSON = sessionStorage.getItem('addressSelect');
+        let industrySelectJSON = sessionStorage.getItem('industrySelect');
+        let typeJSON = sessionStorage.getItem('favoriteTypes');
+        let sexSelect,addressSelect=[],loveStatusSelect,industrySelect,typeSelect;
+        let userDetail = JSON.parse(user);
+        sessionStorage.setItem('signature', userDetail.signature);
 
-        this.userDetail = JSON.parse(user);
-        this.addressSelect = JSON.parse(addressSelect)?JSON.parse(addressSelect):[];
-        this.sexSelect = JSON.parse(sexSelect)?JSON.parse(sexSelect):[];
-        this.loveStatusSelect = JSON.parse(loveStatusSelect)?JSON.parse(loveStatusSelect):[];
-        this.industrySelect = JSON.parse(industrySelect)?JSON.parse(industrySelect):[];
+        if(sexSelectJSON) {
+          sexSelect = JSON.parse(sexSelectJSON);
+        }else {
+          if(userDetail.sex == 1) {
+            sexSelect = ['男']
+          }else {
+            sexSelect = ['女']
+          }
+        }
+
+        if(loveStatusSelectJSON) {
+          loveStatusSelect = JSON.parse(loveStatusSelectJSON);
+        }else {
+          if(userDetail.loveStatus == 1) {
+            loveStatusSelect = ['隐藏']
+          }else if(userDetail.loveStatus == 2) {
+            loveStatusSelect = ['单身']
+          }else if(userDetail.loveStatus == 3) {
+            loveStatusSelect = ['情侣']
+          }else if(userDetail.loveStatus == 4) {
+            loveStatusSelect = ['已婚']
+          }
+        }
+
+        if(addressSelectJSON) {
+          addressSelect = JSON.parse(addressSelectJSON);
+        }else {
+          console.log(userDetail)
+          let regionId = userDetail.regionId?userDetail.regionId:'110101';
+          console.log(regionId)
+          addressSelect[0] = regionId.substr(0,2) + '0000';
+          addressSelect[1] = regionId.substr(0,4) + '00';
+          addressSelect[2] = regionId;
+        }
+
+        console.log(1)
+
+        if(typeJSON) {
+          let type = JSON.parse(typeJSON);
+          let str = [];
+          for(let i in type) {
+            str.push(this.getMovieType(type[i]).value);
+          }
+          console.log(str.join('/'));
+          typeSelect = str.join('/')
+        }else {
+          let type = userDetail.favoriteTypes;
+          if(type.length > 0) {
+            let str = [];
+            for(let i in type) {
+              str.push(this.getMovieType(type[i].id).value);
+            }
+            console.log(str.join('/'));
+            typeSelect = str.join('/')
+          }
+        }
+
+        if(industrySelectJSON) {
+          console.log(2)
+          let type = industrySelectJSON;
+          let result = this.getIndustry(type);
+          industrySelect = result.value;
+        }else {
+          let id = userDetail.industryId;
+          console.log(id);
+          if(id && id != '0') {
+            let result = this.getIndustry(id);
+            console.log(result)
+            industrySelect = result.value;
+            console.log(8)
+          }
+        }
+
+        this.industryText = industrySelect;
+        this.type = typeSelect;
+        this.userDetail = userDetail;
+        this.addressSelect = addressSelect;
+        this.sexSelect = sexSelect;
+        this.loveStatusSelect = loveStatusSelect;
       }else {
         this.getUserDetail();
       }
@@ -190,44 +267,10 @@
         })
       },
 
-      //获取用户信息
-      getUserDetail() {
-        this.$Api.getUserDetails().then((res) => {
-          console.log(res)
-          if(res.q.s == 0) {
-            this.userDetail = res.q.user;
-            let user = res.q.user;
-
-            //设置个性签名缓存
-            sessionStorage.setItem('signature', user.signature);
-
-            //初始化性别列表
-            if(user.sex) {
-              if(user.sex == 0) {
-                this.sexSelect = [];
-              }else if(user.sex == 1) {
-                this.sexSelect = ['男'];
-              }else if(user.sex == 2) {
-                this.sexSelect = ['女'];
-              }
-            }
-
-            //初始化情感列表
-            if(user.loveStatus) {
-              if(user.loveStatus == 0) {
-                this.loveStatusSelect = []
-              }else if(user.loveStatus == 1) {
-                this.loveStatusSelect = ['隐藏']
-              }else if(user.loveStatus == 2) {
-                this.loveStatusSelect = ['单身']
-              }else if(user.loveStatus == 3) {
-                this.loveStatusSelect = ['情侣']
-              }else if(user.loveStatus == 4) {
-                this.loveStatusSelect = ['已婚']
-              }
-            }
-          }
-        })
+      //放弃修改
+      cancelEdit() {
+        this.clearSessionStorage();
+        this.$router.go(-1);
       },
 
       submit() {
@@ -238,11 +281,33 @@
         let images = this.userDetail.images;
         let birthday = this.userDetail.birthday;
         let loveStatus = this.userDetail.loveStatus;
-        let favoriteTypes = this.userDetail.favoriteTypes;
+        let favoriteTypes = [];
         let favoriteSuperStars = this.userDetail.favoriteSuperStars;
-        let signature = this.userDetail.signature;
-        let industryId = this.userDetail.industryId;
         let regionId = this.userDetail.regionId;
+        let signature = sessionStorage.getItem('signature');
+        let typeJSON = sessionStorage.getItem('favoriteTypes');
+        let industryId = sessionStorage.getItem('industrySelect');
+
+        if(typeJSON) {
+          let type = JSON.parse(typeJSON);
+          for(let i in type) {
+            let obj = {
+              id: type[i]
+            }
+
+            favoriteTypes.push(obj)
+          }
+        }else {
+          favoriteTypes = this.userDetail.favoriteTypes;
+        }
+
+        if(!signature) {
+          signature = this.userDetail.signature;
+        }
+
+        if(!industryId) {
+          industryId = this.userDetail.industryId;
+        }
 
         let params = {
           a:1,
@@ -258,7 +323,6 @@
           industryId,
           regionId
         }
-        console.log(params)
 
         this.$Api.UserUpdate(params).then((res) => {
           console.log(res)
@@ -266,15 +330,39 @@
             this.$toast('保存成功!').then(() => {
               this.$router.push({name:'Mine'})
             })
+            this.clearSessionStorage();
+            this.updateUserDetail();
           }
         })
       },
 
+      getMovieType(num) {
+        let result = movieType.find((item) => {
+          return item.key == num
+        })
+        return result;
+      },
+
+      getIndustry(type) {
+        let result = industryType.find((item) => {
+          return item.key == type 
+        })
+        return result;
+      },
+
       //跳转个性签名
       linkToSignature(name) {
-        console.log(this.userDetail);
         this.setSessionStorage();
         this.$router.push({name})
+      },
+
+      clearSessionStorage() {
+        sessionStorage.removeItem('sexSelect');
+        sessionStorage.removeItem('loveStatusSelect');
+        sessionStorage.removeItem('addressSelect');
+        sessionStorage.removeItem('favoriteTypes');
+        sessionStorage.removeItem('industrySelect');
+        sessionStorage.removeItem('signature');
       },
 
       setSessionStorage() {
@@ -283,12 +371,10 @@
 
         let sexSelect = JSON.stringify(this.sexSelect);
         let loveStatusSelect = JSON.stringify(this.loveStatusSelect);
-        let industrySelect = JSON.stringify(this.industrySelect);
         let addressSelect = JSON.stringify(this.addressSelect);
 
         sessionStorage.setItem('sexSelect', sexSelect);
         sessionStorage.setItem('loveStatusSelect', loveStatusSelect);
-        sessionStorage.setItem('industrySelect', industrySelect);
         sessionStorage.setItem('addressSelect', addressSelect);
       }
     },

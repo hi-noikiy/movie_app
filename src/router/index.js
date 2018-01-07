@@ -65,6 +65,8 @@ import ReplyComment from '@/pages/ReplyComment/ReplyComment'
 import Login from '@/pages/Login/Login'
 //添加好友申请
 import AddFriend from '@/pages/AddFriend/AddFriend'
+//多选列表
+import CheckList from '@/pages/CheckList/CheckList'
 
 Vue.use(Router)
 
@@ -228,6 +230,11 @@ export default new Router({
       path: '/addFriend',
       name: 'AddFriend',
       component: AddFriend
+    },
+    {
+      path: '/checkList',
+      name: 'CheckList',
+      component: CheckList
     },
     {
       path: '/login',

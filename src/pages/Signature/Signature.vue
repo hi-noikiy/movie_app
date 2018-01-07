@@ -18,9 +18,9 @@
       }
     },
     created() {
-      let user = JSON.parse(sessionStorage.getItem('user'));
-      if(user) {
-        this.signature = user.signature;
+      let signature = sessionStorage.getItem('signature', this.signature);
+      if(signature) {
+        this.signature = signature;
       }
     },
     methods: {
@@ -30,11 +30,7 @@
           return false;
         }
 
-        let user = JSON.parse(sessionStorage.getItem('user'));
-        user.signature = this.signature;
-
-        let json = JSON.stringify(user);
-        sessionStorage.setItem('user', json);
+        sessionStorage.setItem('signature', this.signature);
 
         this.$toast('提交成功').then(() => {
           this.$router.push({name: 'Edit'});
