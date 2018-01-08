@@ -7,7 +7,7 @@
         </div>
         <div class="header__name">
           <span class="header__name__detail">{{user.nickname}}</span>
-          <span class="header__name__sex">{{user.age}}</span>
+          <span class="header__name__sex" :class="{'sex_b': user.sex == 1, 'sex_g': user.sex == 2}">{{user.age}}</span>
         </div>
       </div>
 
@@ -20,10 +20,7 @@
       <div class="person__part">
         <div class="part__title">喜欢类型</div>
         <div class="part__detail person__type__detail">
-          <span class="type">科幻</span>
-          <span class="type">喜剧</span>
-          <span class="type">悬疑</span>
-          <span class="type">动作</span>
+          <span class="type" v-for="item in typeList">{{item.value}}</span>
         </div>
       </div>
 
@@ -46,7 +43,7 @@
           </div>
           <div class="detail">
             <div class="detail__left">行业</div>
-            <div class="detail__right">IT互联网</div>
+            <div class="detail__right">{{industry.value}}</div>
           </div>
           <div class="detail">
             <div class="detail__left">地区</div>
@@ -68,11 +65,17 @@
       <span class="buttonBtn" @click="linkToUrl('addFriend?id='+ $route.query.id)">加好友</span>
       <span class="buttonBtn invite" @click="DateSubmit">立即约影</span>
     </div>
+
+    <div class="person__bottomBtn" v-else>
+      <span class="buttonBtn" @click="linkToUrl('Setting')">约影设置</span>
+      <span class="buttonBtn invite" @click="linkTo('Edit')">编辑资料</span>
+    </div>
   </div>
 </template>
 
 <script>
-  import { TransferDom, Popup, XButton, Range, Group, Cell } from 'vux'
+  import { TransferDom, Popup, XButton, Range, Group, Cell } from 'vux';
+  import { movieType,industryType } from '@/data/data.js';
 
   export default {
     data() {
@@ -83,14 +86,45 @@
     },
     created() {
       let id  = this.$route.query.id;
-      console.log(this.$route)
-      this.getUserDetails(id);
+      if(id) {
+        this.getUserDetails(id);
+      }else {
+        let result = this.getUserStorage();
+        this.user = result;
+      }
+    },
+
+    computed: {
+      typeList() {
+        let user = this.user.favoriteTypes;
+        let result = []
+        if(user) {
+          for(let i in user) {
+            let data = movieType.find((item) => {
+              return item.key == user[i].id
+            })
+
+            result.push(data);
+          }
+        }
+        return result;
+      },
+
+      industry() {
+        let user = this.user.industryId;
+        if(user) {
+          let data = industryType.find((item) => {
+            return item.key == user;
+          })
+
+          return data;
+        }
+      }
     },
 
     methods: {
       getUserDetails(id) {
         this.$Api.getUserDetails(id).then((res) => {
-          console.log(res)
           if(res.q.s == 0) {
             this.user = res.q.user;
           }
@@ -106,10 +140,6 @@
             this.$toast('已发送约影请求！')
           }
         })
-      },
-
-      test() {
-        console.log(1)
       }
     },
     components: {
@@ -161,12 +191,28 @@
           font-weight: 600;
         }
 
-        .header__name__sex {
-          font-size: 10px;
-          padding: boxValue(2) boxValue(12);
-          color: #fff;
-          background: #f773be;
-        }
+        // .header__name__sex {
+        //   position: relative;
+        //   font-size: 10px;
+        //   padding: boxValue(2) boxValue(12);
+        //   height: boxValue(24);
+        //   padding-right: boxValue(40);
+        //   color: #fff;
+        //   background: #f773be;
+        //   border-radius: boxValue(4);
+
+        //   &::after {
+        //     content: '';
+        //     position: absolute;
+        //     top: 50%;
+        //     right: boxValue(9);
+        //     transform: translateY(-50%);
+        //     height: boxValue(22);
+        //     width: boxValue(22);
+        //     background: url('../../assets/girl.png') no-repeat;
+        //     background-size: 100%;
+        //   }
+        // }
       }
     }
 
@@ -204,6 +250,7 @@
       .person__type__detail {
         .type {
           display: inline-block;
+          margin-right: boxValue(4);
           width: boxValue(80);
           height: boxValue(42);
           line-height: boxValue(42);

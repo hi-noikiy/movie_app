@@ -2,14 +2,14 @@
   <div id="mine">
     <div class="mine__header">
       <div class="header__mes">
-        <div class="mes">
+        <!-- <div class="mes">
           <span class="mes__num">2</span>
-        </div>
+        </div> -->
       </div>
       <div class="header__info clearfix">
         <div class="info__left">
           <div class="left__name">{{userDetail.nickname}}</div>
-          <div class="left__tips" @click="linkTo('Edit')">完善资料，送1000积分></div>
+          <div class="left__tips" @click="linkTo('Person')">完善资料，送1000积分></div>
           <div class="left__tab">
             <span class="tab tab__member">
               {{userDetail.integralLevel == '1'?'大众会员':userDetail.integralLevel == '2'?'黄金会员':userDetail.integralLevel == '3'?'铂金会员':userDetail.integralLevel == '4'?'钻石会员':userDetail.integralLevel == '5'?'至尊会员':''}}
@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="info__right">
-          <div class="right__avatar" @click="linkTo('Edit')">
+          <div class="right__avatar" @click="linkTo('Person')">
             <img :src="$ImgUrl + userDetail.imagePath" alt="" v-if="userDetail.imagePath">
             <img src="../../assets/avatar.png" alt="" v-else>
           </div>
@@ -115,14 +115,14 @@
     },
 
     mounted() {
-      var count = 0; // needed for safari
-      window.onpopstate = () => { 
-        history.pushState('back', null, null);              
-        if(count == 1){
-          this.$router.push({name: 'Index'})
-        }
-      }
-      setTimeout(function(){count = 1;},200);
+      // var count = 0; // needed for safari
+      // window.onpopstate = () => { 
+      //   history.pushState('back', null, null);              
+      //   if(count == 1){
+      //     this.$router.push({name: 'Index'})
+      //   }
+      // }
+      // setTimeout(function(){count = 1;},200);
     },
 
     methods: {

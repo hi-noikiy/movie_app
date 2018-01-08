@@ -10,7 +10,7 @@
         <div class="info__name" v-if="movie">{{movie.name}}</div>
         <div class="info__rate">
           <span class="info__rate__num" :class="rateType"></span>
-          <span class="info__rate__comment">5128人评论</span>
+          <span class="info__rate__comment">{{movie.statReview}}人评论</span>
         </div>
         <div class="info__intro" :class="{'limit':!showDetail, 'no__limit': showDetail}" v-if="movie">
           {{movie.content}}

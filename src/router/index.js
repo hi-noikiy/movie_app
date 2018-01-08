@@ -79,167 +79,171 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
-      component: Index 
+      component: resolve => require(['@/pages/Index/Index'], resolve)
     },
     {
       path: '/meet',
       name: 'Meet',
-      component: Meet
+      component: resolve => require(['@/pages/Meet/Meet'], resolve)
     },
     {
       path: '/setting',
       name: 'Setting',
-      component: Setting
+      component: resolve => require(['@/pages/Setting/Setting'], resolve)
     },
     {
       path: '/person',
       name: 'Person',
-      component: Person
+      component: resolve => require(['@/pages/Person/Person'], resolve)
     },
     {
       path: '/movie',
       name: 'Movie',
-      component: Movie
+      component: resolve => require(['@/pages/Movie/Movie'], resolve)
     },
     {
       path: '/mine',
       name: 'Mine',
-      component: Mine
+      component: resolve => require(['@/pages/Mine/Mine'], resolve)
     },
     {
       path: '/comment',
       name: 'Comment',
-      component: Comment
+      component: resolve => require(['@/pages/Comment/Comment'], resolve)
     },
     {
       path: '/addComment',
       name: 'AddComment',
-      component: AddComment
+      component: resolve => require(['@/pages/AddComment/AddComment'], resolve)
     },
     {
       path: '/collect',
       name: 'Collect',
-      component: Collect
+      component: resolve => require(['@/pages/Collect/Collect'], resolve)
     },
     {
       path: '/rank',
       name: 'Rank',
-      component: Rank
+      component: resolve => require(['@/pages/Rank/Rank'], resolve)
     },
     {
       path: '/friend',
       name: 'Friend',
-      component: Friend
+      component: resolve => require(['@/pages/Friend/Friend'], resolve)
     },
     {
       path: '/friending',
       name: 'Friending',
-      component: Friending
+      component: resolve => require(['@/pages/Friending/Friending'], resolve)
     },
     {
       path: '/points',
       name: 'Points',
-      component: Points
+      component: resolve => require(['@/pages/Points/Points'], resolve)
     },
     {
       path: '/sign',
       name: 'Sign',
-      component: Sign
+      component: resolve => require(['@/pages/Sign/Sign'], resolve)
     },
     {
       path: '/cardList',
       name: 'CardList',
-      component: CardList
+      component: resolve => require(['@/pages/CardList/CardList'], resolve)
     },
     {
       path: '/ticket',
       name: 'Ticket',
-      component: Ticket
+      component: resolve => require(['@/pages/Ticket/Ticket'], resolve)
     },
     {
       path: '/dating',
       name: 'Dating',
-      component: Dating
+      component: resolve => require(['@/pages/Dating/Dating'], resolve)
     },
     {
       path: '/message',
       name: 'Message',
-      component: Message
+      component: resolve => require(['@/pages/Message/Message'], resolve)
     },
     {
       path: '/uploadTicket',
       name: 'UploadTicket',
-      component: UploadTicket
+      component: resolve => require(['@/pages/UploadTicket/UploadTicket'], resolve)
     },
     {
       path: '/uploadResult',
       name: 'UploadResult',
-      component: UploadResult
+      component: resolve => require(['@/pages/UploadResult/UploadResult'], resolve)
     },
     {
       path: '/myComment',
       name: 'MyComment',
-      component: MyComment
+      component: resolve => require(['@/pages/MyComment/MyComment'], resolve)
     },
     {
       path: '/record',
       name: 'Record',
-      component: Record
+      component: resolve => require(['@/pages/Record/Record'], resolve)
     },
     {
       path: '/stream',
       name: 'Stream',
-      component: Stream
+      component: resolve => require(['@/pages/Stream/Stream'], resolve)
     },
     {
       path: '/store',
       name: 'Store',
-      component: Store
+      component: resolve => require(['@/pages/Store/Store'], resolve)
     },
     {
       path: '/goods',
       name: 'Goods',
-      component: Goods
+      component: resolve => require(['@/pages/Goods/Goods'], resolve)
     },
     {
       path: '/merchants',
       name: 'Merchants',
-      component: Merchants
+      component: resolve => require(['@/pages/Merchants/Merchants'], resolve)
     },
     {
       path: '/edit',
       name: 'Edit',
-      component: Edit
+      component: resolve => require(['@/pages/Edit/Edit'], resolve)
     },
     {
       path: '/game',
       name: 'Game',
-      component: Game
+      component: resolve => require(['@/pages/Game/Game'], resolve)
     },
     {
       path: '/signature',
       name: 'Signature',
-      component: Signature
+      component: resolve => require(['@/pages/Signature/Signature'], resolve)
     },
     {
       path: '/replyComment',
       name: 'ReplyComment',
-      component: ReplyComment
+      component: resolve => require(['@/pages/ReplyComment/ReplyComment'], resolve)
     },
     {
       path: '/addFriend',
       name: 'AddFriend',
-      component: AddFriend
+      component: resolve => require(['@/pages/AddFriend/AddFriend'], resolve)
     },
     {
       path: '/checkList',
       name: 'CheckList',
-      component: CheckList
+      component: resolve => require(['@/pages/CheckList/CheckList'], resolve)
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: resolve => require(['@/pages/Login/Login'], resolve)
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    // return 期望滚动到哪个的位置
+    return { x: 0, y: 0 }
+  }
 })

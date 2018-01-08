@@ -1,8 +1,12 @@
 import axios from 'axios'
-// const ApiUrl = 'http://139.199.68.39/api';
+// const ApiUrl = 'http://api.yyh517.com';
 const ApiUrl = '/api';
-const ImgUrl = 'http://139.199.68.39/uploadfiles/';
+const ImgUrl = 'http://api.yyh517.com/uploadfiles/';
 let sessionId;
+
+axios.defaults.withCredentials = true
+axios.defaults.crossDomain = true
+
 
 function axiosApi(url, option, method='get',stopLogin=false) {
   let promise;

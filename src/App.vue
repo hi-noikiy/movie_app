@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 
@@ -259,6 +261,52 @@
 
     .arrow.up {
       transform: rotate(180deg);
+    }
+  }
+
+  .sex_g {
+    position: relative;
+    font-size: 10px;
+    padding: boxValue(2) boxValue(12);
+    height: boxValue(24);
+    padding-right: boxValue(40);
+    color: #fff;
+    background: #f773be;
+    border-radius: boxValue(6);
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: boxValue(9);
+      transform: translateY(-50%);
+      height: boxValue(22);
+      width: boxValue(22);
+      background: url('assets/girl.png') no-repeat;
+      background-size: 100%;
+    }
+  }
+
+  .sex_b {
+    position: relative;
+    font-size: 10px;
+    padding: boxValue(2) boxValue(12);
+    height: boxValue(24);
+    padding-right: boxValue(40);
+    color: #fff;
+    background: #27adff;
+    border-radius: boxValue(6);
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: boxValue(9);
+      transform: translateY(-50%);
+      height: boxValue(22);
+      width: boxValue(22);
+      background: url('assets/boy.png') no-repeat;
+      background-size: 100%;
     }
   }
 </style>

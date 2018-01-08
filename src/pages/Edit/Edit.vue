@@ -245,7 +245,7 @@
 
       //设置图片列表
       getImgList(val) {
-        this.userDetail.images = [].concat(val);
+        this.userDetail.images = val;
       },
 
       showDate(date) {

@@ -25,13 +25,10 @@
             <div class="user__info">
               <div class="user__info__name">
                 <span class="name">{{item.nickname}}</span>
-                <span class="sex"><i class="girl"></i>{{item.age}}</span>
+                <span :class="{'sex_b': item.sex == 1, 'sex_g': item.sex == 2}">{{item.age}}</span>
               </div>
               <div class="user__info__tags">
-                <span class="tags">科幻</span>
-                <span class="tags">喜剧</span>
-                <span class="tags">悬疑</span>
-                <span class="tags">动作</span>
+                <span class="tags" v-for="types in typeList">{{types.value}}</span>
               </div>
               <div class="user__info__location">
                 <span class="location__usually">常出没于{{item.cinemaName}}</span>
@@ -77,8 +74,9 @@
 </template>
 
 <script>
-  import { ButtonTab, ButtonTabItem } from 'vux'
-  import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import { ButtonTab, ButtonTabItem } from 'vux';
+  import { swiper, swiperSlide } from 'vue-awesome-swiper';
+  import { movieType,industryType } from '@/data/data.js';
 
   export default {
     data() {
@@ -90,21 +88,14 @@
         activeUser: {},
         swiperOption: {
           on: {
-            init: function(){
-              //Swiper初始化了
-              console.log('当前的slide序号是'+this.activeIndex);
-            }, 
             reachEnd :() => {
               // this.userList.push(1);
               if(this.userList.length > 0) {
-                console.log('111')
                 this.getUserList();
               }
             },
             slideChange: () => {
-              console.log('当前的slide序号是'+this.swiper.activeIndex);
               this.activeUser = this.userList[this.swiper.activeIndex];
-              console.log(this.activeUser);
             }
           }
         },
@@ -116,6 +107,21 @@
     computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
+      },
+
+      typeList() {
+        let user = this.activeUser.favoriteTypes;
+        let result = []
+        if(user) {
+          for(let i in user) {
+            let data = movieType.find((item) => {
+              return item.key == user[i].id
+            })
+
+            result.push(data);
+          }
+        }
+        return result;
       }
     },
 
@@ -341,6 +347,7 @@
         .tags {
           display: inline-block;
           width: boxValue(68);
+          margin-right: boxValue(4);
           height: boxValue(38);
           line-height: boxValue(38);
           text-align: center;

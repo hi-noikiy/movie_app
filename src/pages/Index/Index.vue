@@ -189,9 +189,9 @@
 
       //排行列表
       this.getMovieRankingList();
-      this.$Api.getSetting().then((res) => {
-        console.log(res)
-      })
+      // this.$Api.getSetting().then((res) => {
+      //   console.log(res)
+      // })
     },
 
     methods: {
@@ -203,7 +203,6 @@
       //广告列表
       getAdList() {
         this.$Api.getAdList(1).then((res) => {
-          console.log(res)
           if(res.q.s == 0) {
             let data = res.q.ads;
             let url = [];
@@ -233,7 +232,6 @@
       //获取电影列表
       getMovieList(type) {
         this.$Api.getMovieList(type).then((res) => {
-          console.log(res)
           if(res.q.s ==0) {
             if(type == 1) {
               this.NearMovie = res.q.movies
@@ -247,7 +245,6 @@
       //获取排行榜列表
       getMovieRankingList() {
         this.$Api.getMovieRankingList().then((res) => {
-          console.log(res)
           if(res.q.s == 0) {
             this.MovieRank = res.q.movieRankings
           }

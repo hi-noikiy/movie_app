@@ -29,7 +29,7 @@ export default {
       cinemasList: [[]],
       cinemasListSelect: [],
       ageList: [[],[]], //年龄列表
-      age: [20, 22],
+      age: [],
       format: function (value, name) {
         return `${value[0]} - ${value[1]}`
       }
