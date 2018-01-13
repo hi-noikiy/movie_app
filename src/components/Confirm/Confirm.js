@@ -1,9 +1,11 @@
 import Confirm from './Confirm.vue';
 import ToastComponent from './ToastComponent.vue';
+import PopComponent from './Pop.vue';
 
 var Util = {};
 var toastVM = null;
 var confirmVM = null;
+var popVM = null;
 
 Util.install = function(Vue, options) {
   Vue.prototype.$confirm = (content,title,type) => {
@@ -56,6 +58,21 @@ Util.install = function(Vue, options) {
         resolve();
       }, time?time:800)
     })
+  }
+
+  Vue.prototype.$pop = (content) => {
+    console.log('piop')
+    if(!popVM) {
+      let popTpl = Vue.extend(PopComponent);
+      popVM = new popTpl();
+      let tpl = popVM.$mount().$el
+      document.body.appendChild(tpl)
+      console.log('create')
+    }
+
+    popVM.show = true;
+    popVM.content = content;
+
   }
 }
 

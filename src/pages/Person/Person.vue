@@ -106,6 +106,8 @@
 
             result.push(data);
           }
+        }else {
+          result = {}
         }
         return result;
       },
@@ -118,6 +120,8 @@
           })
 
           return data;
+        }else {
+          return {};
         }
       }
     },

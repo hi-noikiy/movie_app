@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from './../router'
 // const ApiUrl = 'http://api.yyh517.com';
 let apiLink = process.env.NODE_ENV == 'development'?"/api": "http://api.yyh517.com"
 
@@ -16,6 +17,9 @@ function axiosApi(url, option, method='get',stopLogin=false) {
   promise = new Promise((resolve, reject) => {
     axios(Object.assign({method,url},option)).then((response) => {
       resolve(response.data)
+      if(response.data.q.s == 1002) {
+        router.push('login')
+      }
     }).catch((err) => {
       console.log(err)
       reject(err)

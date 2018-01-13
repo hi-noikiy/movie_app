@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <div class="points__btn">
+    <div class="points__btn" @click="linkTo('GetPoints')">
       <span>如何获得积分</span>
     </div>
   </div>

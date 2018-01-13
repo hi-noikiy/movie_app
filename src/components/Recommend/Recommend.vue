@@ -3,78 +3,24 @@
     <div class="recommend__title">推荐卡卷</div>
     
     <div class="recommend__list clearfix">
-      <div class="recommend">
+      <div class="recommend" v-for="(item, index) in couponList" :key="index" @click="linkToUrl('goods?id=' + item.id)">
         <div class="recommend__img">
-          <img src="../../assets/shop.png" alt="">
+          <img :src="$ImgUrl + item.imagePath" alt="">
         </div>
         <div class="recommend__info">
-          <div class="info__name">iPhoneX 64ssss</div>
-          <div class="info__price">2500积分+1000元</div>
-        </div>
-      </div>
-
-      <div class="recommend">
-        <div class="recommend__img">
-          <img src="../../assets/shop.png" alt="">
-        </div>
-        <div class="recommend__info">
-          <div class="info__name">iPhoneX 64ssss</div>
-          <div class="info__price">2500积分+1000元</div>
-        </div>
-      </div>
-
-      <div class="recommend">
-        <div class="recommend__img">
-          <img src="../../assets/shop.png" alt="">
-        </div>
-        <div class="recommend__info">
-          <div class="info__name">iPhoneX 64ssss</div>
-          <div class="info__price">2500积分+1000元</div>
-        </div>
-      </div>
-
-      <div class="recommend">
-        <div class="recommend__img">
-          <img src="../../assets/shop.png" alt="">
-        </div>
-        <div class="recommend__info">
-          <div class="info__name">iPhoneX 64ssss</div>
-          <div class="info__price">2500积分+1000元</div>
-        </div>
-      </div>
-
-      <div class="recommend">
-        <div class="recommend__img">
-          <img src="../../assets/shop.png" alt="">
-        </div>
-        <div class="recommend__info">
-          <div class="info__name">iPhoneX 64ssss</div>
-          <div class="info__price">2500积分+1000元</div>
-        </div>
-      </div>
-
-      <div class="recommend">
-        <div class="recommend__img">
-          <img src="../../assets/shop.png" alt="">
-        </div>
-        <div class="recommend__info">
-          <div class="info__name">iPhoneX 64ssss</div>
-          <div class="info__price">2500积分+1000元</div>
-        </div>
-      </div>
-
-      <div class="recommend">
-        <div class="recommend__img">
-          <img src="../../assets/shop.png" alt="">
-        </div>
-        <div class="recommend__info">
-          <div class="info__name">iPhoneX 64ssss</div>
-          <div class="info__price">2500积分+1000元</div>
+          <div class="info__name">{{item.name}}</div>
+          <div class="info__price">{{item.integral}}积分</div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    props: ['couponList']
+  }
+</script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';

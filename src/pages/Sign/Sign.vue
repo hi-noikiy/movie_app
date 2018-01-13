@@ -36,12 +36,12 @@
     </div>
 
     <div class="sign__intro">
-      <span class="intro">签到规则</span>
-      <span class="intro">分享给好友</span>
+      <span class="intro" @click="showDetail">签到规则</span>
+      <span class="intro" @click="share">分享给好友</span>
     </div>
 
     <div class="sign__recommend">
-      <Recommend />
+      <Recommend :couponList="couponList"/>
     </div>
   </div>
 </template>
@@ -53,7 +53,8 @@
       return {
         dateList: [],
         userDetail: {},
-        monthFirst: 0
+        monthFirst: 0,
+        couponList: []
       }
     },
 
@@ -61,6 +62,7 @@
       this.initDate().then(() => {
         this.getUserDetail();
       })
+      this.getCouponList();
     },
 
     methods: {
@@ -95,6 +97,30 @@
                 this.dateList.splice(index, 1, obj);
               }
             }
+          }
+        })
+      },
+
+      //显示签到规则
+      showDetail() {
+        this.$pop()
+      },
+
+      share() {
+        this.$toast('抱歉功能开发中', 'fail');
+      },
+
+      //获取推荐卡卷
+      getCouponList() {
+        let param = {
+          a: 2,
+          li: 16, 
+          isRecommend: 1
+        }
+        this.$Api.getCouponList(param).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.couponList = res.q.coupons;
           }
         })
       },

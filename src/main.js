@@ -12,7 +12,7 @@ import 'swiper/dist/css/swiper.css'
 
 Vue.config.productionTip = false;
 Vue.use(Confirm);
-
+// Vue.config.devtools = true
 Vue.prototype.$Api = Api;
 Vue.prototype.$ImgUrl = Api.getImgUrl();
 
@@ -49,6 +49,9 @@ Vue.mixin({
 
 router.beforeEach((to, from, next) => {
   console.log('从' + from.name + '跳到' + to.name);
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
   next() // 确保一定要调用 next()
 })
 /* eslint-disable no-new */

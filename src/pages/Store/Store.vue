@@ -9,7 +9,7 @@
         <div class="search__point">
           我的积分: {{userDetail.totalIntegral}}
         </div>
-        <div class="search__input">
+        <div class="search__input" @click="linkTo('Search')">
           <span class="search__input__icon"></span>
           <input class="search__input__value" type="text" placeholder="请输入搜索词">
         </div>
