@@ -9,7 +9,7 @@
       <div class="movie__detail__info">
         <div class="info__name" v-if="movie">{{movie.name}}</div>
         <div class="info__rate">
-          <span class="info__rate__num" :class="rateType"></span>
+          <span class="rate__num " :class="rateType"></span>
           <span class="info__rate__comment">{{movie.statReview}}人评论</span>
         </div>
         <div class="info__intro" :class="{'limit':!showDetail, 'no__limit': showDetail}" v-if="movie">
@@ -215,67 +215,11 @@
       }
 
       .info__rate {
+        display: flex;
+        align-items: center;
         margin: boxValue(10) 0;
         height: boxValue(48);
-        line-height: boxValue(48);
         overflow: hidden;
-
-        .info__rate__num {
-          display: inline-block;
-          width: boxValue(166);
-          height: boxValue(30);
-          background: url('../../assets/rates.png');
-          vertical-align: middle;
-        }
-
-        .rate0 {
-          background-position: boxValue(-166) 0;
-        }
-
-        .rate0_5 {
-          background: url('../../assets/rates_half.png');
-          background-position: boxValue(-138) 0;
-        }
-
-        .rate1 {
-          background-position: boxValue(-132) 0;
-        }
-
-        .rate1_5 {
-          background: url('../../assets/rates_half.png');
-          background-position: boxValue(-106) 0;
-        }
-
-        .rate2 {
-          background-position: boxValue(-98) 0;
-        }
-
-        .rate2_5 {
-          background: url('../../assets/rates_half.png');
-          background-position: boxValue(-70) 0;
-        }
-
-        .rate3 {
-          background-position: boxValue(-64) 0;
-        }
-
-        .rate3_5 {
-          background: url('../../assets/rates_half.png');
-          background-position: boxValue(-38) 0;
-        }
-
-        .rate4 {
-          background-position: boxValue(-32) 0;
-        }
-
-        .rate4_5 {
-          background: url('../../assets/rates_half.png');
-          background-position: boxValue(-2) 0;
-        }
-
-        .rate5 {
-          background-position: boxValue(0) 0;
-        }
 
         .info__rate__comment {
           display: inline-block;
@@ -286,6 +230,79 @@
           vertical-align: middle;
         }
       }
+
+      // .info__rate {
+      //   margin: boxValue(10) 0;
+      //   height: boxValue(48);
+      //   line-height: boxValue(48);
+      //   overflow: hidden;
+
+      //   .info__rate__num {
+      //     display: inline-block;
+      //     width: boxValue(166);
+      //     height: boxValue(30);
+      //     background: url('../../assets/rates.png');
+      //     vertical-align: middle;
+      //   }
+
+      //   .rate0 {
+      //     background-position: boxValue(-166) 0;
+      //   }
+
+      //   .rate0_5 {
+      //     background: url('../../assets/rates_half.png');
+      //     background-position: boxValue(-138) 0;
+      //   }
+
+      //   .rate1 {
+      //     background-position: boxValue(-132) 0;
+      //   }
+
+      //   .rate1_5 {
+      //     background: url('../../assets/rates_half.png');
+      //     background-position: boxValue(-106) 0;
+      //   }
+
+      //   .rate2 {
+      //     background-position: boxValue(-98) 0;
+      //   }
+
+      //   .rate2_5 {
+      //     background: url('../../assets/rates_half.png');
+      //     background-position: boxValue(-70) 0;
+      //   }
+
+      //   .rate3 {
+      //     background-position: boxValue(-64) 0;
+      //   }
+
+      //   .rate3_5 {
+      //     background: url('../../assets/rates_half.png');
+      //     background-position: boxValue(-38) 0;
+      //   }
+
+      //   .rate4 {
+      //     background-position: boxValue(-32) 0;
+      //   }
+
+      //   .rate4_5 {
+      //     background: url('../../assets/rates_half.png');
+      //     background-position: boxValue(-2) 0;
+      //   }
+
+      //   .rate5 {
+      //     background-position: boxValue(0) 0;
+      //   }
+
+      //   .info__rate__comment {
+      //     display: inline-block;
+      //     padding-top: boxValue(4);
+      //     margin-left: boxValue(10);
+      //     font-size: boxValue(26);
+      //     color: #faaf00;
+      //     vertical-align: middle;
+      //   }
+      // }
     }
   }
 

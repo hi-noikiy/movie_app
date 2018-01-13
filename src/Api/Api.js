@@ -1,6 +1,8 @@
 import axios from 'axios'
 // const ApiUrl = 'http://api.yyh517.com';
-const ApiUrl = '/api';
+let apiLink = process.env.NODE_ENV == 'development'?"/api": "http://api.yyh517.com"
+
+const ApiUrl = apiLink;
 const ImgUrl = 'http://api.yyh517.com/uploadfiles/';
 let sessionId;
 
