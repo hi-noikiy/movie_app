@@ -6,7 +6,8 @@
     <div class="rank__myself">
       <div class="myself__left">
         <div class="left__img">
-          <img :src="$ImgUrl + userDetail.imagePath" alt="">
+          <img src="../../assets/avatar.png" alt="" v-if="!userDetail.imagePath">
+          <img :src="$ImgUrl + userDetail.imagePath" alt="" v-else>
         </div>
         <div class="left__info">
           <div class="info__name">{{userDetail.nickname}}</div>

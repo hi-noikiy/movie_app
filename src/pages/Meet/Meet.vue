@@ -56,16 +56,17 @@
 
     <template v-else>
       <div class="meet__list">
-        <div class="meet" v-for="item in nearList">
+        <div class="meet" v-for="item in nearList" @click="linkToUrl('person?id='+item.id)">
           <div class="meet__left">
-            <img :src="$ImgUrl + item.imagePath" alt="">
+            <img src="../../assets/avatar.png" v-if="!item.imagePath">
+            <img :src="$ImgUrl + item.imagePath" alt="" v-else>
           </div>
           <div class="meet__right">
             <div class="meet__right__info">
               <div class="info__name">{{item.nickname}}</div>
               <div class="info__dis">{{item.distance}}m</div>
             </div>
-            <div class="meet__right__btn" @click="DateSubmit(item.id)">约电影</div>
+            <div class="meet__right__btn" @click.stop="DateSubmit(item.id)">约电影</div>
           </div>
         </div>
       </div>
@@ -192,12 +193,14 @@
 
       //约电影
       DateSubmit(id) {
+        this.$load(1, '发送中');
         let userId = id;
         this.$Api.DateSubmit(userId).then((res) => {
           console.log(res)
           if(res.q.s == 0) {
             this.$toast('已发送约影请求！')
           }
+          this.$load(2);
         })
       },
 
@@ -342,7 +345,10 @@
       }
 
       .user__info__tags {
-        padding: boxValue(16) 0;
+        margin: boxValue(16) 0;
+        width: 100%;
+        height: boxValue(38);
+        overflow: hidden;
 
         .tags {
           display: inline-block;

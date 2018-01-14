@@ -3,7 +3,8 @@
     <div class="person__wrap">
       <div class="person__header">
         <div class="header__avatar">
-          <img :src="$ImgUrl + user.imagePath" alt="">
+          <img :src="$ImgUrl + user.imagePath" alt="" v-if="user.imagePath">
+          <img src="../../assets/avatar.png" alt="" v-else>
         </div>
         <div class="header__name">
           <span class="header__name__detail">{{user.nickname}}</span>
@@ -58,7 +59,7 @@
     </div>
 
     <group class="person__comment">
-      <cell class="comment" title="TA的影评" :value="user.statMovieReview + '条'" is-link @click.native="linkToUrl('myComment?id=' + id)"></cell>
+      <cell class="comment" title="TA的影评" :value="user.statMovieReview?user.statMovieReview:'0' + '条'" is-link @click.native="linkToUrl('myComment?id=' + id)"></cell>
     </group>
     
     <div class="person__bottomBtn" v-if="id">
@@ -74,7 +75,7 @@
 </template>
 
 <script>
-  import { TransferDom, Popup, XButton, Range, Group, Cell } from 'vux';
+  import { TransferDom, Group, Cell } from 'vux';
   import { movieType,industryType } from '@/data/data.js';
 
   export default {
@@ -148,7 +149,7 @@
     },
     components: {
       Group,
-      Cell
+      Cell,
     }
   }
 </script>
@@ -255,6 +256,7 @@
         .type {
           display: inline-block;
           margin-right: boxValue(4);
+          margin-bottom: boxValue(4);
           width: boxValue(80);
           height: boxValue(42);
           line-height: boxValue(42);

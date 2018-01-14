@@ -5,7 +5,7 @@
         <div class="list" v-for="(list,index) in uploadedList" :key="index">
           <img :src="$ImgUrl + list.path" alt="" v-if="list.path">
           <img :src="list" alt="" v-else>
-          <span class="list__del"></span>
+          <span class="list__del" @click="delImg(index)"></span>
         </div>
         <!-- <div class="list" v-for="(list,index) in uploadList" :key="index">
           <img :src="$ImgUrl + list.path" alt="" v-if="list.path">
@@ -24,12 +24,6 @@
 <script>
   export default {
     props: ['uploadedList'],
-    data() {
-      return {
-        uploadList: [],
-        imgList: []
-      } 
-    },
 
     methods: {
       open() {
@@ -37,7 +31,14 @@
         test.click()
       },
 
+      delImg(index) {
+        this.uploadedList.splice(index,1);
+        this.$emit('ImgChange', this.uploadedList);
+      },
+
       upload(event) {
+        this.$load(1);
+
         var oFile = document.getElementById("upload").files[0];
         let oFReader = new FileReader();
         let formData = new FormData();
@@ -48,13 +49,14 @@
           if(res.q.s == 0) {
             oFReader.readAsDataURL(oFile);
             oFReader.onload = (oFREvent) => {
-              this.uploadList.push(oFREvent.currentTarget.result);
+              // this.uploadList.push(oFREvent.currentTarget.result);
               // this.imgList.push(res.q.files[0])
               this.uploadedList.push(res.q.files[0])
               this.$emit('ImgChange', this.uploadedList);
               oFile.value = '';
             };
           }
+          this.$load(2);
         })
 
         event.target.value=null

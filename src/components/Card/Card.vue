@@ -1,7 +1,57 @@
 <template>
   <div id="collect">
     <div class="collect__list">
-      <div class="collection">
+      <!-- <div class="collection">
+        <div class="collection__left">
+          <img src="../../assets/shop.png" alt="">
+        </div>
+        <div class="collection__right">
+          <div class="right__title">
+            Apple iPhone X 64GB 深空灰 移动联通电信4G手机
+          </div>
+          <div class="right__price">
+            <span>面值</span>
+            <span class="price__num">50</span>
+            <span>元</span>
+          </div>
+        </div>
+        <div class="collection__btn active" v-if="type == 'active'">
+          使用
+        </div>
+        <div class="collection__btn used" v-if="type == 'used'">
+          已使用
+        </div>
+        <div class="collection__date" v-if="type == 'overdue'">
+          已过期
+        </div>
+      </div> -->
+
+      <div class="collection" v-for="(item,index) in cardList">
+        <div class="collection__left">
+          <img :src="$ImgUrl + item.imagePath" alt="">
+        </div>
+        <div class="collection__right">
+          <div class="right__title">
+            {{item.name}}
+          </div>
+          <div class="right__price">
+            <span>面值</span>
+            <span class="price__num">{{item.price}}</span>
+            <span>元</span>
+          </div>
+        </div>
+        <div class="collection__btn active" v-if="type == 'active'" @click="linkToUrl('code?val='+item.code)">
+          使用
+        </div>
+        <div class="collection__btn used" v-if="type == 'used'">
+          已使用
+        </div>
+        <div class="collection__date" v-if="type == 'overdue'">
+          已过期
+        </div>
+      </div>
+
+      <!-- <div class="collection">
         <div class="collection__left">
           <img src="../../assets/shop.png" alt="">
         </div>
@@ -49,57 +99,7 @@
         <div class="collection__date" v-if="type == 'overdue'">
           已过期
         </div>
-      </div>
-
-      <div class="collection">
-        <div class="collection__left">
-          <img src="../../assets/shop.png" alt="">
-        </div>
-        <div class="collection__right">
-          <div class="right__title">
-            Apple iPhone X 64GB 深空灰 移动联通电信4G手机
-          </div>
-          <div class="right__price">
-            <span>面值</span>
-            <span class="price__num">50</span>
-            <span>元</span>
-          </div>
-        </div>
-        <div class="collection__btn active" v-if="type == 'active'">
-          使用
-        </div>
-        <div class="collection__btn used" v-if="type == 'used'">
-          已使用
-        </div>
-        <div class="collection__date" v-if="type == 'overdue'">
-          已过期
-        </div>
-      </div>
-
-      <div class="collection">
-        <div class="collection__left">
-          <img src="../../assets/shop.png" alt="">
-        </div>
-        <div class="collection__right">
-          <div class="right__title">
-            Apple iPhone X 64GB 深空灰 移动联通电信4G手机
-          </div>
-          <div class="right__price">
-            <span>面值</span>
-            <span class="price__num">50</span>
-            <span>元</span>
-          </div>
-        </div>
-        <div class="collection__btn active" v-if="type == 'active'">
-          使用
-        </div>
-        <div class="collection__btn used" v-if="type == 'used'">
-          已使用
-        </div>
-        <div class="collection__date" v-if="type == 'overdue'">
-          已过期
-        </div>
-      </div>
+      </div> -->
 
     </div>
   </div>  
@@ -107,7 +107,13 @@
 
 <script>
   export default {
-    props: ['type']
+    props: ['type','cardList'],
+
+    methods: {
+      test() {
+        console.log('ss')
+      }
+    }
   }
 </script>
 

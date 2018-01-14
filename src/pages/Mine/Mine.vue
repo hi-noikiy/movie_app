@@ -105,13 +105,14 @@
     },
 
     created() {
-      let result = this.getUserStorage();
-      if(result) {
-        this.userDetail = result;
-      }else {
-        //用户信息
-        this.getUserDetail();
-      }
+      this.getUserDetail();
+      // let result = this.getUserStorage();
+      // if(result) {
+      //   this.userDetail = result;
+      // }else {
+      //   //用户信息
+      //   this.getUserDetail();
+      // }
     },
 
     mounted() {

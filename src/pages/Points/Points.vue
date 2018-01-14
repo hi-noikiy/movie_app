@@ -13,8 +13,15 @@
           </div>
         </div>
       </div>
-      <div class="points__header__right">
-        <div>大众会员</div>
+      <div class="points__header__right" @click="linkToLevel">
+        <div class="img">
+          <img src="../../assets/1.png" alt="" v-if="userDetail.integralLevel == 1">
+          <img src="../../assets/2.png" alt="" v-else-if="userDetail.integralLevel == 2">
+          <img src="../../assets/3.png" alt="" v-else-if="userDetail.integralLevel == 3">
+          <img src="../../assets/4.png" alt="" v-else-if="userDetail.integralLevel == 4">
+          <img src="../../assets/5.png" alt="" v-else-if="userDetail.integralLevel == 5">
+        </div>
+        <div>{{levelText}}</div>
       </div>
     </div>
     <div class="points__recommend">
@@ -116,6 +123,24 @@
       this.getCouponList();
     },
 
+    computed: {
+      levelText() {
+        if(this.userDetail.integralLevel == 1) {
+          return '普通会员'
+        }else if(this.userDetail.integralLevel == 2) {
+          return '黄金会员'
+        }else if(this.userDetail.integralLevel == 3) {
+          return '铂金会员'
+        }else if(this.userDetail.integralLevel == 4) {
+          return '钻石会员'
+        }else if(this.userDetail.integralLevel == 5) {
+          return '至尊会员'
+        }else {
+          return ''
+        }
+      }
+    },
+
     methods: {
       getCouponList() {
         let param = {
@@ -129,6 +154,10 @@
             this.coupons = res.q.coupons;
           }
         })
+      },
+
+      linkToLevel() {
+        location.href = 'http://api.yyh517.com/app/level.html?points='+ this.userDetail.totalIntegral;
       }
     }
   }
@@ -157,6 +186,8 @@
           width: boxValue(78);
           height: boxValue(78);
           line-height: boxValue(78);
+          background: #fff;
+          border-radius: 50%;
 
           img {
             width: 100%;
@@ -186,8 +217,20 @@
       .points__header__right {
         position: absolute;
         right: boxValue(30);
-        top: boxValue(120);
+        top: boxValue(71);
         color: #42dfd9;
+
+        .img {
+          margin: 0 auto;
+          margin-bottom: boxValue(6);
+          width: boxValue(78);
+          height: boxValue(60);
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
       }
     }
 

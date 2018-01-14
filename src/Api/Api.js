@@ -17,7 +17,7 @@ function axiosApi(url, option, method='get',stopLogin=false) {
   promise = new Promise((resolve, reject) => {
     axios(Object.assign({method,url},option)).then((response) => {
       resolve(response.data)
-      if(response.data.q.s == 1002) {
+      if(response.data.q.s == 1002 || response.data.q.s == 1100) {
         router.push('login')
       }
     }).catch((err) => {
@@ -82,7 +82,7 @@ const Api = {
       params: {
         json: {
           n: 'SMSCode',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a,
             type,
@@ -156,7 +156,7 @@ const Api = {
       params: {
         json: {
           n: 'AdList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a
           }
@@ -175,7 +175,7 @@ const Api = {
       params: {
         json: {
           n: 'News',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a:1
           }
@@ -200,7 +200,7 @@ const Api = {
       params: {
         json: {
           n: 'UserList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a,
             pa,
@@ -289,7 +289,7 @@ const Api = {
       params: {
         json: {
           n: 'UserUpdate',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a,
             user: {
@@ -336,7 +336,7 @@ const Api = {
       params: {
         json: {
           n: 'FriendUpdate',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a,
             userId,
@@ -359,7 +359,7 @@ const Api = {
       params: {
         json: {
           n: 'UserRankList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {}
         }
       }
@@ -378,7 +378,7 @@ const Api = {
       params: {
         json: {
           n: 'CinemaList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             pa,
             li
@@ -400,7 +400,7 @@ const Api = {
       params: {
         json: {
           n: 'DateList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             pa,
             li
@@ -421,7 +421,7 @@ const Api = {
       params: {
         json: {
           n: 'DateSubmit',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             id
           }
@@ -443,7 +443,7 @@ const Api = {
       params: {
         json: {
           n: 'DateUpdate',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a,
             date: {
@@ -468,7 +468,7 @@ const Api = {
       params: {
         json: {
           n: 'DateSwitch',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             id,
             open
@@ -490,7 +490,7 @@ const Api = {
       params: {
         json: {
           n: 'MovieList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a
           }
@@ -510,7 +510,7 @@ const Api = {
       params: {
         json: {
           n: 'MovieDetails',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             id
           }
@@ -534,7 +534,7 @@ const Api = {
       params: {
         json: {
           n: 'ReviewList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a,
             id,
@@ -561,7 +561,7 @@ const Api = {
       params: {
         json: {
           n: 'ReviewSubmit',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             review: {
               movieId,
@@ -586,7 +586,7 @@ const Api = {
       params: {
         json: {
           n: 'ReviewUpdate',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a: 1,
             id
@@ -609,7 +609,7 @@ const Api = {
       params: {
         json: {
           n: 'CommentList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             id,
             pa,
@@ -633,7 +633,7 @@ const Api = {
       params: {
         json: {
           n: 'CommentSubmit',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             comment: {
               reviewId,
@@ -659,7 +659,7 @@ const Api = {
       params: {
         json: {
           n: 'PraiseList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             id,
             pa,
@@ -682,7 +682,7 @@ const Api = {
       params: {
         json: {
           n: 'PraiseSwitch',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             id,
             open
@@ -702,7 +702,7 @@ const Api = {
       params: {
         json: {
           n: 'MovieRankingList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {}
         }
       }
@@ -721,7 +721,7 @@ const Api = {
       params: {
         json: {
           n: 'TicketList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             pa,
             li
@@ -742,7 +742,7 @@ const Api = {
       params: {
         json: {
           n: 'TicketSubmit',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             ticket: {
               imagePath
@@ -767,7 +767,7 @@ const Api = {
       params: {
         json: {
           n: 'CouponList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a,
             pa,
@@ -792,7 +792,7 @@ const Api = {
       params: {
         json: {
           n: 'CouponDetails',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             id
           }
@@ -812,10 +812,34 @@ const Api = {
       params: {
         json: {
           n: 'CouponSwitch',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             id,
             open
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 44	业务，订单列表（我的卡券）OrderList（H5、APP
+   * 
+   * @param {a}  1我的订单（H5、APP）；2我的核销记录（H5）
+   * @param {status}  0全部；1待使用；2已使用；3已过期；
+   * @returns 
+   */
+  getOrderList({a, pa, li, status}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'OrderList',
+          // s: sessionId?sessionId:getSession(),
+          q: {
+            a,
+            pa,
+            li,
+            status
           }
         }
       }
@@ -836,7 +860,7 @@ const Api = {
       params: {
         json: {
           n: 'OrderSubmit',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             a,
             order: {
@@ -844,6 +868,27 @@ const Api = {
               couponId,
               transferWay
             }
+          }
+        }
+      }
+    })
+  },
+  
+  /**
+   * 47	业务，订单操作OrderUpdate（H5）（核销员）
+   * 
+   * @param {code} action=1时，券码；
+   * @returns 
+   */
+  OrderUpdate(code) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'OrderUpdate',
+          // s: sessionId?sessionId:getSession(),
+          q: {
+            a: 1,
+            code
           }
         }
       }
@@ -862,7 +907,7 @@ const Api = {
       params: {
         json: {
           n: 'IntegralList',
-          s: sessionId?sessionId:getSession(),
+          // s: sessionId?sessionId:getSession(),
           q: {
             pa,
             li

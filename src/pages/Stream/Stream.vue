@@ -1,18 +1,18 @@
 <template>
   <div id="stream">
     <div class="stream__list">
-      <div class="stream">
+      <div class="stream" v-for="item in integrals">
         <div class="stream__left">
-          <div class="left__title">签到奖励</div>
-          <div class="left__date">2017.10.23 12:22</div>
+          <div class="left__title">{{item.content}}</div>
+          <div class="left__date">{{item.addTime}}</div>
         </div>
         <div class="stream__right">
-          <div class="right__control add">+60</div>
-          <div class="right__detail">首次签到</div>
+          <div class="right__control" :class="{'add': parseInt(item.amount) >  0, 'sub': parseInt(item.amount) <  0}">{{(parseInt(item.amount) >  0?'+':'-') + item.amount}}</div>
+          <div class="right__detail"></div>
         </div>
       </div>
 
-      <div class="stream">
+      <!-- <div class="stream">
         <div class="stream__left">
           <div class="left__title">签到奖励</div>
           <div class="left__date">2017.10.23 12:22</div>
@@ -21,7 +21,7 @@
           <div class="right__control sub">-60</div>
           <div class="right__detail">首次签到</div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -29,7 +29,9 @@
 <script>
   export default {
     data() {
-      return {}
+      return {
+        integrals: []
+      }
     },
 
     created() {
@@ -40,6 +42,9 @@
       getIntegralList() {
         this.$Api.getIntegralList().then((res) => {
           console.log(res);
+          if(res.q.s == 0) {
+            this.integrals = res.q.integrals;
+          }
         })
       }
     }

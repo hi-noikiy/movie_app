@@ -4,7 +4,8 @@
       <div class="info__detail clearfix">
         <div class="info__detail__left">
           <div class="left__avatar">
-            <img :src="$ImgUrl + item.user.imagePath" alt="">
+            <img src="../../assets/avatar.png" alt="" v-if="!item.user.imagePath">
+            <img :src="$ImgUrl + item.user.imagePath" alt="" v-else>
           </div>
           
           <div class="left__detail">

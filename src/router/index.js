@@ -356,6 +356,22 @@ export default new Router({
         title: '搜索'
       },
       component: resolve => require(['@/pages/Search/Search'], resolve)
+    },
+    {
+      path: '/IM',
+      name: 'IM',
+      meta: {
+        title: '聊天'
+      },
+      component: resolve => require(['@/pages/IM/IM'], resolve)
+    },
+    {
+      path: '/code',
+      name: 'Code',
+      meta: {
+        title: '验证'
+      },
+      component: resolve => require(['@/pages/Code/Code'], resolve)
     }
   ],
   scrollBehavior (to, from, savedPosition) {

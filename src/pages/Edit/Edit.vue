@@ -356,6 +356,10 @@
         this.$router.push({name})
       },
 
+      // delImg(index) {
+      //   this.uploadedList.splice(index, 1);
+      // },
+
       clearSessionStorage() {
         sessionStorage.removeItem('sexSelect');
         sessionStorage.removeItem('loveStatusSelect');

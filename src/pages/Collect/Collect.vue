@@ -1,7 +1,7 @@
 <template>
   <div id="collect">
     <div class="collect__list">
-      <div class="collection" v-for="(item, index) in coupons" :key="index">
+      <div class="collection" v-for="(item, index) in coupons" :key="index"  @click="linkToUrl('goods?id='+item.id)">
         <div class="collection__left">
           <img :src="$ImgUrl + item.imagePath" alt="">
         </div>

@@ -9,7 +9,7 @@
       </div>
       <div class="input__code">
         <input class="input" type="text" v-model="code" placeholder="请输入验证码">
-        <span class="code" :class="{'sended': isSend}" @click="getSms">{{sendText}}</span>
+        <span class="code" @click="getSms">{{sendText}}</span>
       </div>
     </div>
     
@@ -37,6 +37,8 @@
         if(this.isSend) {
           return false;
         }
+
+        this.$load(1, '请求中');
         
 
         this.$Api.getSMSCode(1, 1, this.mobile).then((res) => {
@@ -60,6 +62,8 @@
           }else {
             this.$toast(res.q.d, 'fail')
           }
+
+          this.$load(2);
         })
       },
 

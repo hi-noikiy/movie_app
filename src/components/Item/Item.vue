@@ -1,6 +1,6 @@
 <template>
   <div class="item__wrap">
-    <div class="item" v-for="(item, index) in couponList" :key="index" @click="linkToUrl('goods?id=' + item.id)">
+    <div class="item" v-for="(item, index) in couponList" :key="index" @click="linkToUrl('goods?id=' + item.id)" v-if="couponList">
       <div class="item__left">
         <img :src="$ImgUrl + item.imagePath" alt="">
       </div>
@@ -19,12 +19,32 @@
         </div>
       </div>
     </div>
+    
+    <div class="item" v-for="(item, index) in orderList" :key="index" v-if="orderList">
+      <div class="item__left">
+        <img :src="$ImgUrl + item.imagePath" alt="">
+      </div>
+      <div class="item__right">
+        <div class="right__title">
+          {{item.name}}
+        </div>
+        <div class="right__price">
+          <span>面值</span>
+          <span class="price__num">{{item.price}}</span>
+          <span>元</span>
+        </div>
+        <div class="right__date">
+          <span>核销时间</span>
+          <span>{{item.useTime}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['couponList']
+    props: ['couponList','orderList']
   }
 </script>
 

@@ -44,6 +44,7 @@
         content: null
       }
     },
+
     methods: {
       open() {
         let test = document.getElementById('upload')
@@ -51,13 +52,14 @@
       },
 
       upload(event) {
+        //开启动画
+        this.$load(1);
         var oFile = document.getElementById("upload").files[0];
         let oFReader = new FileReader();
         let formData = new FormData();
         formData.append('file[]', oFile);
 
         this.$Api.UploadFiles(formData).then((res) => {
-          console.log(res)
           if(res.q.s == 0) {
             oFReader.readAsDataURL(oFile);
             oFReader.onload = (oFREvent) => {
@@ -66,6 +68,7 @@
               oFile.value = '';
             };
           }
+          this.$load(2);
         })
 
         event.target.value=null
@@ -92,8 +95,6 @@
         let starRating = this.starIndex;
         let content = this.content;
         let images = this.imgList;
-
-        console.log(id, starRating, content, images);
 
         this.$Api.ReviewSubmit(id, starRating, content, images).then((res) => {
           console.log(res)
@@ -186,6 +187,7 @@
           img {
             height: 100%;
             width: 100%;
+            border-radius: boxValue(6);
           }
         }
 

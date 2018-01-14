@@ -177,6 +177,8 @@
       },
 
       submit() {
+        // this.$toast('抱歉正在开发中', 'fail');
+        // return false;
         let param = {
           a: 1,
           couponId: this.id,
@@ -186,6 +188,8 @@
           console.log(res);
           if(res.q.s == 0) {
             this.$toast('领取成功!')
+          }else {
+            this.$toast(res.q.d, 'fail')
           }
         })
       }

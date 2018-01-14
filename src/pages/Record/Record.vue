@@ -2,19 +2,19 @@
   <div id="record">
     <div class="record__head">
       <div class="record__head__avatar">
-        <img src="../../assets/avatar.png" alt="">
+        <img src="../../assets/avatar.png" alt="" v-if="!userDetail.imagePath">
+        <img :src="$ImgUrl + userDetail.imagePath" alt="" v-else>
       </div>
-      <span class="record__head__name">William</span>
-      <span class="record__head__location">飞扬影城(天河店)</span>
+      <span class="record__head__name">{{userDetail.nickname}}</span>
+      <span class="record__head__location">{{userDetail.shop.name?userDetail.shop.name:'暂无'}}</span>
     </div>
 
     <div class="record__list">
       <div class="list__title">核销记录</div>
-      <Item />
-      <Item />
+      <Item :orderList="orderList"/>
     </div>
 
-    <div class="record__btn"></div>
+    <div class="record__btn" @click="linkToUrl('code?type=input')"></div>
   </div>
 </template>
 
@@ -22,6 +22,34 @@
   import Item from '@/components/Item/Item';
 
   export default {
+    data() {
+      return {
+        userDetail: {},
+        orderList: []
+      }
+    },
+
+    created() {
+      let result = this.getUserStorage();
+      this.userDetail = result;
+
+      this.getOrderList();
+    },
+
+    methods: {
+      getOrderList() {
+        let param = {
+          a: 2,
+          status: 0
+        }
+        this.$Api.getOrderList(param).then((res) => {
+          if(res.q.s == 0) {
+            this.orderList = res.q.orders;
+          }
+        })
+      }
+    },
+    
     components: {
       Item
     }

@@ -12,6 +12,9 @@ import 'swiper/dist/css/swiper.css'
 
 Vue.config.productionTip = false;
 Vue.use(Confirm);
+import { NumberKeyboard } from 'vant';
+
+Vue.use(NumberKeyboard);
 // Vue.config.devtools = true
 Vue.prototype.$Api = Api;
 Vue.prototype.$ImgUrl = Api.getImgUrl();

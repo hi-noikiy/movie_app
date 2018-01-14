@@ -35,7 +35,7 @@
     
     methods: {
       link(type) {
-        location.href = 'http://139.199.68.39/app/game_' + type + '.html'
+        location.href = 'http://api.yyh517.com/app/game_' + type + '.html'
       }
     }
   }

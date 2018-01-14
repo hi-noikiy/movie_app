@@ -7,7 +7,7 @@
     </div>
 
     <template v-if="type == 'active'">
-      <Card class="card__list" :type="type"/>
+      <Card :cardList="cardList" class="card__list" :type="type"/>
     </template>
 
     <template v-if="type == 'used'">
@@ -27,12 +27,47 @@
   export default {
     data() {
       return {
-        type: 'active'
+        type: 'active',
+        cardList: [],
       }
     },
+
+    created() {
+      let param = {
+        a:1,
+        status: 0
+      }
+
+      this.getOrderList(param);
+    },
+
     methods: {
       changeType(type) {
-        this.type = type
+        this.type = type;
+        let status;
+        if(type == 'active') {
+          status = 1
+        }else if(type == 'used') {
+          status = 2
+        }else if(type == 'overdue') {
+          status = 3
+        }
+
+        let param = {
+          a:1,
+          status: status
+        }
+
+        this.getOrderList(param);
+      },
+
+      getOrderList(param) {
+        this.$Api.getOrderList(param).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.cardList = res.q.orders
+          }
+        })
       }
     },
     components: {
