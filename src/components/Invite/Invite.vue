@@ -143,15 +143,20 @@
           margin-right: boxValue(30);
         }
 
-        &:after {
+        
+      }
+    }
+
+    .vux-swipeout {
+      position: relative;
+      &:after {
           content: '';
           position: absolute;
-          bottom: boxValue(-28);
-          left: 0;
+          bottom: 0;
+          left: boxValue(130);
           width: 100%;
           border-bottom: 1px solid #eee;
         }
-      }
     }
   }
 </style>

@@ -784,7 +784,7 @@ const Api = {
   /**
    * 42业务，卡券详情 CouponDetails（H5、 APP）
    * 
-   * @param {id}  卡卷id
+   * @param {id}  卡券id
    * @returns 
    */
   getCouponDetails(id) {

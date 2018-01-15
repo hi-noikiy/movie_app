@@ -30,7 +30,7 @@ import { resolve } from 'url';
 // import Points from '@/pages/Points/Points'
 // //签到
 // import Sign from '@/pages/Sign/Sign'
-// //我的卡卷
+// //我的卡券
 // import CardList from '@/pages/CardList/CardList'
 // //我的票根
 // import Ticket from '@/pages/Ticket/Ticket'
@@ -193,7 +193,7 @@ export default new Router({
       path: '/cardList',
       name: 'CardList',
       meta: {
-        title: '我的卡卷'
+        title: '我的卡券'
       },
       component: resolve => require(['@/pages/CardList/CardList'], resolve)
     },
@@ -273,7 +273,7 @@ export default new Router({
       path: '/goods',
       name: 'Goods',
       meta: {
-        title: '卡卷详情'
+        title: '卡券详情'
       },
       component: resolve => require(['@/pages/Goods/Goods'], resolve)
     },

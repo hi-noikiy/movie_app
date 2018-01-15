@@ -22,15 +22,15 @@
 
     <div class="goods__detail">
       <div class="detail">
-        <span>卡卷类型:</span>
-        <span v-if="coupon.type == 1">现金卷</span>
-        <span v-if="coupon.type == 2">积分卷</span>
-        <span v-if="coupon.type == 3">代金卷</span>
-        <span v-if="coupon.type == 4">积分+现金卷</span>
+        <span>卡券类型:</span>
+        <span v-if="coupon.type == 1">现金券</span>
+        <span v-if="coupon.type == 2">积分券</span>
+        <span v-if="coupon.type == 3">代金券</span>
+        <span v-if="coupon.type == 4">积分+现金券</span>
       </div>
       <div class="detail">
         <span>行业:</span>
-        <span>积分/积分+现金卷</span>
+        <span>积分/积分+现金券</span>
       </div>
       <div class="detail">
         <span>限制兑换:</span>
@@ -350,6 +350,10 @@
       .goods__info__detail {
         padding: boxValue(20);
         background: #fff;
+
+        img {
+          max-width: 100%;
+        }
       }
     }
 

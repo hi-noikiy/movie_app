@@ -231,6 +231,12 @@
     border-top: none!important;
   }
 
+  .vux-1px-t {
+    &::before {
+      border: none;
+    }
+  }
+
   //展开
   .limit {
     max-height: boxValue(100);

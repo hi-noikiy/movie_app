@@ -1,6 +1,6 @@
 <template>
   <div class="points__recommend">
-    <div class="recommend__title">推荐卡卷</div>
+    <div class="recommend__title">推荐卡券</div>
     
     <div class="recommend__list clearfix">
       <div class="recommend" v-for="(item, index) in couponList" :key="index" @click="linkToUrl('goods?id=' + item.id)">

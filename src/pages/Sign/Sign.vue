@@ -110,7 +110,7 @@
         this.$toast('抱歉功能开发中', 'fail');
       },
 
-      //获取推荐卡卷
+      //获取推荐卡券
       getCouponList() {
         let param = {
           a: 2,

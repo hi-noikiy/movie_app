@@ -39,7 +39,7 @@
             {{userDetail.statNewCoupon}}
           </div>
           <div class="tab__bottom">
-            卡卷 
+            卡券 
           </div>
         </div>
         <div class="form__tab" @click="linkTo('Friend')">

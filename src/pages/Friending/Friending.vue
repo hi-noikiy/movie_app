@@ -1,6 +1,6 @@
 <template>
   <div id="friending">
-    <MyInvite :userList="userList"/>
+    <MyInvite :type="'friend'" :userList="userList"/>
   </div>
 </template>
 

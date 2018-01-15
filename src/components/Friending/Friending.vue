@@ -16,16 +16,16 @@
                 <div class="info__dis">{{item.validationInfo}}</div>
               </div>
               
-              <template v-if="item.status == 1">
+              <template v-if="item.applyStatus == 1">
                 <div class="invite__right__btn sure" @click="agree(index, item.id)">同意</div>
                 <div class="invite__right__btn cancel" @click="reject(index, item.id)">拒绝</div>
               </template>
 
-              <template v-else-if="item.status == 2">
+              <template v-else-if="item.applyStatus == 2">
                 <div class="invite__right__btn pass">已通过</div>
               </template>
 
-              <template v-else-if="item.status == 3">
+              <template v-else-if="item.applyStatus == 3">
                 <div class="invite__right__btn fail">已拒绝</div>
               </template>
             </div>
