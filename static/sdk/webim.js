@@ -2140,7 +2140,7 @@ var webim = { // namespace object webim
 
             this.error = function(logStr) {
                 try {
-                    on && console.error(logStr);
+                    // on && console.error(logStr);
                 } catch (e) {}
             };
             this.warn = function(logStr) {
@@ -2155,7 +2155,7 @@ var webim = { // namespace object webim
             };
             this.debug = function(logStr) {
                 try {
-                    on && console.debug(logStr);
+                    // on && console.debug(logStr);
                 } catch (e) {}
             };
         };

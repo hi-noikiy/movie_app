@@ -3,23 +3,38 @@
 import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import VueLazyload from 'vue-lazyload'
+import { NumberKeyboard,ImagePreview } from 'vant';
+import store from './store'
 import router from './router'
-import 'normalize.css'
 import Confirm from '@/components/Confirm/Confirm.js'
 import Api from '@/Api/Api'
+import { mapGetters,mapActions } from 'vuex';
+
+import 'normalize.css'
 import 'swiper/dist/css/swiper.css'
+import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false;
-Vue.use(Confirm);
-import { NumberKeyboard } from 'vant';
 
+Vue.use(Confirm);
 Vue.use(NumberKeyboard);
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIklEQVQ4y2P8+vXrfwYqAiZqGjZq4KiBowaOGjhq4FAyEAD1agQGU7dgRgAAAABJRU5ErkJggg==',
+  loading: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIklEQVQ4y2P8+vXrfwYqAiZqGjZq4KiBowaOGjhq4FAyEAD1agQGU7dgRgAAAABJRU5ErkJggg==',
+  attempt: 1
+})
+
 // Vue.config.devtools = true
+Vue.prototype.$ImagePreview = ImagePreview;
 Vue.prototype.$Api = Api;
 Vue.prototype.$ImgUrl = Api.getImgUrl();
 
 Vue.mixin({
+  created() {
+    this.initUserDetail();
+  },
   methods: {
     linkTo(name) {
       this.$router.push({name})
@@ -46,21 +61,39 @@ Vue.mixin({
       }else {
         return false;
       }
-    }
-  }
+    },
+
+    ...mapActions([
+      'initUserDetail',
+      'updateUserDetail',
+      'utilUserDetail'
+    ])
+  },
+  
+  computed: {
+    ...mapGetters([
+      'userDetail'
+    ])
+  },
 })
 
 router.beforeEach((to, from, next) => {
-  console.log('从' + from.name + '跳到' + to.name);
+  store.commit('UPDATE_LOADING_STATUS', {isLoading: true})
   if (to.meta.title) {
     document.title = to.meta.title
   }
   next() // 确保一定要调用 next()
 })
+
+router.afterEach(function (to) {
+  store.commit('UPDATE_LOADING_STATUS', {isLoading: false})
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

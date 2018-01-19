@@ -36,7 +36,7 @@
   </div> -->
   <div class="list__wrap">
     <div class="list clearfix" v-for="(comment,index) in commentList" :key="index">
-      <div class="list__left">
+      <div class="list__left" @click="linkToUrl('person?id='+ comment.user.id)">
         <img :src="$ImgUrl + comment.user.imagePath" alt="" v-if="comment.user.imagePath">
         <img src="../../assets/avatar.png" alt="" v-else>
       </div>
@@ -49,13 +49,13 @@
           <div class="comment__text">{{comment.content}}</div>
 
           <div class="comment__imgs">
-            <img class="img" :src="$ImgUrl + img.path" alt="" v-for="img in comment.images">
+            <img class="img" v-lazy="$ImgUrl + img.path" alt="" v-for="(img,index) in comment.images" @click="preview(comment.images, index)" :key="index" />
           </div>
 
           <div class="comment__info">
             <div class="info__left">
               <span class="time">{{comment.addTime}}</span>
-              <span class="del">删除</span>
+              <span class="del" v-if="userDetail.id == comment.user.id" @click="delComment(comment.id)">删除</span>
             </div>
             <div class="info__right">
               <span class="praise" :class="{'praised': comment.isPraise == 1}" @click="praise(comment.id, comment)"><i class="praise__icon"></i>{{comment.statPraise}}</span>
@@ -73,6 +73,19 @@
 
   export default {
     props: ['commentList'],
+
+    data() {
+      return {
+        userDetail: {}
+      }
+    },
+
+    created() {
+      let userDetail = this.getUserStorage();
+      if(userDetail) {
+        this.userDetail = userDetail;
+      }
+    },
 
     methods: {
       praise(id, comment) {
@@ -97,6 +110,32 @@
               }
           })
         }
+      },
+
+      delComment(id) {
+        console.log(id)
+        this.$confirm('你确定要删除吗?', '删除', 'fail').then((res) => {
+          if(res == 'sure') {
+            this.$Api.ReviewUpdate(id).then((res) => {
+              if(res.q.s == 0) {
+                this.$toast('删除成功！').then(() => {
+                  this.$router.go(0);
+                });
+              }else {
+                this.$toast(res.q.d, 'fail');
+              }
+            })
+          }
+        })
+      },
+
+      preview(imgs, index) {
+        let arr = [];
+        for(let i in imgs) {
+          arr.push(this.$ImgUrl + imgs[i].path)
+        }
+
+        this.$ImagePreview(arr, index);
       },
 
       countRate(num) {

@@ -1,7 +1,23 @@
 <template>
   <div id="uploadImg">
     <div class="add__img">
-      <div class="add__img__list">
+      <div class="add__img__list"  v-if="max">
+        <div class="list" v-for="(list,index) in uploadedList" :key="index" v-if="index < parseInt(max)">
+          <img :src="$ImgUrl + list.path" alt="" v-if="list.path">
+          <img :src="list" alt="" v-else>
+          <span class="list__del" @click="delImg(index)"></span>
+        </div>
+        <!-- <div class="list" v-for="(list,index) in uploadList" :key="index">
+          <img :src="$ImgUrl + list.path" alt="" v-if="list.path">
+          <img :src="list" alt="" v-else>
+          <span class="list__del"></span>
+        </div> -->
+        <div class="add">
+          <img src="../../assets/imgadd.png" alt="" @click="open">
+          <input type="file" class="hide" id="upload" v-on:change="upload">
+        </div>
+      </div>
+      <div class="add__img__list"  v-else>
         <div class="list" v-for="(list,index) in uploadedList" :key="index">
           <img :src="$ImgUrl + list.path" alt="" v-if="list.path">
           <img :src="list" alt="" v-else>
@@ -23,10 +39,15 @@
 
 <script>
   export default {
-    props: ['uploadedList'],
+    props: ['uploadedList', 'max'],
 
     methods: {
       open() {
+        if(this.max && this.max <= this.uploadedList.length) {
+          this.$toast('图片不能超过'+ this.max + '张', 'fail');
+          return false;
+        }
+        console.log(this.max)
         let test = document.getElementById('upload')
         test.click()
       },
@@ -45,7 +66,6 @@
         formData.append('file[]', oFile);
 
         this.$Api.UploadFiles(formData).then((res) => {
-          console.log(res)
           if(res.q.s == 0) {
             oFReader.readAsDataURL(oFile);
             oFReader.onload = (oFREvent) => {
@@ -61,7 +81,7 @@
 
         event.target.value=null
       },
-    }
+    } 
   }
 </script>
 
@@ -97,6 +117,7 @@
         img {
           height: 100%;
           width: 100%;
+          border-radius: boxValue(8);
         }
       }
 

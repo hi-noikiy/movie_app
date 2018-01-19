@@ -1,10 +1,13 @@
 <template>
   <transition name='fade'>
-    <div id="toast" v-if="show" >
+    <div id="confirm" v-if="show" >
       <div class="toast">
         <div class="toast__top">
           <div class="toast__icon" v-if="type == 'success'">
             <img src="../../assets/succeed.png" alt="">
+          </div>
+          <div class="toast__icon" v-if="type == 'fail'">
+            <img src="../../assets/fail.png" alt="">
           </div>
           <div class="toast__title">
             {{title}}
@@ -50,7 +53,7 @@
 <style lang="scss">
   @import '../../scss/mixin.scss';
 
-  #toast {
+  #confirm {
     position: fixed;
     display: flex;
     left: 0;

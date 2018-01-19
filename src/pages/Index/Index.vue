@@ -64,13 +64,13 @@
       </div>
       <div class="movie__list" v-show="type == 'near'">
         <div class="list" @click="linkToUrl('movie?id='+movie.id)" :data-id="movie.id" v-for="(movie,index) in NearMovie" :key="index">
-          <img :src="$ImgUrl + movie.imagePath" alt="" v-if="movie.imagePath">
+          <img v-lazy="$ImgUrl + movie.imagePath" alt="" v-if="movie.imagePath">
           <img src="../../assets/movie.png" alt="" v-else>
         </div>
       </div>
       <div class="movie__list" v-show="type == 'now'">
         <div class="list" @click="linkToUrl('movie?id='+movie.id)" :data-id="movie.id" v-for="(movie,index) in NowMovie" :key="index">
-          <img :src="$ImgUrl + movie.imagePath" alt="" v-if="movie.imagePath">
+          <img v-lazy="$ImgUrl + movie.imagePath" alt="" v-if="movie.imagePath">
           <img src="../../assets/movie.png" alt="" v-else>
         </div>
         <!-- <div class="list" @click="linkTo('Movie')">
@@ -140,9 +140,9 @@
                   <div class="rank__movie__name">{{movie.name}}</div>
                   <div class="rank__movie__days">上映{{movie.duration}}天</div>
                 </td>
-                <td>{{movie.receipts}}</td>
-                <td>{{movie.occupancyRate}}%</td>
-                <td class="rank__popular">{{movie.exclusivePieceRate}}%</td>
+                <td style="color:#ff4747">{{movie.receipts}}</td>
+                <td style="color:#ff4747">{{movie.occupancyRate}}%</td>
+                <td style="color:#ff4747" class="rank__popular">{{movie.exclusivePieceRate}}%</td>
               </tr>
               <tr class="empty">
                 <td colspan="4"></td>
@@ -156,8 +156,11 @@
 </template>
 
 <script>
-  import { Swiper, SwiperItem,Tabbar, TabbarItem } from 'vux'
+  import { Swiper, SwiperItem,Tabbar, TabbarItem } from 'vux';
+  import { mapGetters,mapActions } from 'vuex';
+
   export default {
+    name:'Index',
     data() {
       return {
         type: 'near',
@@ -165,19 +168,19 @@
         NowMovie: [],
         MovieRank: [],
         adList: [], //广告列表
-        userDetail: {}
       }
     },
 
     created() {
-      let result = this.getUserStorage();
-      if(result) {
-        this.userDetail = result;
-      }else {
-        //用户信息
-        this.getUserDetail();
-      }
-
+      // let result = this.getUserStorage();
+      // let result = false;
+      // if(result) {
+      //   this.userDetail = result;
+      // }else {
+      //   //用户信息
+      //   this.getUserDetail();
+      // }
+      // this.initUserDetail();
       //广告列表
       this.getAdList();
   
@@ -225,6 +228,8 @@
         this.$Api.getUserDetails().then((res) => {
           if(res.q.s == 0) {
             this.userDetail = res.q.user;
+            let json = JSON.stringify(res.q.user);
+            sessionStorage.setItem('user', json);
           }
         })
       },
@@ -249,7 +254,11 @@
             this.MovieRank = res.q.movieRankings
           }
         })
-      }
+      },
+
+      ...mapActions([
+        'initUserDetail'
+      ])
     },
     components: {
       Swiper

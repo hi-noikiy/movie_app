@@ -14,12 +14,12 @@
           <div class="comment__text">{{item.content}}</div>
 
           <div class="comment__imgs">
-            <img class="img" :src="$ImgUrl + img" alt="" v-for="img in item.images">
+            <img class="img" v-lazy="$ImgUrl + img.path" alt="" v-for="(img,index) in item.images" @click="preview(item.images, index)" :key="index" />
           </div>
 
           <div class="comment__movie" v-if="type=='comment' && item.movie" @click="linkToUrl('movie?id=' + item.movie.id)">
             <div class="movie__img">
-              <img :src="$ImgUrl + item.movie.imagePath" alt="" v-if="item.movie.imagePath">
+              <img v-lazy="$ImgUrl + item.movie.imagePath" alt="" v-if="item.movie.imagePath">
               <img src="../../assets/movie.png" alt="" v-else>
             </div>
             <div class="movie__info">
@@ -54,6 +54,7 @@
 
   export default {
     props: ['type', 'comment'],
+    
     methods: {
       del(id) {
         this.$confirm('你确定删除吗?','删除', 'confirm').then((res) => {
@@ -68,6 +69,16 @@
           }
         });
       },
+
+      preview(imgs, index) {
+        let arr = [];
+        for(let i in imgs) {
+          arr.push(this.$ImgUrl + imgs[i].path)
+        }
+
+        this.$ImagePreview(arr, index);
+      },
+
       countRate(num) {
         let number = parseFloat(num);
 

@@ -86,6 +86,21 @@
       }
     },
 
+    activated() {
+      let id = this.$route.query.id;
+      if(id) {
+        this.getMovieDetails(id);
+        let param = {
+          a: 0,
+          id,
+          pa: 1,
+          li: 10
+        }
+
+        this.getReviewList(param);
+      }
+    },
+
     methods: {
       //获取电影详情
       getMovieDetails(id) {

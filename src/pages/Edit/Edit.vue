@@ -1,7 +1,7 @@
 <template>
   <div id="edit">
     <div class="edit__image">
-      <UploadImg :uploadedList="userDetail.images" @ImgChange="getImgList"/>
+      <UploadImg :uploadedList="images" :max="8" @ImgChange="getImgList"/>
     </div>
 
     <div class="edit__input">
@@ -19,11 +19,11 @@
       </div>
 
       <group>
-        <x-input title="昵称" v-model="userDetail.nickname" text-align="right"></x-input>
+        <x-input title="昵称" v-model="nickname" text-align="right"></x-input>
       </group>
 
       <group>
-        <datetime title="生日" v-model="userDetail.birthday" format="YYYY-MM-DD" value-text-align="right"  :min-year='1900'></datetime>
+        <datetime title="生日" v-model="birthday" format="YYYY-MM-DD" value-text-align="right"  :min-year='1900'></datetime>
       </group>
 
       <group>
@@ -35,7 +35,7 @@
       </group>
 
       <group>
-        <x-address :title="'地区'" :list="addressData" v-model="addressSelect"  @on-shadow-change="onShadowChange"></x-address>
+        <x-address :title="'地区'" :list="addressData" v-model="addressSelect" @on-hide="selectAddress" @on-shadow-change="changeAddress"></x-address>
       </group>
 
       <group>
@@ -52,11 +52,11 @@
       </group>
 
       <group>
-        <x-input title="喜欢明星" v-model="userDetail.favoriteSuperStars" text-align="right" placeholder="请输入喜爱明星"></x-input>
+        <x-input title="喜欢明星" v-model="favoriteSuperStars" text-align="right" placeholder="请输入喜爱明星"></x-input>
       </group>
 
       <group>
-        <x-input title="手机号" v-model="userDetail.mobile" text-align="right"></x-input>
+        <x-input title="手机号" v-model="mobile" text-align="right"></x-input>
       </group>
     </div>
 
@@ -75,36 +75,42 @@
   export default {
     data() {
       return {
-        userDetail: {},
         addressData: ChinaAddressV4Data,
         avatar: null,
+        imagePath: '',           //头像
+        images: [],              //图片列表
+        nickname: '',            //昵称
+        birthday: '',            //生日
+        sex: '',                 //性别
+        mobile: '',              //手机
+        loveStatus: '',          //情感状态
+        favoriteSuperStars: '',  //喜爱明星
         sexSelect: [],   //男
         loveStatusSelect: [], //情感状态
-        addressSelect: [],  //地址
         industrySelect: [], //行业
-        addressSelect: [], //地区
+        addressSelect: ['110000','110100','110101'], //地区
         type: '',
         industryText: ''
       }
     },
 
     created() {
-      let user = sessionStorage.getItem('user');
       // let user = null;
-      if(user) {
+      this.utilUserDetail().then(() => {
         let sexSelectJSON = sessionStorage.getItem('sexSelect');
         let loveStatusSelectJSON = sessionStorage.getItem('loveStatusSelect');
         let addressSelectJSON = sessionStorage.getItem('addressSelect');
         let industrySelectJSON = sessionStorage.getItem('industrySelect');
         let typeJSON = sessionStorage.getItem('favoriteTypes');
+        let avatarJSON = sessionStorage.getItem('avatar');
+        let imagePathJSON = sessionStorage.getItem('imagePath');
+        let signatureJSON = sessionStorage.getItem('signature');
         let sexSelect,addressSelect=[],loveStatusSelect,industrySelect,typeSelect;
-        let userDetail = JSON.parse(user);
-        sessionStorage.setItem('signature', userDetail.signature);
 
         if(sexSelectJSON) {
           sexSelect = JSON.parse(sexSelectJSON);
         }else {
-          if(userDetail.sex == 1) {
+          if(this.userDetail.sex == 1) {
             sexSelect = ['男']
           }else {
             sexSelect = ['女']
@@ -114,13 +120,13 @@
         if(loveStatusSelectJSON) {
           loveStatusSelect = JSON.parse(loveStatusSelectJSON);
         }else {
-          if(userDetail.loveStatus == 1) {
+          if(this.userDetail.loveStatus == 1) {
             loveStatusSelect = ['隐藏']
-          }else if(userDetail.loveStatus == 2) {
+          }else if(this.userDetail.loveStatus == 2) {
             loveStatusSelect = ['单身']
-          }else if(userDetail.loveStatus == 3) {
+          }else if(this.userDetail.loveStatus == 3) {
             loveStatusSelect = ['情侣']
-          }else if(userDetail.loveStatus == 4) {
+          }else if(this.userDetail.loveStatus == 4) {
             loveStatusSelect = ['已婚']
           }
         }
@@ -128,15 +134,17 @@
         if(addressSelectJSON) {
           addressSelect = JSON.parse(addressSelectJSON);
         }else {
-          console.log(userDetail)
-          let regionId = userDetail.regionId?userDetail.regionId:'110101';
-          console.log(regionId)
-          addressSelect[0] = regionId.substr(0,2) + '0000';
-          addressSelect[1] = regionId.substr(0,4) + '00';
-          addressSelect[2] = regionId;
+          if(this.userDetail.regionInfo && this.userDetail.regionInfo.length == 3) {
+            addressSelect[0] = this.userDetail.regionInfo[0].id;
+            addressSelect[1] = this.userDetail.regionInfo[1].id;
+            addressSelect[2] = this.userDetail.regionInfo[2].id;
+          }else {
+            let regionId = this.userDetail.regionId?this.userDetail.regionId:'110101';
+            addressSelect[0] = regionId.substr(0,2) + '0000';
+            addressSelect[1] = regionId.substr(0,4) + '00';
+            addressSelect[2] = regionId;
+          }
         }
-
-        console.log(1)
 
         if(typeJSON) {
           let type = JSON.parse(typeJSON);
@@ -147,7 +155,7 @@
           console.log(str.join('/'));
           typeSelect = str.join('/')
         }else {
-          let type = userDetail.favoriteTypes;
+          let type = this.userDetail.favoriteTypes;
           if(type.length > 0) {
             let str = [];
             for(let i in type) {
@@ -164,7 +172,7 @@
           let result = this.getIndustry(type);
           industrySelect = result.value;
         }else {
-          let id = userDetail.industryId;
+          let id = this.userDetail.industryId;
           console.log(id);
           if(id && id != '0') {
             let result = this.getIndustry(id);
@@ -174,45 +182,64 @@
           }
         }
 
+        if(!signatureJSON && this.userDetail.signature) {
+          sessionStorage.setItem('signature', this.userDetail.signature)
+        }
+
+        this.avatar = avatarJSON;
+        this.imagePath = imagePathJSON;
         this.industryText = industrySelect;
         this.type = typeSelect;
-        this.userDetail = userDetail;
         this.addressSelect = addressSelect;
         this.sexSelect = sexSelect;
         this.loveStatusSelect = loveStatusSelect;
-      }else {
-        this.getUserDetail();
-      }
+        this.birthday = this.userDetail.birthday;
+        this.favoriteSuperStars = this.userDetail.favoriteSuperStars;
+        this.nickname = this.userDetail.nickname;
+        this.mobile = this.userDetail.mobile;
+        this.images = this.userDetail.images;
+      })
     },
 
     methods: {
-      onShadowChange(val) {
-        console.log(val)
-        this.userDetail.regionId = val[2];
-      },
 
       selectSex(val) {
         if(val[0] == '男') {
-          this.userDetail.sex = 1;
+          this.sex = 1;
         }else if(val[0] == '女') {
-          this.userDetail.sex = 2;
+          this.sex = 2;
         }
       },
 
       selectLoveStatus(val) {
         if(val[0] == '隐藏') {
-          this.userDetail.loveStatus = 1;
+          this.loveStatus = 1;
         }else if(val[0] == '单身') {
-          this.userDetail.loveStatus = 2;
+          this.loveStatus = 2;
         }else if(val[0] == '情侣') {
-          this.userDetail.loveStatus = 3;
+          this.loveStatus = 3;
         }else if(val[0] == '已婚') {
-          this.userDetail.loveStatus = 4;
+          this.loveStatus = 4;
         }
       },
 
-      selectIndustry(val) {
-        this.userDetail.industryId = 1;
+      // selectIndustry(val) {
+      //   this.userDetail.industryId = 1;
+      // },
+
+      changeAddress(val) {
+        this.addressSelect = val;
+        console.log(val)
+      },
+
+      //选择地区
+      selectAddress(val) {
+        if(val) {
+          let json = JSON.stringify(this.addressSelect);
+          sessionStorage.setItem('addressSelect', json);
+          let res = sessionStorage.getItem('addressSelect');
+          console.log(res, '结果')
+        }
       },
 
       //打开上传图片
@@ -234,8 +261,10 @@
             oFReader.readAsDataURL(oFile);
             oFReader.onload = (oFREvent) => {
               this.avatar = oFREvent.currentTarget.result;
-              this.userDetail.imagePath = res.q.files[0].path;
+              this.imagePath = res.q.files[0].path;
               oFile.value = '';
+              sessionStorage.setItem('avatar', oFREvent.currentTarget.result);
+              sessionStorage.setItem('imagePath', res.q.files[0].path);
             };
           }
         })
@@ -245,7 +274,7 @@
 
       //设置图片列表
       getImgList(val) {
-        this.userDetail.images = val;
+        this.images = val;
       },
 
       showDate(date) {
@@ -256,7 +285,7 @@
           minYear: 1900,
           value: date,
           onConfirm: (val) => {
-            this.userDetail.birthday = val
+            this.birthday = val
           },
           onShow () {
             console.log('plugin show')
@@ -275,18 +304,23 @@
 
       submit() {
         console.log(this.userDetail);
-        let nickname = this.userDetail.nickname;
-        let imagePath = this.userDetail.imagePath;
-        let sex = this.userDetail.sex;
-        let images = this.userDetail.images;
-        let birthday = this.userDetail.birthday;
-        let loveStatus = this.userDetail.loveStatus;
+        let nickname = this.nickname;
+        let imagePath = this.imagePath;
+        let sex = this.sex;
+        let images = this.images;
+        let birthday = this.birthday;
+        let loveStatus = this.loveStatus;
         let favoriteTypes = [];
-        let favoriteSuperStars = this.userDetail.favoriteSuperStars;
-        let regionId = this.userDetail.regionId;
+        let favoriteSuperStars = this.favoriteSuperStars;
+        let regionId = this.addressSelect[2];
         let signature = sessionStorage.getItem('signature');
         let typeJSON = sessionStorage.getItem('favoriteTypes');
         let industryId = sessionStorage.getItem('industrySelect');
+
+        //限制图片为8位
+        if(images.length > 8) {
+          images.splice(8, images.length);
+        }
 
         if(typeJSON) {
           let type = JSON.parse(typeJSON);
@@ -323,6 +357,9 @@
           industryId,
           regionId
         }
+
+        console.log(params)
+        // return false;
 
         this.$Api.UserUpdate(params).then((res) => {
           console.log(res)
@@ -367,6 +404,8 @@
         sessionStorage.removeItem('favoriteTypes');
         sessionStorage.removeItem('industrySelect');
         sessionStorage.removeItem('signature');
+        sessionStorage.removeItem('avatar');
+        sessionStorage.removeItem('imagePath');
       },
 
       setSessionStorage() {

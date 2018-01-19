@@ -3,7 +3,7 @@
     <div class="collect__list">
       <div class="collection" v-for="(item, index) in coupons" :key="index"  @click="linkToUrl('goods?id='+item.id)">
         <div class="collection__left">
-          <img :src="$ImgUrl + item.imagePath" alt="">
+          <img v-lazy="$ImgUrl + item.imagePath" alt="">
         </div>
         <div class="collection__right">
           <div class="right__title">

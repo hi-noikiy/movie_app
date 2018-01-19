@@ -73,6 +73,8 @@
             this.$toast('验证成功，请返回首页').then(() => {
               this.$router.push({name:'Index'})
             })
+          }else {
+            this.$toast(res.q.d, 'fail');
           }
         })
       }

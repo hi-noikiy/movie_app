@@ -8,21 +8,22 @@
         <div slot="content" class="demo-content vux-1px-t">
           <div class="invite">
             <div class="invite__left">
-              <img src="../../assets/avatar.png" alt="">
+              <img :src="$ImgUrl + item.imagePath" alt="" v-if="item.imagePath">
+              <img src="../../assets/avatar.png" alt="" v-else>
             </div>
             <div class="invite__right">
               <div class="invite__right__info">
-                <div class="info__name">{{item.nickname}}</div>
+                <div class="info__name">{{item.nickname}}<span :class="{'sex_b': item.sex == 1, 'sex_g': item.sex == 2}">{{item.age}}</span></div>
                 <div class="info__dis" v-if="type == 'invite'">1.2km</div>
                 <div class="info__dis" v-else-if="type == 'friend'">{{item.signature?item.signature:'暂无'}}</div>
-                <div class="info__dis" v-else-if="type == 'message'">ccccccccccccccccccccc</div>
+                <div class="info__dis" v-else-if="type == 'message'">{{item.msgs}}</div>
               </div>
 
               <template v-if="type == 'friend'">
                 <div class="invite__right__btn" @click="inviteMovie(item.id)">约电影</div>
               </template>
               <template v-else-if="type == 'message'">
-                <badge class="invite__right__mes" text="888"></badge>
+                <badge class="invite__right__mes" :text="item.unread"></badge>
               </template>
             </div>
           </div>

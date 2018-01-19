@@ -2,19 +2,19 @@
   <div id="person">
     <div class="person__wrap">
       <div class="person__header">
-        <div class="header__avatar">
+        <div class="header__avatar" @click="previewAvatar">
           <img :src="$ImgUrl + user.imagePath" alt="" v-if="user.imagePath">
           <img src="../../assets/avatar.png" alt="" v-else>
         </div>
         <div class="header__name">
           <span class="header__name__detail">{{user.nickname}}</span>
-          <span class="header__name__sex" :class="{'sex_b': user.sex == 1, 'sex_g': user.sex == 2}">{{user.age}}</span>
+          <span class="header__name__sex" :class="{'fsex_b': user.sex == 1, 'fsex_g': user.sex == 2}">{{user.age}}</span>
         </div>
       </div>
 
-      <div class="person__image clearfix">
-        <div class="image" v-for="img in user.images">
-          <img :src="$ImgUrl + img.path" alt="">
+      <div class="person__image clearfix" v-cloak>
+        <div class="image" v-for="(img,index) in user.images" v-if="index <= 8" @click="preview(index)">
+          <img v-lazy="$ImgUrl + img.path" alt="">
         </div>
       </div>
 
@@ -44,11 +44,11 @@
           </div>
           <div class="detail">
             <div class="detail__left">行业</div>
-            <div class="detail__right">{{industry.value}}</div>
+            <div class="detail__right" v-if="industry">{{industry.value}}</div>
           </div>
           <div class="detail">
             <div class="detail__left">地区</div>
-            <div class="detail__right">广州 天河区</div>
+            <div class="detail__right" v-if="user.regionInfo.length >= 2">{{user.regionInfo[0].name + user.regionInfo[1].name + (user.regionInfo[2]?user.regionInfo[2].name:'')}}</div>
           </div>
           <div class="detail">
             <div class="detail__left">喜欢明星</div>
@@ -62,7 +62,7 @@
       <cell class="comment" title="TA的影评" :value="user.statMovieReview?user.statMovieReview:'0' + '条'" is-link @click.native="linkToUrl('myComment?id=' + id)"></cell>
     </group>
     
-    <div class="person__bottomBtn" v-if="id">
+    <div class="person__bottomBtn" v-if="id && !self">
       <span class="buttonBtn" @click="linkToUrl('addFriend?id='+ $route.query.id)">加好友</span>
       <span class="buttonBtn invite" @click="DateSubmit">立即约影</span>
     </div>
@@ -82,16 +82,37 @@
     data() {
       return {
         user: {},
-        id: this.$route.query.id?this.$route.query.id:''
+        id: this.$route.query.id?this.$route.query.id:'',
+        self: false
       }
     },
+
     created() {
       let id  = this.$route.query.id;
       if(id) {
-        this.getUserDetails(id);
+        if(this.userDetail.id != id) {
+          this.getUserDetails(id);
+        }else {
+          this.user = this.userDetail;
+          this.self = true;
+        }
       }else {
-        let result = this.getUserStorage();
-        this.user = result;
+        this.user = this.userDetail;
+      }
+    },
+
+    activated() {
+      let id  = this.$route.query.id;
+      this.id = this.$route.query.id;
+      if(id) {
+        if(this.userDetail.id != id) {
+          this.getUserDetails(id);
+        }else {
+          this.user = this.userDetail;
+          this.self = true;
+        }
+      }else {
+        this.user = this.userDetail;
       }
     },
 
@@ -124,6 +145,20 @@
         }else {
           return {};
         }
+      },
+
+      imglist() {
+        let imgs = this.user.images;
+        let arr = [];
+        if(imgs) {
+          for(let i in imgs) {
+            arr.push(this.$ImgUrl + imgs[i].path)
+          }
+
+          return arr;
+        }else {
+          return arr;
+        }
       }
     },
 
@@ -145,6 +180,15 @@
             this.$toast('已发送约影请求！')
           }
         })
+      },
+
+      preview(index) {
+        console.log(this.imglist);
+        this.$ImagePreview(this.imglist, index);
+      },
+
+      previewAvatar() {
+        this.$ImagePreview([this.$ImgUrl + this.user.imagePath]);
       }
     },
     components: {

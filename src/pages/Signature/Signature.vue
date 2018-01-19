@@ -19,6 +19,7 @@
     },
     created() {
       let signature = sessionStorage.getItem('signature', this.signature);
+      
       if(signature) {
         this.signature = signature;
       }
@@ -30,10 +31,9 @@
           return false;
         }
 
-        sessionStorage.setItem('signature', this.signature);
-
         this.$toast('提交成功').then(() => {
-          this.$router.push({name: 'Edit'});
+          sessionStorage.setItem('signature', this.signature);
+          this.$router.go(-1);
         });
       }
     },

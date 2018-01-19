@@ -52,7 +52,6 @@
     data() {
       return {
         dateList: [],
-        userDetail: {},
         monthFirst: 0,
         couponList: []
       }
@@ -60,7 +59,12 @@
 
     created() {
       this.initDate().then(() => {
-        this.getUserDetail();
+        // this.getUserDetail();
+        this.utilUserDetail().then((res) => {
+          console.log(res)
+          console.log(this.userDetail)
+          this.signDate();
+        })
       })
       this.getCouponList();
     },
@@ -76,7 +80,8 @@
           if(res.q.s == 0) {
             this.$confirm('(第一次) 签到1天赠送10积分/签到连续2天签到赠送20积分，明天连续签到送30积分哦！')
             //更新资料
-            this.getUserDetail();
+            // this.getUserDetail();
+            this.updateUserDetail();
           }else {
             this.$toast(res.q.d, 'fail');
           }
@@ -84,21 +89,16 @@
       },
 
       //获取用户信息
-      getUserDetail() {
-        this.$Api.getUserDetails().then((res) => {
-          if(res.q.s == 0) {
-            this.userDetail = res.q.user;
-            let signDays = this.userDetail.signDays;
-            if(signDays.length > 0) {
-              for(let i in signDays) {
-                let index = parseInt(signDays[i]) + parseInt(this.monthFirst) - 1;
-                this.dateList[index].signed = true;
-                let obj = this.dateList[index];
-                this.dateList.splice(index, 1, obj);
-              }
-            }
+      signDate() {
+        let signDays = this.userDetail.signDays;
+        if(signDays.length > 0) {
+          for(let i in signDays) {
+            let index = parseInt(signDays[i]) + parseInt(this.monthFirst) - 1;
+            this.dateList[index].signed = true;
+            let obj = this.dateList[index];
+            this.dateList.splice(index, 1, obj);
           }
-        })
+        }
       },
 
       //显示签到规则

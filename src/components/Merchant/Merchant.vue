@@ -5,7 +5,7 @@
         <div class="left__name">{{cinema.name}}</div>
         <div class="left__content">{{cinema.address}}</div>
       </div>
-      <div class="merchant__right">
+      <div class="merchant__right"  @click="linkToTel">
         <span class="merchant__right__phone"></span>
       </div>
     </div>
@@ -14,7 +14,7 @@
         <div class="left__name">{{cinema.name}}</div>
         <div class="left__content">{{cinema.address}}</div>
       </div>
-      <div class="merchant__right">
+      <div class="merchant__right" @click="linkToTel">
         <span class="merchant__right__phone"></span>
       </div>
     </div>
@@ -27,6 +27,12 @@
     data() {
       return {
 
+      }
+    },
+
+    methods: {
+      linkToTel() {
+        window.location.href='tel:123456789'
       }
     }
   }  

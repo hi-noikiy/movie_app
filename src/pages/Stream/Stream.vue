@@ -7,7 +7,7 @@
           <div class="left__date">{{item.addTime}}</div>
         </div>
         <div class="stream__right">
-          <div class="right__control" :class="{'add': parseInt(item.amount) >  0, 'sub': parseInt(item.amount) <  0}">{{(parseInt(item.amount) >  0?'+':'-') + item.amount}}</div>
+          <div class="right__control" :class="{'add': parseInt(item.amount) >  0, 'sub': parseInt(item.amount) <  0}">{{(parseInt(item.amount) >  0?'+':'') + item.amount}}</div>
           <div class="right__detail"></div>
         </div>
       </div>

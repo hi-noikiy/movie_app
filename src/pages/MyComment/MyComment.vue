@@ -29,6 +29,24 @@
         this.getReviewList(param);
       }
     },
+
+    activated() {
+      let param;
+      this.id = this.$route.query.id;
+      if(this.id) {
+        param = {
+          a: 0,
+          userId: this.id,
+        }
+        this.getReviewList(param);
+      }else {
+        param = {
+          a: 5,
+        }
+        this.getReviewList(param);
+      }
+    },
+
     methods: {
       getReviewList(param) {
         this.$Api.getReviewList(param).then((res) => {

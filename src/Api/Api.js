@@ -647,6 +647,27 @@ const Api = {
   },
 
   /**
+   * 33	业务，评价评论操作CommentUpdate（H5、APP）
+   * 
+   * @param {a}  1删除
+   * @param {id}  评论id
+   * @returns 
+   */
+  CommentUpdate(id) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'CommentUpdate',
+          q: {
+            a: 1,
+            id
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 34业务，评价赞列表 PraiseList（H5、 APP）
    * 
    * @param {id}  评价 id

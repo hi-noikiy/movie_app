@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <!-- <keep-alive> -->
+    <keep-alive :include="['Index','Store']">
       <router-view/>
-    <!-- </keep-alive> -->
+      <loading v-model="isLoading"></loading>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-  import { Tabbar, TabbarItem } from 'vux'
+  import { mapState } from 'vuex'
+  import { Tabbar, TabbarItem, Loading } from 'vux'
   export default {
     name: 'app',
     created() {
@@ -64,9 +66,16 @@
       }
     },
 
+    computed: {
+      ...mapState({
+        isLoading: state => state.isLoading
+      })
+    },
+
     components: {
       Tabbar,
-      TabbarItem
+      TabbarItem,
+      Loading
     }
   }
 </script>
@@ -270,8 +279,9 @@
     }
   }
 
-  .sex_g {
+  %sex {
     position: relative;
+    margin-left: boxValue(10);
     font-size: 10px;
     padding: boxValue(2) boxValue(12);
     height: boxValue(24);
@@ -286,33 +296,46 @@
       top: 50%;
       right: boxValue(9);
       transform: translateY(-50%);
-      height: boxValue(22);
-      width: boxValue(22);
-      background: url('assets/girl.png') no-repeat;
+      height: boxValue(18);
+      width: boxValue(18);
+      background-image: url('assets/girl.png');
+      background-repeat: no-repeat;
       background-size: 100%;
+      background-position: center;
+    }
+  }
+
+  .sex_g {
+    @extend %sex;
+  }
+
+  .fsex_g {
+    @extend %sex;
+
+    padding-right: boxValue(12);
+    padding-left: boxValue(40);
+
+    &::after {
+      left: boxValue(9);
     }
   }
 
   .sex_b {
-    position: relative;
-    font-size: 10px;
-    padding: boxValue(2) boxValue(12);
-    height: boxValue(24);
-    padding-right: boxValue(40);
-    color: #fff;
+    @extend %sex;
     background: #27adff;
-    border-radius: boxValue(6);
 
     &::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: boxValue(9);
-      transform: translateY(-50%);
-      height: boxValue(22);
-      width: boxValue(22);
-      background: url('assets/boy.png') no-repeat;
-      background-size: 100%;
+      background-image: url('assets/boy.png');
+    }
+  }
+
+  .fsex_b {
+    @extend .sex_b;
+    padding-right: boxValue(12);
+    padding-left: boxValue(40);
+
+    &::after {
+      left: boxValue(9);
     }
   }
 </style>

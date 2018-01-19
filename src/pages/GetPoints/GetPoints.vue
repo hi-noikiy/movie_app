@@ -14,7 +14,7 @@
     flex-direction: column;
     justify-content: space-around;
     height: 100%;
-    background-image: url('../../assets/loginbg.jpg');
+    background-image: url('../../assets/bg.jpg');
     background-size: 100%;
 
     .btn {

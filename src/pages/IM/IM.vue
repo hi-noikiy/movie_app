@@ -1,25 +1,79 @@
 <template>
   <div id="im">
+    <div class="mes" v-for="item in MsgList">
+      {{item.elems[0].content.text}}
+    </div>
     <input type="text" placeholder="请输入">
-    <button>发送</button>
+    <button @click="sendC2cMsg">发送</button>
   </div>  
 </template>
 
 <script>
   export default {
+    data() {
+      return {
+        replay: {},
+        MsgList: [],
+        toAccount: this.$route.query.id,
+        userDetail: {}
+      }
+    },
     created() {
       let user = this.getUserStorage();
-      console.log(user)
-      var accountType = 792;
+      this.userDetail = user;
 
-      var loginInfo = {
-        'sdkAppID': 1400001533, //用户所属应用id,必填
-        'identifier': null, //当前用户ID,必须是否字符串类型，必填
-        'accountType': accountType, //用户所属应用帐号类型，必填
-        'userSig': null, //当前用户身份凭证，必须是字符串类型，必填
-        'identifierNick': null, //当前用户昵称，不用填写，登录接口会返回用户的昵称，如果没有设置，则返回用户的id
-        'headurl': 'img/me.jpg' //当前用户默认头像，选填，如果设置过头像，则可以通过拉取个人资料接口来得到头像信息
+      let toAccount = this.$route.query.id;
+      var sess=webim.MsgStore.sessByTypeId(webim.SESSION_TYPE.C2C, toAccount);
+      if (!sess) {
+        sess = new webim.Session(webim.SESSION_TYPE.C2C, toAccount, toAccount, '', Math.round(new Date().getTime() / 1000));
+      }
+      webim.setAutoRead(sess, true, false);
+      var options = {
+        'Peer_Account': toAccount, //好友帐号
+        'MaxCnt': 10, //拉取消息条数
+        'LastMsgTime': 0, //最近的消息时间，即从这个时间点向前拉取历史消息
+        'MsgKey': ''
       };
+      webim.getC2CHistoryMsgs(
+        options,
+        (resp) => {
+          console.log(resp)
+          if(resp.MsgList) {
+            this.MsgList.push(...resp.MsgList)
+          }
+        },
+      );
+      // this.MsgList.push(...sess._impl.msgs)
+    },
+    
+    methods: {
+      sendC2cMsg(){
+
+          let toAccount= this.toAccount;
+
+          var sess=webim.MsgStore.sessByTypeId(webim.SESSION_TYPE.C2C, toAccount);
+          var isSend = true;//是否为自己发送
+          var seq = -1;//消息序列，-1表示sdk自动生成，用于去重
+          var random = Math.round(Math.random() * 4294967296);//消息随机数，用于去重
+          var msgTime = Math.round(new Date().getTime() / 1000);//消息时间戳
+          var subType;//消息子类型
+
+          subType = webim.C2C_MSG_SUB_TYPE.COMMON;
+
+          var msg = new webim.Msg(sess, isSend, seq, random, msgTime, this.userDetail.id, subType, this.userDetail.nickname);
+
+          var text_obj;
+
+          text_obj = new webim.Msg.Elem.Text('测试哈');
+          msg.addText(text_obj);
+
+          webim.sendMsg(msg, function (resp) {
+            console.log('cc')
+              webim.Tool.setCookie("tmpmsg_" + toAccount, '', 0);
+          }, function (err) {
+              alert(err.ErrorInfo);
+          });
+      }
     }
   }
 </script>

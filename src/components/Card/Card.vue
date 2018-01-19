@@ -28,16 +28,35 @@
 
       <div class="collection" v-for="(item,index) in cardList">
         <div class="collection__left">
-          <img :src="$ImgUrl + item.imagePath" alt="">
+          <img v-lazy="$ImgUrl + item.imagePath" alt="">
         </div>
         <div class="collection__right">
           <div class="right__title">
             {{item.name}}
           </div>
-          <div class="right__price">
+          <div class="right__price" v-if="item.type == 1 || item.type == 3">
             <span>面值</span>
             <span class="price__num">{{item.price}}</span>
             <span>元</span>
+          </div>
+          <div class="right__price" v-if="item.type == 2">
+            <span class="price__num">{{item.integral}}</span>
+            <span>积分</span>
+          </div>
+          <div class="right__price" v-if="item.type == 4">
+            <span class="price__num">{{item.integral}}</span>
+            <span>积分+</span>
+            <span class="price__num">{{item.price}}</span>
+            <span>元</span>
+          </div>
+          <div class="right__marketPrice">
+            <span>原价</span>
+            <span class="price__num">{{item.marketPrice}}</span>
+            <span>元</span>
+          </div>
+          <div class="right__date">
+            <span>有效期:</span>
+            <span class="price__num">{{item.deadline}}</span>
           </div>
         </div>
         <div class="collection__btn active" v-if="type == 'active'" @click="linkToUrl('code?val='+item.code)">
@@ -164,6 +183,14 @@
               font-size: boxValue(34);
               font-weight: 600;
             }
+          }
+
+          .right__marketPrice {
+            color: #666;
+          }
+
+          .right__date {
+            color: #ff4444;
           }
         }
 

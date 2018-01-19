@@ -59,16 +59,10 @@
     data() {
       return {
         list: [],
-        userDetail: {}
       }
     },
 
     created() {
-      let result = this.getUserStorage();
-      if(result) {
-        this.userDetail = result;
-      }
-
       this.getUserRankList();
     },
 

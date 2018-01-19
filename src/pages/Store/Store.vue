@@ -29,10 +29,11 @@
     </div>
 
     <div>
-      <div class="tab" style="overflow-y:hidden">
-        <tab  style="width:500px;" :line-width=2 active-color='#01a9ff' v-model="index" custom-bar-width="40%">
+      <div class="tab">
+        <!-- <tab  style="width:500px;" :line-width=2 active-color='#01a9ff' v-model="index" custom-bar-width="40%">
           <tab-item class="vux-center" v-for="(item, index) in list" @on-item-click="changeType(item.id)" :key="index">{{item.name}}</tab-item>
-        </tab>
+        </tab> -->
+        <div class="tab__item" v-for="(item, index) in list" :class="{'active': index == activeIndex}"  @click="changeType(item.id, index)">{{item.name}}</div>
       </div>
 
       <div class="item__wrap" ref="items">
@@ -47,9 +48,10 @@
   import Item from '@/components/Item/Item'
 
   export default {
+    name:'Store',
     data () {
       return {
-        index01: 0,
+        activeIndex: 0,
         list: null,
         adList: [],
         newList: [],
@@ -83,8 +85,9 @@
     },
 
     methods: {
-      changeType(id) {
+      changeType(id, index) {
         console.log(id);
+        this.activeIndex = index;
         this.getCouponList(1, id);
       },
 
@@ -94,7 +97,7 @@
           if(res.q.s == 0) {
             this.list = res.q.categorys;
             if(this.list.length > 0) {
-              this.getCouponList(1, 4);
+              this.getCouponList(1, this.list[0].id);
             }
           }
         })
@@ -227,7 +230,9 @@
         background: #fff;
 
         .news__title {
+          display: inline-block;
           padding: 0 boxValue(30);
+          width: boxValue(200);
           font-size: boxValue(30);
           line-height: boxValue(74);
           color: #ff4747;
@@ -246,6 +251,39 @@
               height: 30px;
               line-height: 30px;
             }
+          }
+        }
+      }
+    }
+    
+    .tab {
+      width: 100%;
+      height: boxValue(70);
+      line-height: boxValue(70);
+      overflow-y: scroll;
+      white-space: nowrap;
+      background: #fff;
+
+      .tab__item {
+        display: inline-block;
+        font-size: boxValue(24);
+        font-weight: 600;
+        margin: 0 boxValue(24);
+        color: #666;
+
+        &.active {
+          position: relative;
+          color: #333;
+
+          &::after {
+            content: '';
+            position: absolute;
+            left: 20%;
+            bottom: 0;
+            width: 60%;
+            height: boxValue(4);
+            background: #04a6fb;
+            border-radius: boxValue(1);
           }
         }
       }
