@@ -49,7 +49,6 @@
 
             for(let i = 1; i <= count; i++) {
               setTimeout(() => {
-                console.log(i)
                 if(i == count) {
                   this.isSend = false;
                   this.sendText = '获取验证码'
@@ -71,6 +70,7 @@
         this.$Api.getSMSCode(2, 1, this.mobile, this.code).then((res) => {
           if(res.q.s == 0) {
             this.$toast('验证成功，请返回首页').then(() => {
+              this.updateUserDetail();
               this.$router.push({name:'Index'})
             })
           }else {

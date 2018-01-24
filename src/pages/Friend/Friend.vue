@@ -18,15 +18,14 @@
   export default {
     data() {
       return {
-        userDetail: {},
         userList: []
       }
     },
     created() {
-      let json = sessionStorage.getItem('user');
-      if(json) {
-        this.userDetail = JSON.parse(json);
-      }
+      // let json = sessionStorage.getItem('user');
+      // if(json) {
+      //   this.userDetail = JSON.parse(json);
+      // }
 
       // this.updateUserDetail();
       this.getUserList();

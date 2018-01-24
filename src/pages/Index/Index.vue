@@ -157,7 +157,7 @@
 
 <script>
   import { Swiper, SwiperItem,Tabbar, TabbarItem } from 'vux';
-  import { mapGetters,mapActions } from 'vuex';
+  import { mapActions } from 'vuex';
 
   export default {
     name:'Index',
@@ -195,6 +195,13 @@
       // this.$Api.getSetting().then((res) => {
       //   console.log(res)
       // })
+    },
+
+    activated() {
+      this.initUserDetail();
+      this.utilUserDetail().then(() => {
+        this.initIM();
+      })
     },
 
     methods: {
@@ -257,7 +264,7 @@
       },
 
       ...mapActions([
-        'initUserDetail'
+        'initIM'
       ])
     },
     components: {

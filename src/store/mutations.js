@@ -10,7 +10,7 @@ export default {
     state.isLoading = payload.isLoading
   },
 
-  ['hello'] (state, payload) {
-    state.userDetail.canUseIntegral--;
+  [types.ADD_ONE_SESS] (state, {sess}) {
+    state.recentSessMap.push(sess);
   }
 }

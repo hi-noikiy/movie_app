@@ -26,27 +26,27 @@
       </div>
 
       <div class="info__control" v-else-if="item.status == 2">
-        <span class="control__left send">发信息</span>
+        <span class="control__left send" @click="linkToUrl('IM?id=' + item.id + '&img=' + item.imagePath)">发信息</span>
         <span class="control__right ticket" @click="linkToUrl('uploadTicket?id='+item.id)">晒票根</span>
       </div>
 
       <div class="info__control" v-else-if="item.status == 3">
-        <span class="control__left send">发信息</span>
+        <span class="control__left send" @click="linkToUrl('IM?id=' + item.id + '&img=' + item.imagePath)">发信息</span>
         <span class="control__right send" @click="linkToUrl('uploadResult?img='+item.imagePath)">查看票根</span>
       </div>
 
       <div class="info__control" v-else-if="item.status == 4">
-        <span class="control__left send">发信息</span>
+        <span class="control__left send" @click="linkToUrl('IM?id=' + item.id + '&img=' + item.imagePath)">发信息</span>
         <span class="control__right cancel" @click="linkToUrl('uploadTicket?id='+item.id)">重新上传票根</span>
       </div>
 
       <div class="info__control" v-else-if="item.status == 5">
-        <span class="control__left send">发信息</span>
+        <span class="control__left send" @click="linkToUrl('IM?id=' + item.id + '&img=' + item.imagePath)">发信息</span>
         <span class="control__right ticket" @click="linkToUrl('uploadResult?img='+item.imagePath)">查看票根</span>
       </div>
 
       <div class="info__control" v-else-if="item.status == 6">
-        <span class="control__left send">发信息</span>
+        <span class="control__left send" @click="linkToUrl('IM?id=' + item.id + '&img=' + item.imagePath)">发信息</span>
         <span class="control__right send">已拒绝</span>
       </div>
     </div>
@@ -109,6 +109,7 @@
           if(res.q.s == 0) {
             this.$toast('拒绝成功!');
             this.dateList[index].status = 6;
+            this.updateUserDetail();
           }
         })
       },
@@ -119,6 +120,7 @@
           if(res.q.s == 0) {
             this.$toast('同意成功!');
             this.dateList[index].status = 2;
+            this.updateUserDetail();
           }
         })
       }

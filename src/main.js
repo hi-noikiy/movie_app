@@ -33,7 +33,11 @@ Vue.prototype.$ImgUrl = Api.getImgUrl();
 
 Vue.mixin({
   created() {
-    this.initUserDetail();
+    try {
+      this.initUserDetail();
+    } catch (error) {
+      console.log(error);
+    }
   },
   methods: {
     linkTo(name) {
@@ -44,15 +48,15 @@ Vue.mixin({
       this.$router.push(url)
     },
 
-    updateUserDetail() {
-      this.$Api.getUserDetails().then((res) => {
-        console.log(res)
-        if(res.q.s == 0) {
-          let json = JSON.stringify(res.q.user);
-          sessionStorage.setItem('user', json);
-        }
-      })
-    },
+    // updateUserDetail() {
+    //   this.$Api.getUserDetails().then((res) => {
+    //     console.log(res)
+    //     if(res.q.s == 0) {
+    //       let json = JSON.stringify(res.q.user);
+    //       sessionStorage.setItem('user', json);
+    //     }
+    //   })
+    // },
 
     getUserStorage() {
       let json = sessionStorage.getItem('user');

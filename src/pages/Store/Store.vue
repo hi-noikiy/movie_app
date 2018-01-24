@@ -57,7 +57,6 @@
         newList: [],
         couponList: [],
         index: 0,
-        userDetail: {}
       }
     },
 
@@ -65,9 +64,10 @@
       this.getCategoryList();
       this.getAdList();
       this.getNews();
+    },
 
-      let result = this.getUserStorage();
-      this.userDetail = result;
+    activat() {
+      this.initUserDetail();
     },
 
     mounted() {

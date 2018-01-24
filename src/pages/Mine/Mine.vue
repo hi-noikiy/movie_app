@@ -14,7 +14,7 @@
             <span class="tab tab__member" @click="linkToLevel">
               {{userDetail.integralLevel == '1'?'大众会员':userDetail.integralLevel == '2'?'黄金会员':userDetail.integralLevel == '3'?'铂金会员':userDetail.integralLevel == '4'?'钻石会员':userDetail.integralLevel == '5'?'至尊会员':''}}
             </span>
-            <span class="tab tab__friend" @click="test">交友达人</span>
+            <span class="tab tab__friend">交友达人</span>
             <span class="tab tab__singIn" @click="linkTo('Sign')">签到+{{userDetail.getFromSign}}</span>
           </div>
         </div>

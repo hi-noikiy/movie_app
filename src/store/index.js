@@ -8,7 +8,10 @@ Vue.use(Vuex);
 
 const state = {
   userDetail: {},
-  isLoading: false
+  isLoading: false,
+
+  unread: [],
+  recentSessMap: []
 }
 
 export default new Vuex.Store({

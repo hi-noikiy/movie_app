@@ -326,6 +326,9 @@
             float: right;
             text-align: right;
             width: 70%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
           }
         }
       }

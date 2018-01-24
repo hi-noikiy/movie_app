@@ -1,11 +1,11 @@
 <template>
   <div id="game">
     <div class="game__list">
-      <div class="game" @click="link(1)">
+      <div class="game" @click="link(2)">
         <img src="../../assets/1.jpg" alt="">
       </div>
       
-      <div class="game" @click="link(2)">
+      <div class="game" @click="link(1)">
         <img src="../../assets/2.jpg" alt="">
       </div>
 
@@ -35,7 +35,7 @@
     
     methods: {
       link(type) {
-        location.href = 'http://api.yyh517.com/app/game_' + type + '.html'
+        location.href = 'http://game.yyh517.com/#/game_' + type;
       }
     }
   }

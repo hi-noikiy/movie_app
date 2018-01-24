@@ -4518,7 +4518,8 @@ var webim = { // namespace object webim
                     selSess._impl.isAutoRead = isOn; //
                     if (isOn) { //是否调用已读上报接口
                         selSess._impl.unread = 0;
-
+                        console.log('源码。。。。。。。。。。。。。。。')
+                        console.log(selSess)
                         if (selSess._impl.type == SESSION_TYPE.C2C) { //私聊消息已读上报
                             var tmpC2CMsgReadedItem = [];
                             tmpC2CMsgReadedItem.push(new C2CMsgReadedItem(selSess._impl.id, selSess._impl.time));
