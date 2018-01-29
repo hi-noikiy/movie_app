@@ -3,27 +3,48 @@ import Api from '../Api/Api';
 import Bus from '../Bus';
 
 var status = 'init';
+var id = null;
 
 export const initUserDetail = ({ state,commit }, payload) => {
   if(status != 'init') {
     return false;
   }
 
+  if(payload.userId != undefined) {
+    id = payload.userId;
+  }
+
   return new Promise((resolve, reject) => {
     status = 'requsting';
     if(Object.keys(state.userDetail) == 0) {
-      Api.getUserDetails().then((res) => {
-        console.log('初始化user')
-        if(res.q.s == 0) {
-          let user = res.q.user;
-          commit(types.INIT_USER_DETAIL, {user});
-          setTimeout(() => {
-            console.log(user)
-            resolve(user);
-          }, 1020)
-        }
-        status = 'init';
-      })
+      if(id != null) {
+        Api.getUserDetails(id).then((res) => {
+          console.log('初始化user')
+          if(res.q.s == 0) {
+            let user = res.q.user;
+            commit(types.INIT_USER_DETAIL, {user});
+            setTimeout(() => {
+              console.log(user)
+              resolve(user);
+            }, 1020)
+          }
+          status = 'init';
+        })
+      }else {
+        Api.getUserDetails().then((res) => {
+          console.log('初始化user')
+          if(res.q.s == 0) {
+            let user = res.q.user;
+            commit(types.INIT_USER_DETAIL, {user});
+            setTimeout(() => {
+              console.log(user)
+              resolve(user);
+            }, 1020)
+          }
+          status = 'init';
+        })
+      }
+      
     }else {
       status = 'init';
     }
@@ -42,19 +63,34 @@ export const utilUserDetail = ({state}) => {
 }
 
 export const updateUserDetail = ({ state,commit }, payload) => {
-  Api.getUserDetails().then((res) => {
-    console.log('更新user')
-    if(res.q.s == 0) {
-      let user = res.q.user;
-      commit(types.INIT_USER_DETAIL, {user});
-    }
-  })
+  if(id != null) {
+    Api.getUserDetails(id).then((res) => {
+      console.log('更新user')
+      if(res.q.s == 0) {
+        let user = res.q.user;
+        commit(types.INIT_USER_DETAIL, {user});
+      }
+    })
+  }else {
+    Api.getUserDetails().then((res) => {
+      console.log('更新user')
+      if(res.q.s == 0) {
+        let user = res.q.user;
+        commit(types.INIT_USER_DETAIL, {user});
+      }
+    })
+  }
+  
 }
 
+var openIM = false;
 export const initIM = ({ commit, state }, payload) => {
-  loginInfo.identifier = state.userDetail.id;
-  loginInfo.userSig = state.userDetail.sig;
-  webimLogin(commit, state).bind(this);  
+  if(!openIM) {
+    openIM = true;
+    loginInfo.identifier = state.userDetail.id;
+    loginInfo.userSig = state.userDetail.sig;
+    webimLogin(commit, state).bind(this); 
+  }
 }
 
 export const updateIM = ( { commit, state }) => {

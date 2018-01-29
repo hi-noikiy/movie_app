@@ -24,15 +24,11 @@
   export default {
     data() {
       return {
-        userDetail: {},
         orderList: []
       }
     },
 
     created() {
-      let result = this.getUserStorage();
-      this.userDetail = result;
-
       this.getOrderList();
     },
 
@@ -98,6 +94,7 @@
         font-size: boxValue(26);
         font-weight: 600;
         background: #fff;
+        overflow: hidden;
 
         &:after {
           content: '';

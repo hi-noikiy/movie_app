@@ -3,12 +3,13 @@
     <div class="points__header">
       <div class="points__header__left">
         <div class="left__img">
-          <img :src="$ImgUrl + userDetail.imagePath" alt="">
+          <img src="../../assets/avatar.png" alt="" v-if="!userDetail.imagePath">
+          <img :src="$ImgUrl + userDetail.imagePath" alt="" v-else>
         </div>
         <div class="left__info">
           <div class="info__name">{{userDetail.nickname}}</div>
           <div class="info__points">
-            <span>{{userDetail.totalIntegral}}积分</span>
+            <span>{{userDetail.canUseIntegral}}积分</span>
             <span @click="linkTo('Stream')">积分记录 ></span>
           </div>
         </div>
@@ -152,7 +153,7 @@
       },
 
       linkToLevel() {
-        location.href = 'http://api.yyh517.com/app/level.html?points='+ this.userDetail.totalIntegral;
+        location.href = 'http://game.yyh517.com/#/level?point='+ this.userDetail.totalIntegral;
       }
     }
   }

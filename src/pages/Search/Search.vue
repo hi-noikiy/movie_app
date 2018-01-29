@@ -3,8 +3,8 @@
     <div class="search__bar">
       <div class="bar">
         <span class="icon"></span>
-        <input class="input" type="text" placeholder="请搜索">
-        <span class="btn">取消</span>
+        <input class="input" type="text" placeholder="请搜索" v-model="searchKey">
+        <span class="btn" @click="search">搜索</span>
       </div>
     </div>
 
@@ -15,44 +15,22 @@
       </div>
       <div class="content">
         <template v-if="type == 1">
-          <Card class="card__list" :type="type"/>
+          <Card class="card__list" :cardList="coupons" :type="type"/>
         </template>
         <template v-if="type == 2">
           <div class="meet__list">
-            <div class="meet">
-              <div class="meet__left">
-                <img src="../../assets/avatar.png" alt="">
+            <div class="meet" v-for="user in userList">
+              <div class="meet__left" @click="linkToUrl('person?id='+user.id)">
+                <img :src="$ImgUrl + user.imagePath" alt="" v-if="user.imagePath">
+                <img src="../../assets/avatar.png" alt="" v-else>
               </div>
               <div class="meet__right">
                 <div class="meet__right__info">
-                  <div class="info__name">测试</div>
-                  <div class="info__dis">1.2km</div>
+                  <div class="info__name">{{user.nickname}}
+                    <span class="header__name__sex" :class="{'fsex_b': user.sex == 1, 'fsex_g': user.sex == 2}">{{user.age}}</span>
+                  </div>
                 </div>
-                <div class="meet__right__btn">约电影</div>
-              </div>
-            </div>
-            <div class="meet">
-              <div class="meet__left">
-                <img src="../../assets/avatar.png" alt="">
-              </div>
-              <div class="meet__right">
-                <div class="meet__right__info">
-                  <div class="info__name">测试</div>
-                  <div class="info__dis">1.2km</div>
-                </div>
-                <div class="meet__right__btn">约电影</div>
-              </div>
-            </div>
-            <div class="meet">
-              <div class="meet__left">
-                <img src="../../assets/avatar.png" alt="">
-              </div>
-              <div class="meet__right">
-                <div class="meet__right__info">
-                  <div class="info__name">测试</div>
-                  <div class="info__dis">1.2km</div>
-                </div>
-                <div class="meet__right__btn">约电影</div>
+                <div class="meet__right__btn" @click="DateSubmit(user.id)">约电影</div>
               </div>
             </div>
           </div>
@@ -68,14 +46,57 @@
   export default {
     data() {
       return {
-        type: 1 
+        type: 1,
+        searchKey: '',
+        coupons: [],
+        userList: []
       }
     },
 
     methods: {
       changeType(type) {
         this.type = type;
-      }
+      },
+
+      search() {
+        if(this.type == 1) {
+          let param = {
+            a: 2,
+            sk: this.searchKey
+          }
+          this.$Api.getCouponList(param).then((res) => {
+            console.log(res)
+            if(res.q.s == 0) {
+              this.coupons = res.q.coupons;
+            }
+          })
+        }else {
+          let param = {
+            a: 0,
+            sk: this.searchKey
+          }
+
+          this.$Api.getUserList(param).then((res) => {
+            console.log(res)
+            if(res.q.s == 0) {
+              this.userList = res.q.users;
+            }
+          })
+        }
+      },
+
+      //约电影
+      DateSubmit(id) {
+        this.$load(1, '发送中');
+        let userId = id;
+        this.$Api.DateSubmit(userId).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.$toast('已发送约影请求！')
+          }
+          this.$load(2);
+        })
+      },
     },
 
     components: {
@@ -105,6 +126,13 @@
           background: url('../../assets/search.png') no-repeat;
           background-position: center;
           background-size: 100%;
+        }
+
+        .btn {
+          padding: boxValue(8) boxValue(16);
+          border: boxValue(1) solid  #00a7ff;
+          color: #00a7ff;
+          border-radius: boxValue(8);
         }
 
         .input {

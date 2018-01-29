@@ -11,11 +11,11 @@
     </template>
 
     <template v-if="type == 'used'">
-      <Card class="card__list" :type="type"/>
+      <Card :cardList="cardList" class="card__list" :type="type"/>
     </template>
 
     <template v-if="type == 'overdue'">
-      <Card class="card__list" :type="type"/>
+      <Card :cardList="cardList" class="card__list" :type="type"/>
     </template>
 
   </div>
@@ -43,6 +43,7 @@
 
     methods: {
       changeType(type) {
+        this.cardList = [];
         this.type = type;
         let status;
         if(type == 'active') {

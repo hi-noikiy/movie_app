@@ -14,7 +14,7 @@
             <span class="tab tab__member" @click="linkToLevel">
               {{userDetail.integralLevel == '1'?'大众会员':userDetail.integralLevel == '2'?'黄金会员':userDetail.integralLevel == '3'?'铂金会员':userDetail.integralLevel == '4'?'钻石会员':userDetail.integralLevel == '5'?'至尊会员':''}}
             </span>
-            <span class="tab tab__friend">交友达人</span>
+            <span class="tab tab__friend" v-if="userDetail.isManyFriend == 1">交友达人</span>
             <span class="tab tab__singIn" @click="linkTo('Sign')">签到+{{userDetail.getFromSign}}</span>
           </div>
         </div>
@@ -36,7 +36,7 @@
         </div>
         <div class="form__tab" @click="linkTo('CardList')">
           <div class="tab__top">
-            {{userDetail.statNewCoupon}}
+            <span class="num">{{userDetail.statCoupon}}<span class="tab__num" v-if="userDetail.statNewCoupon > 0">{{userDetail.statNewCoupon}}</span></span>
           </div>
           <div class="tab__bottom">
             卡券 
@@ -128,7 +128,7 @@
       },
 
       linkToLevel() {
-        location.href = 'http://api.yyh517.com/app/level.html?points='+ this.userDetail.totalIntegral;
+        location.href = 'http://game.yyh517.com/#/level?point='+ this.userDetail.totalIntegral;
       }
     }
   }

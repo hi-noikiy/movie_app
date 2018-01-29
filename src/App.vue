@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <keep-alive :include="['Index','Store']">
+    <!-- <keep-alive :include="['Index','Store']"> -->
+    <keep-alive :include="[]">
       <router-view/>
       <loading v-model="isLoading"></loading>
     </keep-alive>
@@ -17,7 +18,8 @@
         this.$Api.getSession().then((res) => {
           console.log(res)
           if(res.q.s == 0) {
-            sessionStorage.setItem('sessionId', res.s);
+            sessionStorage.setItem('sessionId', '');
+            // sessionStorage.setItem('sessionId', res.s);
           }
         })
       }

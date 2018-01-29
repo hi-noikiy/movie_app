@@ -30,7 +30,7 @@
       </div>
       <div class="detail">
         <span>行业:</span>
-        <span>积分/积分+现金券</span>
+        <span>{{industryText}}</span>
       </div>
       <div class="detail">
         <span>限制兑换:</span>
@@ -38,7 +38,7 @@
       </div>
       <div class="detail">
         <span>适用等级:</span>
-        <span>{{coupon.levels == 1?'普通会员':'黄金会员'}}</span>
+        <span>{{this.levelText}}</span>
       </div>
     </div>
 
@@ -100,6 +100,7 @@
 
 <script>
   import Merchant from '@/components/Merchant/Merchant';
+  import {industryType} from '@/data/data';
 
   export default {
     data() {
@@ -115,6 +116,46 @@
     created() {
       this.getCouponDetails(this.id);
     },
+
+    computed: {
+      levelText() {
+        let levels = this.coupon.levels;
+        let str = [];
+        if(levels) {
+          for(let i in levels) {
+            if(levels[i] == '1') {
+              str.push('普通会员')
+            }else if(levels[i] == '2') {
+              str.push('黄金会员') 
+            }else if(levels[i] == '3') {
+              str.push('铂金会员') 
+            }else if(levels[i] == '4') {
+              str.push('钻石会员') 
+            }else if(levels[i] == '5') {
+              str.push('至尊会员') 
+            }
+          }
+
+          return str.join(',');
+        }
+      },
+
+      industryText() {
+        let result = '';
+        if(this.coupon.industryId && this.coupon.industryId == '0') {
+          return '全部';
+        }
+        if(this.coupon.industryId) {
+          let data = industryType.find((item) => {
+            return item.key == this.coupon.industryId
+          })
+          
+          result = data.value;
+        }
+        return result;
+      }
+    },
+
     methods: {
       getCouponDetails(id) {
         this.$Api.getCouponDetails(id).then((res) => {
@@ -188,6 +229,7 @@
           console.log(res);
           if(res.q.s == 0) {
             this.$toast('领取成功!')
+            this.updateUserDetail();
           }else {
             this.$toast(res.q.d, 'fail')
           }

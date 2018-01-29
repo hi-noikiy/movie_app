@@ -276,8 +276,8 @@
         height: 24vw;
 
         img {
-          width: 100%;
-          height: 100%;
+          width: 94%;
+          height: 94%;
           border-radius: 4px;
         }
       }

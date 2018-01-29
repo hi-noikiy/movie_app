@@ -74,19 +74,6 @@
   export default {
     props: ['commentList'],
 
-    data() {
-      return {
-        userDetail: {}
-      }
-    },
-
-    created() {
-      let userDetail = this.getUserStorage();
-      if(userDetail) {
-        this.userDetail = userDetail;
-      }
-    },
-
     methods: {
       praise(id, comment) {
         console.log(comment)

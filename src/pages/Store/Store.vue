@@ -3,7 +3,7 @@
     <div class="store__top">
       <div class="store__top__swiper">
         <!-- <img src="../../assets/swiper.png" alt=""> -->
-        <swiper :list="adList" :aspect-ratio="290/640" dots-position="center"></swiper>
+        <swiper auto :list="adList" :aspect-ratio="290/640" :interval=5000 dots-position="center"></swiper>
       </div>
       <div class="store__top__search">
         <div class="search__point">
@@ -11,10 +11,10 @@
         </div>
         <div class="search__input" @click="linkTo('Search')">
           <span class="search__input__icon"></span>
-          <input class="search__input__value" type="text" placeholder="请输入搜索词">
+          <input class="search__input__value" type="text" placeholder="找商户、用户">
         </div>
       </div>
-      <div class="store__top__news">
+      <div class="store__top__news" ref="news">
         <div class="news__title">
           最新动态
         </div>
@@ -37,7 +37,7 @@
       </div>
 
       <div class="item__wrap" ref="items">
-        <Item :couponList="couponList"/>
+        <Item :couponList="couponList" v-if="couponList"/>
       </div>
     </div>
   </div>
@@ -55,6 +55,7 @@
         list: null,
         adList: [],
         newList: [],
+        newBg: '',
         couponList: [],
         index: 0,
       }
@@ -87,6 +88,7 @@
     methods: {
       changeType(id, index) {
         console.log(id);
+        this.couponList = [];
         this.activeIndex = index;
         this.getCouponList(1, id);
       },
@@ -122,18 +124,21 @@
       //广告列表
       getAdList() {
         this.$Api.getAdList(2).then((res) => {
+          console.log(res)
           if(res.q.s == 0) {
             let data = res.q.ads;
             let url = [];
 
             for(let i in data) {
               let imgObj = {
-                url: 'http://'+data[i].link,
+                url: data[i].link,
                 img: this.$ImgUrl + data[i].imagePath
               }
 
               url.push(imgObj);
             }
+
+            console.log(url);
 
             this.adList = url;            
           }
@@ -146,6 +151,7 @@
           console.log(res)
           if(res.q.s == 0) {
             this.newList = res.q.news.lists;
+            this.newBg = res.q.news.imagePath;
           }
         })
       }
@@ -224,10 +230,24 @@
       }
 
       .store__top__news {
+        position: relative;
         display: flex;
         flex-direction: row;
         height: boxValue(74);
         background: #fff;
+        z-index: 2;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: boxValue(120);
+          width: 100%;
+          background-image: url('http://api.yyh517.com/uploadfiles/201801/17/221913_9020.png');
+          background-size: 100%;
+          z-index: -1;
+        }
 
         .news__title {
           display: inline-block;
@@ -235,7 +255,7 @@
           width: boxValue(200);
           font-size: boxValue(30);
           line-height: boxValue(74);
-          color: #ff4747;
+          color: #fff;
         }
 
         .news__detail {
@@ -250,6 +270,10 @@
             .detail {
               height: 30px;
               line-height: 30px;
+              color: #fff;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
             }
           }
         }

@@ -1,10 +1,10 @@
 <template>
   <div id="movie">
     <div class="movie__detail">
-      <div class="movie__detail__swiper">
+      <div class="movie__detail__swiper" @click="showMovie">
         <!-- <img src="../../assets/movie_big.png" alt=""> -->
         <!-- <img :src="$ImgUrl + movie.imagePath" alt="" v-if="movie"> -->
-        <swiper :list="imgList" :aspect-ratio="320/350" dots-position="center"></swiper>
+        <swiper :list="imgList" :aspect-ratio="320/350" dots-position="center" @on-index-change="onIndexChange"></swiper>
       </div>
       <div class="movie__detail__info">
         <div class="info__name" v-if="movie">{{movie.name}}</div>
@@ -66,7 +66,8 @@
         imgList: [],  //轮播图列表
         commentList: [],  //评论列表
         activeIndex: 0,
-        showDetail: false
+        showDetail: false,
+        imgIndex: 0
       }
     },
 
@@ -158,6 +159,20 @@
 
       transition() {
         this.showDetail = !this.showDetail;
+      },
+      
+      onIndexChange(index) {
+        this.imgIndex = index;
+      },
+
+      //显示电影图片
+      showMovie() {
+        let arr = [];
+        for(let i in this.imgList) {
+          arr.push(this.imgList[i].img)
+        }
+
+        this.$ImagePreview(arr, this.imgIndex);
       },
 
       countRate(num) {

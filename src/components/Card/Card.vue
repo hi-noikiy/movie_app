@@ -54,7 +54,7 @@
             <span class="price__num">{{item.marketPrice}}</span>
             <span>元</span>
           </div>
-          <div class="right__date">
+          <div class="right__date" v-if="item.deadline">
             <span>有效期:</span>
             <span class="price__num">{{item.deadline}}</span>
           </div>

@@ -14,9 +14,9 @@
     </div>
     
     <div class="login__submit" @click="submit">验证手机</div>
-    <div class="login__tips">
-      <span class="check"></span>
-      <span>我已阅读并同意《云影汇用户注册协议》</span>
+    <div class="login__tips"  @click="checked = !checked">
+      <span class="check" :class="{'unchecked': !checked}"></span>
+      <span>我已阅读并同意<span @click.self="linkToAgreemeet">《云影汇用户注册协议》</span></span>
     </div>
   </div>
 </template>
@@ -28,7 +28,8 @@
         mobile: null,
         code: null,
         sendText: '获取验证码',
-        isSend: false
+        isSend: false,
+        checked: true
       }
     },
 
@@ -66,7 +67,15 @@
         })
       },
 
+      linkToAgreemeet() {
+        location.href = 'http://game.yyh517.com/#/agreement';
+      },
+
       submit() {
+        if(!this.checked) {
+          this.$toast('请同意协议', 'fail');
+        }
+
         this.$Api.getSMSCode(2, 1, this.mobile, this.code).then((res) => {
           if(res.q.s == 0) {
             this.$toast('验证成功，请返回首页').then(() => {
@@ -86,7 +95,8 @@
   @import '../../scss/mixin.scss';
 
   #login {
-    height: 100%;
+    height: auto;
+    min-height: 100%;
     padding-top: 1px;
     background: url('../../assets/loginbg.jpg');
     background-size: 100%;
@@ -179,6 +189,10 @@
         background-image: url('../../assets/ticker.png');
         background-size: 100%;
         vertical-align: middle;
+
+        &.unchecked {
+          background-image: none;
+        }
       }
     }
 

@@ -172,15 +172,31 @@
     },
 
     created() {
-      // let result = this.getUserStorage();
-      // let result = false;
-      // if(result) {
-      //   this.userDetail = result;
-      // }else {
-      //   //用户信息
-      //   this.getUserDetail();
-      // }
-      // this.initUserDetail();
+      let type = this.$route.query.type;
+      if(type) {
+        this.$Api.WeixinUrl().then((res) => {
+          if(res.q.s == 0) {
+            if(res.q.id == 0) {
+              this.$router.push({
+                name: 'Index'
+              })
+            }else {
+              this.initUserDetail({userId: res.q.id});
+            }
+          }
+        })
+      }else {
+        this.$Api.WeixinUrl().then((res) => {
+          console.log('微信授权');
+          if(res.q.s == 0) {
+            if(res.q.redirectUrl) {
+              location.href = res.q.redirectUrl
+            }
+          }
+        })
+      }
+      
+      
       //广告列表
       this.getAdList();
   
@@ -192,9 +208,6 @@
 
       //排行列表
       this.getMovieRankingList();
-      // this.$Api.getSetting().then((res) => {
-      //   console.log(res)
-      // })
     },
 
     activated() {

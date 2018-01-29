@@ -17,9 +17,9 @@ function axiosApi(url, option, method='get',stopLogin=false) {
   promise = new Promise((resolve, reject) => {
     axios(Object.assign({method,url},option)).then((response) => {
       resolve(response.data)
-      if(response.data.q.s == 1002 || response.data.q.s == 1100) {
-        router.push('login')
-      }
+      // if(response.data.q.s == 1002 || response.data.q.s == 1100) {
+      //   router.push('login')
+      // }
     }).catch((err) => {
       console.log(err)
       reject(err)
@@ -178,6 +178,25 @@ const Api = {
           // s: sessionId?sessionId:getSession(),
           q: {
             a:1
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 10	用户，微信授权登录重定向链接WeixinUr
+   * 
+   * @param {partner} 微信跳转
+   * @returns 
+   */
+  WeixinUrl() {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'WeixinUrl',
+          q: {
+            partner: 3
           }
         }
       }
@@ -783,7 +802,7 @@ const Api = {
    * @param {searchKey} sk，商品名称
    * @returns 
    */
-  getCouponList({a, pa, li, categoryId, isRecommend, searchKey}) {
+  getCouponList({a, pa, li, categoryId, isRecommend, sk}) {
     return axiosApi(ApiUrl, {
       params: {
         json: {
@@ -795,7 +814,7 @@ const Api = {
             li,
             categoryId,
             isRecommend,
-            searchKey
+            sk
           }
         }
       }

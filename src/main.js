@@ -33,11 +33,11 @@ Vue.prototype.$ImgUrl = Api.getImgUrl();
 
 Vue.mixin({
   created() {
-    try {
-      this.initUserDetail();
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   this.initUserDetail();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   },
   methods: {
     linkTo(name) {
