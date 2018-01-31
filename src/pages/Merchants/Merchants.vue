@@ -4,14 +4,14 @@
       <Merchant :cinemaList="cinemaList"/>
     </div>
 
-    <div id="container" v-show="isShow">
+    <!-- <div id="container" v-show="isShow">
       <span class="close" @click="close"></span>
       <div id="map"></div>
-    </div>
+    </div> -->
 
-    <div class="merchants__location" @click="showMap">
+    <!-- <div class="merchants__location" @click="showMap">
       地图查看
-    </div>
+    </div> -->
   </div>
 </template>
 

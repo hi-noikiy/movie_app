@@ -14,7 +14,7 @@
           <input class="search__input__value" type="text" placeholder="找商户、用户">
         </div>
       </div>
-      <div class="store__top__news" ref="news">
+      <div class="store__top__news" ref="news" v-if="newOpen">
         <div class="news__title">
           最新动态
         </div>
@@ -55,6 +55,7 @@
         list: null,
         adList: [],
         newList: [],
+        newOpen: true,
         newBg: '',
         couponList: [],
         index: 0,
@@ -152,6 +153,9 @@
           if(res.q.s == 0) {
             this.newList = res.q.news.lists;
             this.newBg = res.q.news.imagePath;
+            if(res.q.news.isOpen == 2) {
+              this.newOpen = false;
+            }
           }
         })
       }

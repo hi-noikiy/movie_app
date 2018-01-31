@@ -1,22 +1,27 @@
 <template>
   <div class="merchant__list">
-    <div class="merchant border_line" v-if="cinema">
+    <div class="merchant border_line" v-if="cinema" @click="showMap(cinema)">
       <div class="merchant__left">
         <div class="left__name">{{cinema.name}}</div>
         <div class="left__content">{{cinema.address}}</div>
       </div>
-      <div class="merchant__right"  @click="linkToTel">
+      <div class="merchant__right"  @click="linkToTel(cinema)">
         <span class="merchant__right__phone"></span>
       </div>
     </div>
-    <div class="merchant border_line" v-else-if="cinemaList" v-for="cinema in cinemaList">
+    <div class="merchant border_line" v-else-if="cinemaList" v-for="cinema in cinemaList" @click="showMap(cinema)">
       <div class="merchant__left">
         <div class="left__name">{{cinema.name}}</div>
         <div class="left__content">{{cinema.address}}</div>
       </div>
-      <div class="merchant__right" @click="linkToTel">
-        <span class="merchant__right__phone"></span>
+      <div class="merchant__right" @click.stop ="linkToTel(cinema)">
+        <span class="merchant__right__phone"  @click.stop ="linkToTel(cinema)"></span>
       </div>
+    </div>
+
+    <div id="container" v-show="isShow">
+      <span class="close" @click="close"></span>
+      <div id="map"></div>
     </div>
   </div>
 </template>
@@ -26,13 +31,39 @@
     props: ['cinema', 'cinemaList'],
     data() {
       return {
-
+        isShow: false
       }
     },
 
     methods: {
-      linkToTel() {
-        window.location.href='tel:123456789'
+      linkToTel(item) {
+        if(item.hotline) {
+          window.location.href='tel:' + item.hotline
+        }else {
+          this.$toast('暂无电话', 'fail')
+        }
+      },
+
+      showMap(item) {
+        console.log(123)
+        if(item.longitude && item.latitude) {
+          this.isShow = true;
+          var map = new AMap.Map('map', {
+            resizeEnable: true,
+            zoom:16,
+            center: [item.longitude, item.latitude]
+          });
+
+           var marker = new AMap.Marker({
+              map: map,
+              position: [item.longitude, item.latitude]
+          });
+        }
+        
+      },
+
+      close() {
+        this.isShow = false;
       }
     }
   }  
@@ -92,6 +123,32 @@
         height: boxValue(70);
         border-left: 1px solid #eee;
       }
+    }
+  }
+
+  #container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 888;
+
+    #map {
+      height: 100%;
+      width: 100%;
+    }
+
+    .close {
+      position: absolute;
+      right: boxValue(0);
+      top: boxValue(15);
+      display: inline-block;
+      width: boxValue(50);
+      height: boxValue(50);
+      background-image: url('../../assets/imgdelete.png');
+      background-size: 100%;
+      z-index: 999;
     }
   }
 </style>

@@ -84,7 +84,7 @@
 
     <div class="goods__info">
       <div class="goods__info__title">
-        <span>点击查看图文详情</span>
+        <span>图文详情</span>
       </div>
       <div class="goods__info__detail" v-html="coupon.content">
       </div>
@@ -162,10 +162,10 @@
           console.log(res);
           if(res.q.s == 0) {
             this.coupon = res.q.coupon;
-            if(this.coupon.shops.length == 0) {
-              this.getCinemaList();
-              return false;
-            }
+            // if(this.coupon.shops.length == 0) {
+            //   this.getCinemaList();
+            //   return false;
+            // }
             this.cinemaList = this.coupon.shops;
             this.cinema = this.coupon.shops[0];
             let json = JSON.stringify(this.cinemaList);
@@ -205,17 +205,17 @@
         }
       },
 
-      getCinemaList() {
-        this.$Api.getCinemaList().then((res) => {
-          console.log(res)
-          if(res.q.s == 0) {
-            this.cinemaList = res.q.cinemas;
-            this.cinema = res.q.cinemas[0];
-            let json = JSON.stringify(this.cinemaList);
-            sessionStorage.setItem('cinemaList', json);
-          }
-        })
-      },
+      // getCinemaList() {
+      //   this.$Api.getCinemaList().then((res) => {
+      //     console.log(res)
+      //     if(res.q.s == 0) {
+      //       this.cinemaList = res.q.cinemas;
+      //       this.cinema = res.q.cinemas[0];
+      //       let json = JSON.stringify(this.cinemaList);
+      //       sessionStorage.setItem('cinemaList', json);
+      //     }
+      //   })
+      // },
 
       submit() {
         // this.$toast('抱歉正在开发中', 'fail');

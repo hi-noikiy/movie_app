@@ -78,7 +78,6 @@
       </div>
 
       <div class="menu__bottom">
-
         <div class="menu bottom__comment clearfix" @click="linkTo('MyComment')">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的影评</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
@@ -92,6 +91,8 @@
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
       </div>
+
+      <div class="menu__logout button" @click="logout">登出</div>
     </div>
   </div>
 </template>
@@ -124,6 +125,12 @@
             let json = JSON.stringify(this.userDetail);
             sessionStorage.setItem('user', json);
           }
+        })
+      },
+
+      logout() {
+        this.$Api.UserLogout().then((res) => {
+          this.$router.push({name:'Login'})
         })
       },
 
@@ -375,6 +382,14 @@
       color: #fff;
       border-radius: boxValue(14);
       background: #ff4444;
+    }
+
+    .menu__logout {
+      margin-top: boxValue(60);
+      background: #ccc;
+      width: boxValue(460);
+      height: boxValue(60);
+      line-height: boxValue(60);
     }
   }
 </style>

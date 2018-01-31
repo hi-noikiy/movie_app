@@ -185,6 +185,22 @@ const Api = {
   },
 
   /**
+   * 9	用户，登出UserLogout（APP)
+   * 
+   * @returns 
+   */
+  UserLogout() {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'UserLogout',
+          q: {}
+        }
+      }
+    })
+  },
+
+  /**
    * 10	用户，微信授权登录重定向链接WeixinUr
    * 
    * @param {partner} 微信跳转
