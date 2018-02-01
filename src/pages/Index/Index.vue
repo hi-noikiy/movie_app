@@ -177,9 +177,7 @@
         this.$Api.WeixinUrl().then((res) => {
           if(res.q.s == 0) {
             if(res.q.id == 0) {
-              this.$router.push({
-                name: 'Login'
-              })
+              this.$router.push('login?type=weixin')
             }else {
               this.initUserDetail({userId: res.q.id});
             }
@@ -192,9 +190,7 @@
             if(res.q.redirectUrl) {
               location.href = res.q.redirectUrl
             }else if(res.q.id == 0) {
-              this.$router.push({
-                name: 'Login'
-              })
+              this.$router.push('login?type=weixin')
             }else if(res.q.id) {
               this.initUserDetail({userId: ''});
             }

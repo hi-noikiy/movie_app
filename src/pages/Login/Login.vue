@@ -29,7 +29,8 @@
         code: null,
         sendText: '获取验证码',
         isSend: false,
-        checked: true
+        checked: true,
+        type: this.$route.query.type
       }
     },
 
@@ -39,10 +40,16 @@
           return false;
         }
 
+        let type = 1;
+
+        if(this.type) {
+          type = 7;
+        }
+
         this.$load(1, '请求中');
         
 
-        this.$Api.getSMSCode(1, 1, this.mobile).then((res) => {
+        this.$Api.getSMSCode(1, type, this.mobile).then((res) => {
           if(res.q.s == 0) {
             this.isSend = true;
             let count = 60;
@@ -76,7 +83,13 @@
           this.$toast('请同意协议', 'fail');
         }
 
-        this.$Api.getSMSCode(2, 1, this.mobile, this.code).then((res) => {
+        let type = 1;
+
+        if(this.type) {
+          type = 7;
+        }
+
+        this.$Api.getSMSCode(2, type, this.mobile, this.code).then((res) => {
           if(res.q.s == 0) {
             this.$toast('验证成功，请返回首页').then(() => {
               this.updateUserDetail();
