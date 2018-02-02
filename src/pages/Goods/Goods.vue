@@ -8,13 +8,27 @@
         <div class="top__info__title">
           {{coupon.name}}
         </div>
-        <div class="top__info__price">
-          <span class="top__price__num">{{coupon.price}}</span>
+        <div class="top__info__price"  v-if="coupon.type == 2">
+          <span class="top__price__num">{{parseFloat(coupon.integral)}}</span>
+          <!-- <span>积分+ 199元</span> -->
+          <span>积分</span>
+        </div>
+        <div class="top__info__price"  v-if="coupon.type == 3">
+          <span class="top__price__num">面值{{parseFloat(coupon.price)}}</span>
+          <!-- <span>积分+ 199元</span> -->
+          <span>元</span>
+        </div>
+        <div class="top__info__price"  v-if="coupon.type == 4">
+          <span class="top__price__num">{{parseFloat(coupon.integral)}}</span>
+          <span>积分+ {{parseFloat(coupon.price)}}元</span>
+        </div>
+        <div class="top__info__price"  v-if="coupon.type == 2 || coupon.type == 4 ">
+          <span class="top__price__num">{{parseFloat(coupon.price)}}</span>
           <!-- <span>积分+ 199元</span> -->
           <span>元</span>
         </div>
         <div class="top__info__mes">
-          <span class="mes__detail" v-if="coupon.type == 2 || coupon.type == 4 ">市场参考值：599元</span>
+          <span class="mes__detail" v-if="coupon.type == 2 || coupon.type == 4 ">市场参考值：{{parseFloat(coupon.marketPrice)}}元</span>
           <span class="mes__date">有效期至{{coupon.deadline}}</span>
         </div>
       </div>

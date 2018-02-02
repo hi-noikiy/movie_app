@@ -175,11 +175,12 @@
       let type = this.$route.query.type;
       if(type) {
         this.$Api.WeixinUrl().then((res) => {
+          console.log('有参数微信授权');
           if(res.q.s == 0) {
             if(res.q.id == 0) {
               this.$router.push('login?type=weixin')
             }else {
-              this.initUserDetail({userId: res.q.id});
+              this.initUserDetail({userId: ''});
             }
           }
         })

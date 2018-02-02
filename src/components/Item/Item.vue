@@ -8,14 +8,22 @@
         <div class="right__title">
           {{item.name}}
         </div>
-        <div class="right__price">
+        <div class="right__price" v-if="item.type == 1 || item.type == 3">
           <span>面值</span>
-          <span class="price__num">{{item.price}}</span>
+          <span class="price__num">{{parseFloat(item.price)}}</span>
           <span>元</span>
+        </div>
+        <div class="right__price" v-if="item.type == 2 || item.type == 4">
+          <span class="price__num">{{parseFloat(item.integral)}}</span>
+          <span>积分</span>
         </div>
         <div class="right__date" v-if="false">
           <span>核销时间</span>
           <span>2017.12.11 13:22</span>
+        </div>
+        <div class="right__origin" v-if="item.type == 2 || item.type == 4">
+          <span>原价</span>
+          <span>{{parseFloat(item.marketPrice)}}</span>
         </div>
       </div>
       <div class="collection__btn active" @click="submit(item.id)">
@@ -33,7 +41,7 @@
         </div>
         <div class="right__price">
           <span>面值</span>
-          <span class="price__num">{{item.price}}</span>
+          <span class="price__num">{{parseFloat(item.price)}}</span>
           <span>元</span>
         </div>
         <div class="right__date">
@@ -119,6 +127,13 @@
           font-size: boxValue(34);
           font-weight: 600;
         }
+      }
+
+      .right__origin {
+        position: absolute;
+        left: boxValue(170);
+        bottom: boxValue(30);
+        color: #666;
       }
     }
 

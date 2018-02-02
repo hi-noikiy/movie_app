@@ -109,7 +109,7 @@
       //卡券列表
       getCouponList(pa, categoryId) {
         let param = {
-          a:2, 
+          a: 2, 
           pa, 
           li: 10, 
           categoryId
