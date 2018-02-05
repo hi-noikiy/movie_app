@@ -1,6 +1,6 @@
 <template>
   <div class="item__wrap">
-    <div class="item" v-for="(item, index) in couponList" :key="index" @click.self="linkToUrl('goods?id=' + item.id)" v-if="couponList">
+    <div class="item" v-for="(item, index) in couponList" :key="index" @click="linkToUrl('goods?id=' + item.id)" v-if="couponList">
       <div class="item__left">
         <img :src="$ImgUrl + item.imagePath" alt="">
       </div>
@@ -26,7 +26,7 @@
           <span>{{parseFloat(item.marketPrice)}}</span>
         </div>
       </div>
-      <div class="collection__btn active" @click="submit(item.id)">
+      <div class="collection__btn active" @click.stop="submit(item.id)">
         领取
       </div>
     </div>

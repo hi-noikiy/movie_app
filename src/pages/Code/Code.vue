@@ -1,6 +1,41 @@
 <template>
   <div id="code">
-    <div class="code__content">
+    <div class="code__content" v-if="type == 'normal'">
+      <div class="content__title">
+        商家扫描二维码验证立即使用
+      </div>
+      <div class="content__img">
+        <img :src="$ImgUrl + img" alt="">
+      </div>
+      <div class="cotent__tips">
+        或输入数字验证
+      </div>
+      <div class="content__value">
+        <div class="wrap">
+          <span class="value" v-for="(item,index) in value">
+            {{item}}
+          </span>
+          <span class="value" v-for="item in (12-value.length)">_</span>
+        </div>
+        <!-- <div class="wrap">
+          <span class="value" v-for="item in (12-value.length)">6</span>
+        </div> -->
+        <!-- <span class="value">6</span>
+        <span class="value">6</span>
+        <span class="value">6</span>
+        <span class="value">6</span>
+        <span class="value">6</span>
+        <span class="value">6</span>
+        <span class="value">6</span>
+        <span class="value">6</span>
+        <span class="value">6</span>
+        <span class="value">6</span>
+        <span class="value">6</span> -->
+      </div>
+
+      <div class="submit" @click="OrderUpdate" v-if="type == 'input'">核销</div>
+    </div>
+    <div class="code__content" v-else-if="type == 'input'">
       <div class="content__title">
         商家输入数字验证立即使用
       </div>
@@ -52,7 +87,8 @@
       return {
         value: [],
         show: true,
-        type: 'normal'
+        type: 'normal',
+        img: this.$route.query.code
       };
     },
 
@@ -73,6 +109,7 @@
           return false;
         }
       },
+
       onDelete() {
         this.value = this.value.slice(0, this.value.length - 1);
       },
@@ -108,10 +145,19 @@
     height: 100%;
 
     .code__content {
+      .cotent__tips,
       .content__title {
         margin: boxValue(86) 0;
         text-align: center;
         font-size: boxValue(32);
+      }
+
+      .content__img {
+        text-align: center;
+        img {
+          width: boxValue(300);
+          height: boxValue(300);
+        }
       }
 
       .content__value {

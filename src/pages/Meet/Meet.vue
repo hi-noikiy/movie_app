@@ -8,6 +8,7 @@
 
       <div class="meet__header__setting">
         <div class="setting__user" @click="linkTo('Person')"><span></span></div>
+        <div class="setting__talk" @click="linkTo('Message')"><span></span></div>
         <div class="setting__limit" @click="linkTo('Setting')"><span></span></div>
       </div>
     </div>
@@ -25,7 +26,7 @@
             <div class="user__info">
               <div class="user__info__name">
                 <span class="name">{{item.nickname}}</span>
-                <span :class="{'sex_b': item.sex == 1, 'sex_g': item.sex == 2}">{{item.age}}</span>
+                <span :class="{'fsex_b': item.sex == 1, 'fsex_g': item.sex == 2}">{{item.age}}</span>
               </div>
               <div class="user__info__tags">
                 <span class="tags" v-for="types in typeList">{{types.value}}</span>
@@ -63,8 +64,8 @@
           </div>
           <div class="meet__right">
             <div class="meet__right__info">
-              <div class="info__name">{{item.nickname}}</div>
-              <div class="info__dis">{{item.distance}}m</div>
+              <div class="info__name">{{item.nickname}}<span :class="{'fsex_b': item.sex == 1, 'fsex_g': item.sex == 2}">{{item.age}}</span></div>
+              <div class="info__dis">{{item.distance}}km</div>
             </div>
             <div class="meet__right__btn" @click.stop="DateSubmit(item.id)">约电影</div>
           </div>
@@ -281,7 +282,9 @@
       position: absolute;
       right: boxValue(10);
       top: boxValue(0);
+      width: 100%;
 
+      .setting__talk,
       .setting__user,
       .setting__limit {
         position: relative;
@@ -297,11 +300,40 @@
       }
 
       .setting__user {
-        @include fixImage('../../assets', 'mine_btn.png');
+        position: absolute;
+        right: boxValue(60);
+        top: 0;
+        
+        // @include fixImage('../../assets', '.png');
+        background: #fff;
+        background-image: url('../../assets/mine_btn.png');
+        background-repeat: no-repeat;
+        background-size: 60%;
+        background-position: center;
+      }
+
+      .setting__talk {
+        position: absolute;
+        right: 0;
+        top: 0;
+        
+        // @include fixImage('../../assets', '.png');
+        background: #fff;
+        background-image: url('../../assets/commentaries.png');
+        background-repeat: no-repeat;
+        background-size: 60%;
+        background-position: center;
       }
 
       .setting__limit {
-        @include fixImage('../../assets', 'settings.png');
+        position: absolute;
+        left: boxValue(30);
+        top: 0;
+        
+        // @include fixImage('../../assets', '.png');
+        background: #fff;
+        background-image: url('../../assets/screening.png');
+        background-size: 100%;
       }
     }
   }

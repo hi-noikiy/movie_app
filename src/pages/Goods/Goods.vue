@@ -22,11 +22,6 @@
           <span class="top__price__num">{{parseFloat(coupon.integral)}}</span>
           <span>积分+ {{parseFloat(coupon.price)}}元</span>
         </div>
-        <div class="top__info__price"  v-if="coupon.type == 2 || coupon.type == 4 ">
-          <span class="top__price__num">{{parseFloat(coupon.price)}}</span>
-          <!-- <span>积分+ 199元</span> -->
-          <span>元</span>
-        </div>
         <div class="top__info__mes">
           <span class="mes__detail" v-if="coupon.type == 2 || coupon.type == 4 ">市场参考值：{{parseFloat(coupon.marketPrice)}}元</span>
           <span class="mes__date">有效期至{{coupon.deadline}}</span>
@@ -136,21 +131,25 @@
         let levels = this.coupon.levels;
         let str = [];
         if(levels) {
-          for(let i in levels) {
-            if(levels[i] == '1') {
-              str.push('普通会员')
-            }else if(levels[i] == '2') {
-              str.push('黄金会员') 
-            }else if(levels[i] == '3') {
-              str.push('铂金会员') 
-            }else if(levels[i] == '4') {
-              str.push('钻石会员') 
-            }else if(levels[i] == '5') {
-              str.push('至尊会员') 
+          if(levels.length == 0) {
+            return '不限';
+          }else {
+            for(let i in levels) {
+              if(levels[i] == '1') {
+                str.push('普通会员')
+              }else if(levels[i] == '2') {
+                str.push('黄金会员') 
+              }else if(levels[i] == '3') {
+                str.push('铂金会员') 
+              }else if(levels[i] == '4') {
+                str.push('钻石会员') 
+              }else if(levels[i] == '5') {
+                str.push('至尊会员') 
+              }
             }
-          }
 
-          return str.join(',');
+            return str.join(',');
+          } 
         }
       },
 

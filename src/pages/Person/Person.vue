@@ -62,9 +62,16 @@
       <cell class="comment" title="TA的影评" :value="user.statMovieReview?user.statMovieReview:'0' + '条'" is-link @click.native="linkToUrl('myComment?id=' + id)"></cell>
     </group>
     
-    <div class="person__bottomBtn" v-if="id && !self">
+    <div class="person__bottomBtn" v-if="id && !self && !friend">
       <span class="buttonBtn" @click="linkToUrl('addFriend?id='+ $route.query.id)">加好友</span>
       <span class="buttonBtn invite" @click="DateSubmit">立即约影</span>
+    </div>
+
+    <div class="person__bottomBtn" v-if="id && friend">
+      <span class="buttonBtnS" @click="linkToUrl('IM?id=' + user.id + '&img=' + user.imagePath)">发信息</span>
+      <span class="buttonBtnS" @click="linkToUrl('presentPoints?id=' + user.id)">送积分</span>
+      <span class="buttonBtnS" @click="linkToUrl('presentCoupon?id=' + user.id)">送卡券</span>
+      <span class="buttonBtnS invite" @click="DateSubmit">立即约影</span>
     </div>
 
     <div class="person__bottomBtn" v-else>
@@ -83,7 +90,8 @@
       return {
         user: {},
         id: this.$route.query.id?this.$route.query.id:'',
-        self: false
+        self: false,
+        friend: this.$route.query.type
       }
     },
 
@@ -365,6 +373,29 @@
         position: relative;
         display: inline-block;
         width: 50%;        
+        font-size: 13px;
+        line-height: boxValue(70);
+        text-align: center;
+        color: #777;
+
+        &:after {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: boxValue(11);
+          height: boxValue(48);
+          border-right: 1px solid #ccc;
+        }
+
+        &:nth-child(3):after {
+          display: none;
+        }
+      }
+
+      .buttonBtnS {
+        position: relative;
+        display: inline-block;
+        width: 25%;        
         font-size: 13px;
         line-height: boxValue(70);
         text-align: center;

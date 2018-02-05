@@ -35,7 +35,7 @@
     created() {
       let param = {
         a:1,
-        status: 0
+        status: 1
       }
 
       this.getOrderList(param);

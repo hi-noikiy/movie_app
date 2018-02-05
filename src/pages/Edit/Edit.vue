@@ -44,11 +44,11 @@
       </group>
 
       <group>
-        <cell title="个性签名" is-link @click.native="linkToSignature('Signature')"></cell>
+        <cell class="likeType"  title="个性签名" :value="signature" is-link @click.native="linkToSignature('Signature')"></cell>
       </group>
 
       <group>
-        <cell title="喜欢类型" :value="type" is-link @click.native="linkToUrl('checkList')"></cell>
+        <cell class="likeType" title="喜欢类型" :value="type" is-link @click.native="linkToUrl('checkList')"></cell>
       </group>
 
       <group>
@@ -86,6 +86,7 @@
         loveStatus: '',          //情感状态
         favoriteSuperStars: '',  //喜爱明星
         sexSelect: [],   //男
+        signature: '',         //签名
         loveStatusSelect: [], //情感状态
         industrySelect: [], //行业
         addressSelect: ['110000','110100','110101'], //地区
@@ -183,7 +184,8 @@
         }
 
         if(!signatureJSON && this.userDetail.signature) {
-          sessionStorage.setItem('signature', this.userDetail.signature)
+          sessionStorage.setItem('signature', this.userDetail.signature);
+          signatureJSON = this.userDetail.signature;
         }
 
         this.avatar = avatarJSON;
@@ -191,6 +193,7 @@
         this.industryText = industrySelect;
         this.type = typeSelect;
         this.addressSelect = addressSelect;
+        this.signature = signatureJSON;
         this.sexSelect = sexSelect;
         this.loveStatusSelect = loveStatusSelect;
         this.birthday = this.userDetail.birthday;
@@ -519,6 +522,16 @@
       margin-bottom: boxValue(20);
     }
   }
+
+  .likeType  {
+    .weui-cell__ft {
+      width: boxValue(300);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  
 
   #avatar {
     display: none;

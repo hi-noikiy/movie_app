@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import * as getters from './getters';
 import * as actions from './actions';
 import mutations from './mutations';
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
@@ -22,4 +23,5 @@ export default new Vuex.Store({
   // plugins: process.env.NODE_ENV !== 'production'
   //   ? [createLogger()]
   //   : []
+  plugins: [createPersistedState()]
 })

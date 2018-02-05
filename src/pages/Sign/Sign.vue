@@ -32,7 +32,8 @@
     </div>
 
     <div class="sign__btn" :class="{'btn_unactive': userDetail.isSign == 1}" @click="signIn">
-      <span>签到</span>
+      <span v-if="userDetail.isSign == 2">签到</span>
+      <span v-else>已签到</span>
     </div>
 
     <div class="sign__intro">
@@ -79,6 +80,12 @@
           console.log(res);
           if(res.q.s == 0) {
             this.$confirm('(第一次) 签到1天赠送10积分/签到连续2天签到赠送20积分，明天连续签到送30积分哦！')
+            let now = new Date();
+            let day = now.getDate();
+            let index = day + parseInt(this.monthFirst) - 1;
+            this.dateList[index].signed = true;
+            let obj = this.dateList[index];
+            this.dateList.splice(index, 1, obj);
             //更新资料
             // this.getUserDetail();
             this.updateUserDetail();

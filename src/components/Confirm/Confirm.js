@@ -23,7 +23,7 @@ Util.install = function(Vue, options) {
     if(title) {
       confirmVM.title = title;
     }
-    if(type) {
+    if(type != undefined) {
       confirmVM.type = type;
     }
 

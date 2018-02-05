@@ -14,15 +14,15 @@
   export default {
     name: 'app',
     created() {
-      if(!sessionStorage.getItem('sessionId')) {
-        this.$Api.getSession().then((res) => {
-          console.log(res)
-          if(res.q.s == 0) {
-            sessionStorage.setItem('sessionId', '');
-            // sessionStorage.setItem('sessionId', res.s);
-          }
-        })
-      }
+      // if(!sessionStorage.getItem('sessionId')) {
+      //   this.$Api.getSession().then((res) => {
+      //     console.log(res)
+      //     if(res.q.s == 0) {
+      //       sessionStorage.setItem('sessionId', '');
+      //       // sessionStorage.setItem('sessionId', res.s);
+      //     }
+      //   })
+      // }
 
       if(!sessionStorage.getItem('location')) {
         var map, geolocation;

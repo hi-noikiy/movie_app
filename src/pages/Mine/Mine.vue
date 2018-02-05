@@ -15,7 +15,12 @@
               {{userDetail.integralLevel == '1'?'大众会员':userDetail.integralLevel == '2'?'黄金会员':userDetail.integralLevel == '3'?'铂金会员':userDetail.integralLevel == '4'?'钻石会员':userDetail.integralLevel == '5'?'至尊会员':''}}
             </span>
             <span class="tab tab__friend" v-if="userDetail.isManyFriend == 1">交友达人</span>
-            <span class="tab tab__singIn" @click="linkTo('Sign')">签到+{{userDetail.getFromSign}}</span>
+            <span class="tab tab__singIn singed" @click="linkTo('Sign')" v-if="userDetail.isSign == 1">
+              已签到
+            </span>
+            <span class="tab tab__singIn" @click="linkTo('Sign')" v-else>
+              签到+{{userDetail.getFromSign}}
+            </span>
           </div>
         </div>
         <div class="info__right">
@@ -106,14 +111,7 @@
     },
 
     created() {
-      // this.getUserDetail();
-      // let result = this.getUserStorage();
-      // if(result) {
-      //   this.userDetail = result;
-      // }else {
-      //   //用户信息
-      //   this.getUserDetail();
-      // }
+      this.updateUserDetail();
     },
 
     methods: {
@@ -228,6 +226,10 @@
 
             .tab__singIn {
               background: #02a9ff;
+
+              &.singed {
+                background: #86919b;
+              }
             }
           }
         }

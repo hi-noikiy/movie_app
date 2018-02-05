@@ -19,7 +19,10 @@
         <span class="header__right__tag" @click="linkTo('Mine')">
           {{userDetail.integralLevel == '1'?'大众会员':userDetail.integralLevel == '2'?'黄金会员':userDetail.integralLevel == '3'?'铂金会员':userDetail.integralLevel == '4'?'钻石会员':userDetail.integralLevel == '5'?'至尊会员':''}}
         </span>
-        <span class="header__right__singIn" @click="linkTo('Sign')">
+        <span class="header__right__singIn singed" @click="linkTo('Sign')" v-if="userDetail.isSign == 1">
+          已签到
+        </span>
+        <span class="header__right__singIn" @click="linkTo('Sign')" v-else>
           签到+{{userDetail.getFromSign}}
         </span>
       </div>
@@ -47,7 +50,7 @@
       </div>
       <div class="menu" @click="linkTo('Store')">
         <div class="menu__gift"></div>
-        <div class="menu__text">兑商品</div>
+        <div class="menu__text">兑卡券</div>
       </div>
       <div class="menu" @click="linkTo('Mine')">
         <div class="menu__user"></div>
@@ -370,6 +373,10 @@ $base: 32rem;
       .header__right__singIn {
         margin-left: boxValue(12);
         background: #02a9ff;
+
+        &.singed {
+          background: #86919b;
+        }
       }
     }
   }

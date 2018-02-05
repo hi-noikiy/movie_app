@@ -3,12 +3,12 @@
     <div class="stream__list">
       <div class="stream" v-for="item in integrals">
         <div class="stream__left">
-          <div class="left__title">{{item.content}}</div>
+          <div class="left__title">{{item.title}}</div>
           <div class="left__date">{{item.addTime}}</div>
         </div>
         <div class="stream__right">
           <div class="right__control" :class="{'add': parseInt(item.amount) >  0, 'sub': parseInt(item.amount) <  0}">{{(parseInt(item.amount) >  0?'+':'') + item.amount}}</div>
-          <div class="right__detail"></div>
+          <div class="right__detail">{{item.content}}</div>
         </div>
       </div>
 

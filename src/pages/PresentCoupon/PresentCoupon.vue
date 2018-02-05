@@ -1,32 +1,7 @@
 <template>
-  <div id="collect">
+  <div id="presentCoupon">
     <div class="collect__list">
-      <!-- <div class="collection">
-        <div class="collection__left">
-          <img src="../../assets/shop.png" alt="">
-        </div>
-        <div class="collection__right">
-          <div class="right__title">
-            Apple iPhone X 64GB 深空灰 移动联通电信4G手机
-          </div>
-          <div class="right__price">
-            <span>面值</span>
-            <span class="price__num">50</span>
-            <span>元</span>
-          </div>
-        </div>
-        <div class="collection__btn active" v-if="type == 'active'">
-          使用
-        </div>
-        <div class="collection__btn used" v-if="type == 'used'">
-          已使用
-        </div>
-        <div class="collection__date" v-if="type == 'overdue'">
-          已过期
-        </div>
-      </div> -->
-
-      <div class="collection" v-for="(item,index) in cardList" @click="linkToUrl('goods?id=' + item.couponId)">
+      <div class="collection" v-for="(item, index) in coupons" :key="index">
         <div class="collection__left">
           <img v-lazy="$ImgUrl + item.imagePath" alt="">
         </div>
@@ -36,32 +11,21 @@
           </div>
           <div class="right__price" v-if="item.type == 1 || item.type == 3">
             <span>面值</span>
-            <span class="price__num">{{item.price}}</span>
+            <span class="price__num">{{parseFloat(item.price)}}</span>
             <span>元</span>
           </div>
-          <div class="right__price" v-if="item.type == 2">
-            <span class="price__num">{{item.integral}}</span>
+          <div class="right__price" v-if="item.type == 2 || item.type == 4">
+            <span class="price__num">{{parseFloat(item.integral)}}</span>
             <span>积分</span>
           </div>
-          <div class="right__price" v-if="item.type == 4">
+          <div class="right__price" v-if="item.type == 2 ||item.type == 4">
+            <span>所需积分</span>
             <span class="price__num">{{item.integral}}</span>
-            <span>积分+</span>
-            <span class="price__num">{{item.price}}</span>
-            <span>元</span>
-          </div>
-          <div class="right__date" v-if="item.deadline">
-            <span>有效期:</span>
-            <span class="price__num">{{item.deadline}}</span>
+            <div class="market">市场价{{item.marketPrice}}</div>
           </div>
         </div>
-        <div class="collection__btn active" v-if="type == 'active'" @click.stop="linkToUrl('code?val='+item.code+'&code='+item.qrcodeImagePath)">
-          使用
-        </div>
-        <div class="collection__btn used" v-if="type == 'used'">
-          已使用
-        </div>
-        <div class="collection__date" v-if="type == 'overdue'">
-          已过期
+        <div class="collection__btn" @click="share(item.id)">
+          赠送
         </div>
       </div>
     </div>
@@ -70,20 +34,63 @@
 
 <script>
   export default {
-    props: ['type','cardList'],
+    data() {
+      return {
+        coupons: [],
+        id: this.$route.query.id
+      }
+    },
+
+    created() {
+      this.getOrderList();
+    },
 
     methods: {
-      test() {
-        console.log('ss')
+      //获取可用列表
+      getOrderList() {
+        let param = {
+          a: 1,
+          status: 1
+        }
+
+        this.$Api.getOrderList(param).then((res) => {
+          console.log(res)
+          if(res.q.s == 0) {
+            this.coupons = res.q.orders
+          }
+        })
+      },
+
+      share(id) {
+        this.$confirm('你确定要赠送该卡券吗', '赠送', '').then((res) => {
+          console.log(res);
+          if(res == 'sure') {
+            // this.$Api.FriendUpdate({a:3, orderId: id, userId: this.id}).then((res) => {
+            //   console.log(res);
+            //   if(res.q.s == 0) {
+            //     this.$toast('操作成功!').then(() => {
+            //       this.$router.go(-1);
+            //     })
+            //   }else {
+            //     this.$toast(res.q.d, 'fail')
+            //   }
+            // })
+            this.$router.push({name: 'PhoneCode', query: {
+              id: this.id,
+              type: 6,
+              orderId: id
+            }})
+          }
+        })
       }
     }
-  }
+  }  
 </script>
 
 <style lang="scss">
   @import '../../scss/mixin.scss';
 
-  #collect {
+  #presentCoupon {
     margin-top: boxValue(20);
 
     .collect__list {
@@ -127,14 +134,11 @@
               font-size: boxValue(34);
               font-weight: 600;
             }
-          }
 
-          .right__marketPrice {
-            color: #666;
-          }
-
-          .right__date {
-            color: #ff4444;
+            .market {
+              margin-top: boxValue(10);
+              color: #999;
+            }
           }
         }
 
@@ -145,12 +149,8 @@
           padding: boxValue(10) boxValue(24);
           color: #fff;
           font-size: boxValue(22);
-          background: #7695a5;
+          background: #27adff;
           border-radius: boxValue(24);
-        }
-
-        .collection__btn.active {
-          background: #02a9ff;
         }
 
         .collection__date {

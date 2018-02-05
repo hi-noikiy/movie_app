@@ -3,15 +3,15 @@
     <div class="store__top">
       <div class="store__top__swiper">
         <!-- <img src="../../assets/swiper.png" alt=""> -->
-        <swiper auto :list="adList" :aspect-ratio="290/640" :interval=5000 dots-position="center"></swiper>
+        <swiper auto :list="adList" :aspect-ratio="290/640" :interval=4000 dots-position="center"></swiper>
       </div>
       <div class="store__top__search">
-        <div class="search__point">
-          我的积分: {{userDetail.totalIntegral}}
+        <div class="search__point" @click="linkTo('Points')">
+          我的积分: {{userDetail.canUseIntegral}}
         </div>
         <div class="search__input" @click="linkTo('Search')">
           <span class="search__input__icon"></span>
-          <input class="search__input__value" type="text" placeholder="找商户、用户">
+          <input class="search__input__value" type="text" placeholder="找卡券、找用户">
         </div>
       </div>
       <div class="store__top__news" ref="news" v-if="newOpen">
@@ -20,11 +20,15 @@
         </div>
         <div class="news__detail">
           <ul class="detail__list">
-            <swiper auto loop height="30px" direction="vertical" :interval=1000 :show-dots="false">
-              <swiper-item v-for="(item,index) in newList" :key="index"><li class="detail">{{item.title}}</li></swiper-item>
+            <swiper auto loop height="40px" direction="vertical" :interval=1000 :show-dots="false">
+              <swiper-item v-for="(item,index) in Math.round(newList.length / 2)" :key="index">
+                <li class="detail">{{newList[(index * 2)].title}}</li>
+                <li class="detail">{{newList[(index * 2) + 1].title}}</li>
+              </swiper-item>
             </swiper>
           </ul>
         </div>
+        <div class="news__bg" ref="newsBg"></div>
       </div>
     </div>
 
@@ -153,6 +157,8 @@
           if(res.q.s == 0) {
             this.newList = res.q.news.lists;
             this.newBg = res.q.news.imagePath;
+            this.$refs.newsBg.style.backgroundImage = 'url(' + this.$ImgUrl + res.q.news.imagePath + ')';
+            console.log(this.$refs.newsBg)
             if(res.q.news.isOpen == 2) {
               this.newOpen = false;
             }
@@ -237,18 +243,17 @@
         position: relative;
         display: flex;
         flex-direction: row;
-        height: boxValue(74);
+        height: 40px;
         background: #fff;
         z-index: 2;
 
-        &::after {
-          content: '';
+        .news__bg {
           position: absolute;
           bottom: 0;
           left: 0;
-          height: boxValue(120);
+          height: 68px;
           width: 100%;
-          background-image: url('http://api.yyh517.com/uploadfiles/201801/17/221913_9020.png');
+          // background-image: url('http://api.yyh517.com/uploadfiles/201801/17/221913_9020.png');
           background-size: 100%;
           z-index: -1;
         }
@@ -258,22 +263,24 @@
           padding: 0 boxValue(30);
           width: boxValue(200);
           font-size: boxValue(30);
-          line-height: boxValue(74);
+          line-height: 40px;
           color: #fff;
         }
 
         .news__detail {
           padding-right: boxValue(30);
+          height: 40px;
           width: 100%;
 
           .detail__list {
-            padding: boxValue(7);
+            height: 40px;
             margin: 0;
             list-style-type: none;
 
             .detail {
-              height: 30px;
-              line-height: 30px;
+              width: boxValue(400);
+              height: 20px;
+              line-height: 20px;
               color: #fff;
               text-overflow: ellipsis;
               overflow: hidden;

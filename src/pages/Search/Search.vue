@@ -59,6 +59,10 @@
       },
 
       search() {
+        if(!this.searchKey) {
+          return false;
+        }
+
         if(this.type == 1) {
           let param = {
             a: 2,

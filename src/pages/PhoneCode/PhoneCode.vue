@@ -1,23 +1,16 @@
 <template>
-  <div id="login">
-    <div class="login__logo">
-      <img class="logo" src="../../assets/loginlogo.png" alt="">
-    </div>
+  <div id="PhoneCode">
     <div class="login__input">
       <div class="input__mobile">
         <input type="text" maxlength="11" v-model="mobile" placeholder="请输入手机号">
       </div>
       <div class="input__code">
         <input class="input" type="text" v-model="code" placeholder="请输入验证码">
-        <span class="code" @click="getSms">{{sendText}}</span>
+        <span class="code" :class="{'sended': isSend}" @click="getSms">{{sendText}}</span>
       </div>
     </div>
     
-    <div class="login__submit" @click="submit">验证手机</div>
-    <div class="login__tips"  @click="checked = !checked">
-      <span class="check" :class="{'unchecked': !checked}"></span>
-      <span>我已阅读并同意<span @click.self="linkToAgreemeet">《云影汇用户注册协议》</span></span>
-    </div>
+    <div class="login__submit" @click="submit">立即验证</div>
   </div>
 </template>
 
@@ -30,8 +23,15 @@
         sendText: '获取验证码',
         isSend: false,
         checked: true,
-        type: this.$route.query.type
+        id: this.$route.query.id,
+        type: this.$route.query.type,
+        point: this.$route.query.point,
+        orderId: this.$route.query.orderId
       }
+    },
+
+    mounted() {
+      this.mobile = this.userDetail.mobile
     },
 
     methods: {
@@ -40,16 +40,10 @@
           return false;
         }
 
-        let type = 1;
-
-        if(this.type) {
-          type = 7;
-        }
-
         this.$load(1, '请求中');
         
 
-        this.$Api.getSMSCode(1, type, this.mobile).then((res) => {
+        this.$Api.getSMSCode(1, this.type, this.mobile).then((res) => {
           if(res.q.s == 0) {
             this.isSend = true;
             let count = 60;
@@ -74,28 +68,34 @@
         })
       },
 
-      linkToAgreemeet() {
-        location.href = 'http://game.yyh517.com/#/agreement';
-      },
-
       submit() {
-        if(!this.checked) {
-          this.$toast('请同意协议', 'fail');
-          return false;
-        }
-
-        let type = 1;
-
-        if(this.type) {
-          type = 7;
-        }
-
-        this.$Api.getSMSCode(2, type, this.mobile, this.code).then((res) => {
+        this.$Api.getSMSCode(2, this.type, this.mobile, this.code).then((res) => {
           if(res.q.s == 0) {
-            this.$toast('验证成功，请返回首页').then(() => {
-              this.updateUserDetail();
-              this.$router.push({name:'Index'})
-            })
+            if(this.type == 5) {
+              this.$Api.FriendUpdate({a:2, integral: this.point, userId: this.id}).then((res) => {
+                console.log(res);
+                if(res.q.s == 0) {
+                  this.updateUserDetail();
+                  this.$toast('操作成功!').then(() => {
+                    this.$router.go(-2);
+                  })
+                }else {
+                  this.$toast(res.q.d, 'fail')
+                }
+              })
+            }else if(this.type == 6){
+              this.$Api.FriendUpdate({a:3, orderId: this.orderId, userId: this.id}).then((res) => {
+                console.log(res);
+                if(res.q.s == 0) {
+                  this.$toast('操作成功!').then(() => {
+                    this.$router.go(-2);
+                  })
+                }else {
+                  this.$toast(res.q.d, 'fail')
+                }
+              })
+            }
+            
           }else {
             this.$toast(res.q.d, 'fail');
           }
@@ -108,11 +108,11 @@
 <style lang="scss">
   @import '../../scss/mixin.scss';
 
-  #login {
+  #PhoneCode {
     height: auto;
     min-height: 100%;
     padding-top: 1px;
-    background: url('../../assets/loginbg.jpg');
+    background: #fff;
     background-size: 100%;
 
     .login__logo {
@@ -142,7 +142,7 @@
       height: boxValue(70);
       // width: 100%;
       line-height: boxValue(70);
-      color: #fff;
+      color: #333;
       box-sizing: border-box;
     }
 
@@ -161,11 +161,11 @@
         height: boxValue(70);
         width: boxValue(240);
         line-height: boxValue(70);
-        color: #5d73f5;
+        color: #fff;
         border-radius: boxValue(50);
         font-size: boxValue(28);
         text-align: center;
-        background: #fff;
+        background: #02a9ff;
         white-space: nowrap;
         box-sizing: border-box;
 
@@ -183,10 +183,10 @@
       height: boxValue(70);
       line-height: boxValue(70);
       text-align: center;
-      color: #5d73f5;
+      color: #fff;
       border-radius: boxValue(50);
       font-size: boxValue(28);
-      background: #fff;
+      background: #02a9ff;
     }
 
     .login__tips {
@@ -214,15 +214,15 @@
       height: 100%;
       width: 100%;
       border: none;
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid #eee;
       font-size: boxValue(28);
       outline: none;
       background: transparent;
-      color: #fff;
+      color: #333;
       border-radius: 0;
 
       &::-webkit-input-placeholder {
-        color: #fff;
+        color: #bbb;
       }
     }
   }

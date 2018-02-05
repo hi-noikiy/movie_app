@@ -265,7 +265,7 @@ export default new Router({
       path: '/store',
       name: 'Store',
       meta: {
-        title: '积分商城'
+        title: '卡券商城'
       },
       component: resolve => require(['@/pages/Store/Store'], resolve)
     },
@@ -372,6 +372,30 @@ export default new Router({
         title: '验证'
       },
       component: resolve => require(['@/pages/Code/Code'], resolve)
+    },
+    {
+      path: '/presentPoints',
+      name: 'PresentPoints',
+      meta: {
+        title: '赠送积分'
+      },
+      component: resolve => require(['@/pages/PresentPoints/PresentPoints'], resolve)
+    },
+    {
+      path: '/presentCoupon',
+      name: 'PresentCoupon',
+      meta: {
+        title: '赠送卡券'
+      },
+      component: resolve => require(['@/pages/PresentCoupon/PresentCoupon'], resolve)
+    },
+    {
+      path: '/phoneCode',
+      name: 'PhoneCode',
+      meta: {
+        title: '验证手机'
+      },
+      component: resolve => require(['@/pages/PhoneCode/PhoneCode'], resolve)
     }
   ],
   scrollBehavior (to, from, savedPosition) {

@@ -29,7 +29,7 @@ export default {
       cinemasList: [[]],
       cinemasListSelect: [],
       ageList: [[],[]], //年龄列表
-      age: [],
+      age: [12, 40],
       format: function (value, name) {
         return `${value[0]} - ${value[1]}`
       }
@@ -100,7 +100,11 @@ export default {
       this.$Api.UserUpdate(param).then((res) => {
         console.log(res)
         if(res.q.s == 0) {
-          this.$toast('更新成功!')
+          this.$toast('更新成功!').then(() => {
+            this.$router.go(-1);
+          })
+        }else {
+          this.$toast(res.q.d, 'fail');
         }
       })
     }

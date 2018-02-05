@@ -82,7 +82,7 @@ Vue.mixin({
 })
 
 router.beforeEach((to, from, next) => {
-  store.commit('UPDATE_LOADING_STATUS', {isLoading: true})
+  // store.commit('UPDATE_LOADING_STATUS', {isLoading: true})
   if (to.meta.title) {
     document.title = to.meta.title
   }
@@ -90,7 +90,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(function (to) {
-  store.commit('UPDATE_LOADING_STATUS', {isLoading: false})
+  // store.commit('UPDATE_LOADING_STATUS', {isLoading: false})
 })
 
 /* eslint-disable no-new */

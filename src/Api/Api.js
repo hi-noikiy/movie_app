@@ -809,6 +809,26 @@ const Api = {
     })
   },
 
+/**
+ * 40	业务，票根操作TicketUpdate（H5、APP）
+ * 
+ * @param {ids} 票根id，["1","2","3"]
+ * @returns 
+ */
+TicketUpdate({ids}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'TicketUpdate',
+          q: {
+            a: 1,
+            ids
+          }
+        }
+      }
+    })
+  },
+
   /**`
    * 41业务，卡券列表 CouponList（H5、 APP）
    * 
