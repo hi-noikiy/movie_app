@@ -1,5 +1,5 @@
 <template>
-  <div id="invite" class="invite__list">
+  <div id="friending" class="invite__list">
     <swipeout>
       <swipeout-item @on-close="handleEvents('on-close')" @on-open="handleEvents('on-open')" transition-mode="follow" v-for="(item,index) in userList" :key="index">
         <div slot="right-menu">
@@ -70,6 +70,7 @@
         this.$Api.FriendUpdate(param).then((res) => {
           console.log(res)
           if(res.q.s == 0) {
+            this.updateUserDetail();
             this.$toast('拒绝成功!');
             this.userList[index].status =3;
           }
@@ -83,10 +84,12 @@
         }
         this.$Api.FriendUpdate(param).then((res) => {
           if(res.q.s == 0) {
-            this.$toast('添加成功!');
+            this.$toast('添加成功!').then(() => {
+              this.updateUserDetail();
+              this.$router.go(-1);
+            });
             this.userList[index].status = 2;
           }
-          console.log(res)
         })
       },
 
@@ -105,7 +108,7 @@
 <style lang="scss">
   @import '../../scss/mixin.scss';
 
-  #invite {
+  #friending {
     margin-top: boxValue(16);
     background: #fff;
 

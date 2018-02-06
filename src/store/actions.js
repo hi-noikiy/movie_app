@@ -241,14 +241,12 @@ function initRecentContactList(commit, state) {
   };
   var maxNameLen = 10;
   state.recentSessMap = []; //清空
-
   webim.getRecentContactList(
     options,
     function (resp) {
         var tempSess;//临时会话变量
         var firstSessType;//保存第一个会话类型
         var firstSessId;//保存第一个会话id
-
         //清空聊天对象列表
         console.log(resp)
         var count = 0;

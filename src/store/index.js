@@ -11,6 +11,9 @@ const state = {
   userDetail: {},
   isLoading: false,
 
+  selType: 'C2C',
+  selToID: '',
+  selSess: null, //当前聊天会话对象
   unread: [],
   recentSessMap: []
 }

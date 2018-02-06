@@ -26,7 +26,7 @@
         </div>
       </div> -->
 
-      <div class="collection" v-for="(item,index) in cardList" @click="linkToUrl('goods?id=' + item.couponId)">
+      <div class="collection" v-for="(item,index) in cardList" @click="linkToUrl('goods?id=' + item.couponId + '&val=' + item.code+'&code='+item.qrcodeImagePath)">
         <div class="collection__left">
           <img v-lazy="$ImgUrl + item.imagePath" alt="">
         </div>

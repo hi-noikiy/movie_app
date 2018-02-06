@@ -26,8 +26,11 @@
           <span>{{parseFloat(item.marketPrice)}}</span>
         </div>
       </div>
-      <div class="collection__btn active" @click.stop="submit(item.id)">
+      <div class="collection__btn active" @click.stop="submit(item.id)" v-if="item.type == 1 || item.type == 3">
         领取
+      </div>
+      <div class="collection__btn active" @click.stop="submit(item.id)" v-if="item.type == 2">
+        兑换
       </div>
     </div>
     

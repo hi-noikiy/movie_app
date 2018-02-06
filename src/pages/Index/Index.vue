@@ -202,6 +202,7 @@
         })
       }
       
+      this.initIM();
       
       //广告列表
       this.getAdList();

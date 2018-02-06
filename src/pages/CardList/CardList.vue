@@ -1,9 +1,9 @@
 <template>
   <div id="card">
     <div class="card__tabbar">
-      <span class="tabbar" :class="{'active': type=='active'}"@click="changeType('active')">待使用</span>
-      <span class="tabbar" :class="{'active': type=='used'}"@click="changeType('used')">已使用</span>
-      <span class="tabbar" :class="{'active': type=='overdue'}"@click="changeType('overdue')">已过期</span>
+      <span class="tabbar" :class="{'active': type=='active'}" @click="changeType('active')">待使用</span>
+      <span class="tabbar" :class="{'active': type=='used'}" @click="changeType('used')">已使用</span>
+      <span class="tabbar" :class="{'active': type=='overdue'}" @click="changeType('overdue')">已过期</span>
     </div>
 
     <template v-if="type == 'active'">

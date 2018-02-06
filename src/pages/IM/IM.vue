@@ -61,11 +61,11 @@
     },
     created() {
       var selSess = webim.MsgStore.sessByTypeId('C2C', this.$route.query.id);//初始化当前会话对象
+      this.selSess = selSess;
       var sessMap = webim.MsgStore.sessMap();
       var count = webim.MsgStore.sessCount();
       var type = webim.MsgStore.sessByTypeId('C2C');
-      webim.setAutoRead(selSess, true, false);
-      var sessCS = webim.SESSION_TYPE.C2C + this.selToID;
+      webim.setAutoRead(selSess, true, true);
       console.log(sessMap);
       //拉取漫游消息
       this.getLastC2CHistoryMsgs((msgList) => {
@@ -107,6 +107,7 @@
 
         var sess=webim.MsgStore.sessByTypeId('C2C', toAccount);
 
+
         if(!sess) {
           sess = new webim.Session(webim.SESSION_TYPE.C2C, toAccount, toAccount, '', Math.round(new Date().getTime() / 1000));
           // this.$Api.getUserDetails(item.To_Account).then((res) => {
@@ -115,6 +116,8 @@
           //     commit('ADD_ONE_SESS', {sess: item});
           //   }
           // });
+        }else {
+          webim.setAutoRead(sess, true, false);
         }
 
         var isSend = true;//是否为自己发送

@@ -231,7 +231,9 @@
           }
 
           .search__input__value {
+            line-height: boxValue(26);
             margin-left: boxValue(10);
+            font-size: 10px;
             border: none;
             outline: none;
             background: #f4f7f7;

@@ -11,9 +11,10 @@ import Confirm from '@/components/Confirm/Confirm.js'
 import Api from '@/Api/Api'
 import { mapGetters,mapActions } from 'vuex';
 
-import 'normalize.css'
-import 'swiper/dist/css/swiper.css'
-import 'element-ui/lib/theme-chalk/index.css'
+import './scss/base.scss';
+import 'normalize.css';
+import 'swiper/dist/css/swiper.css';
+import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;
 

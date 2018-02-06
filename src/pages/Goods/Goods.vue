@@ -99,7 +99,11 @@
       </div>
     </div>
 
-    <div class="edit__btn">
+    <div class="edit__btn" v-if="val">
+      <span class="btn collected" @click="linkToTel('020-31525503')">平台电话</span>
+      <span class="btn sure" @click.stop="linkToUrl('code?val='+val+'&code='+code)">立即使用</span>
+    </div>
+    <div class="edit__btn" v-else>
       <span class="btn" v-if="coupon.isCollected == 1" @click="CouponSwitch">已关注</span>
       <span class="btn collected" v-else @click="CouponSwitch">关注</span>
       <span class="btn sure" @click="submit">立即领取</span>
@@ -119,7 +123,9 @@
         showShop: false,
         showUse: false,
         cinema: {},
-        cinemaList: []
+        cinemaList: [],
+        val: this.$route.query.val,
+        code: this.$route.query.code,
       }
     },
     created() {
@@ -216,6 +222,11 @@
         }else {
           this.showUse = !this.showUse;
         }
+      },
+
+      //打电话
+      linkToTel(link) {
+        window.location.href='tel:' + link
       },
 
       // getCinemaList() {
@@ -414,7 +425,7 @@
 
     .edit__btn {
       position: fixed;
-      bottom: 0;
+      bottom: -1px;
       left: 0;
       display: flex;
       justify-content: space-between;

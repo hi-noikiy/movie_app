@@ -19,8 +19,8 @@
         </template>
         <template v-if="type == 2">
           <div class="meet__list">
-            <div class="meet" v-for="user in userList">
-              <div class="meet__left" @click="linkToUrl('person?id='+user.id)">
+            <div class="meet" v-for="user in userList" @click="linkToUrl('person?id='+user.id)">
+              <div class="meet__left">
                 <img :src="$ImgUrl + user.imagePath" alt="" v-if="user.imagePath">
                 <img src="../../assets/avatar.png" alt="" v-else>
               </div>
@@ -30,7 +30,7 @@
                     <span class="header__name__sex" :class="{'fsex_b': user.sex == 1, 'fsex_g': user.sex == 2}">{{user.age}}</span>
                   </div>
                 </div>
-                <div class="meet__right__btn" @click="DateSubmit(user.id)">约电影</div>
+                <div class="meet__right__btn" @click.stop="DateSubmit(user.id)">约电影</div>
               </div>
             </div>
           </div>
