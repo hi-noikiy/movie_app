@@ -9,7 +9,10 @@
           <div class="toast__icon" v-if="type == 'fail'">
             <img src="../../assets/fail.png" alt="">
           </div>
-          <div class="toast__title">
+          <div class="toast__icon" v-if="type == 'info'">
+            <img src="../../assets/info.png" alt="">
+          </div>
+          <div class="toast__title" v-if="title">
             {{title}}
           </div>
         </div>
@@ -32,7 +35,7 @@
         content: '默认',
         show: false,
         type: 'success',
-        title: '签到成功'
+        title: ''
       }
     },
     

@@ -29,7 +29,7 @@
       <div class="collection__btn active" @click.stop="submit(item.id)" v-if="item.type == 1 || item.type == 3">
         领取
       </div>
-      <div class="collection__btn active" @click.stop="submit(item.id)" v-if="item.type == 2">
+      <div class="collection__btn active" @click.stop="submitPoints(item)" v-if="item.type == 2">
         兑换
       </div>
     </div>
@@ -79,6 +79,20 @@
           }
           this.$load(2);
         })
+      },
+
+      //需要积分兑换的
+      submitPoints(item) {
+        let sub = parseInt(this.userDetail.canUseIntegral) - parseInt(item.integral);
+        if(sub < 0) {
+          this.$toast('积分不够!', 'fail');
+          return false;
+        }
+        this.$confirm('兑换将消耗'+ item.integral +'积分，兑换后剩余'+ sub +'积分，是否继续兑换', '', 'info').then((res) => {
+          if(res == 'sure') {
+            this.submit(item.id);
+          }
+        });
       }
     }
   }

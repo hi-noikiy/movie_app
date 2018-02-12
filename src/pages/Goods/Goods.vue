@@ -106,7 +106,8 @@
     <div class="edit__btn" v-else>
       <span class="btn" v-if="coupon.isCollected == 1" @click="CouponSwitch">已关注</span>
       <span class="btn collected" v-else @click="CouponSwitch">关注</span>
-      <span class="btn sure" @click="submit">立即领取</span>
+      <span class="btn sure" @click="submitPoints" v-if="coupon.type == 2">立即兑换</span>
+      <span class="btn sure" @click="submit" v-else>立即领取</span>
     </div>
   </div>
 </template>
@@ -258,6 +259,20 @@
             this.$toast(res.q.d, 'fail')
           }
         })
+      },
+
+      //需要积分兑换的
+      submitPoints() {
+        let sub = parseInt(this.userDetail.canUseIntegral) - parseInt(this.coupon.integral);
+        if(sub < 0) {
+          this.$toast('积分不够!', 'fail');
+          return false;
+        }
+        this.$confirm('兑换将消耗'+ this.coupon.integral +'积分，兑换后剩余'+ sub +'积分，是否继续兑换', '', 'info').then((res) => {
+          if(res == 'sure') {
+            this.submit();
+          }
+        });
       }
     },
     components: {

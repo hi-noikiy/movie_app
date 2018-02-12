@@ -54,9 +54,14 @@
             center: [item.longitude, item.latitude]
           });
 
-           var marker = new AMap.Marker({
-              map: map,
-              position: [item.longitude, item.latitude]
+          var marker = new AMap.Marker({
+            map: map,
+            position: [item.longitude, item.latitude]
+          });
+
+          marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+            offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+            content: item.name + '[地址:' +item.address + ']'
           });
         }
         
@@ -149,6 +154,14 @@
       background-image: url('../../assets/imgdelete.png');
       background-size: 100%;
       z-index: 999;
+    }
+
+    .amap-marker-label {
+      width: 80px;
+      word-break: break-all;
+      height: auto;
+      white-space: normal;
+      border-color: #ccc;
     }
   }
 </style>

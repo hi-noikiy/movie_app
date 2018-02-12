@@ -19,6 +19,16 @@
         checkOneList: industryType
       }
     },
+
+    created() {
+      if(!this.type) {
+        let favoriteTypes = sessionStorage.getItem('favoriteTypes')
+        if(favoriteTypes) {
+          this.checked = JSON.parse(favoriteTypes);
+        }
+      }
+    },
+
     methods: {
       change() {
         console.log(this.checked);

@@ -1,6 +1,8 @@
 <template>
   <div id="stream">
-    <div class="stream__list">
+    <div class="stream__list" v-waterfall-lower="loadMore"
+      waterfall-disabled="disabled"
+      waterfall-offset="200">
       <div class="stream" v-for="item in integrals">
         <div class="stream__left">
           <div class="left__title">{{item.title}}</div>
@@ -27,11 +29,22 @@
 </template>
 
 <script>
+  import { Waterfall } from 'vant';
+
   export default {
     data() {
       return {
-        integrals: []
+        integrals: [],
+        page: 1,
+        limit: 10,
+        isload: false,
+        loaded: false
       }
+    },
+
+    directives: {
+      WaterfallLower: Waterfall('lower'),
+      WaterfallUpper: Waterfall('upper')
     },
 
     created() {
@@ -40,12 +53,30 @@
 
     methods: {
       getIntegralList() {
-        this.$Api.getIntegralList().then((res) => {
+        this.isload = true;
+        this.$Api.getIntegralList(this.page++, this.limit).then((res) => {
           console.log(res);
           if(res.q.s == 0) {
-            this.integrals = res.q.integrals;
+            this.integrals = [].concat(this.integrals,res.q.integrals);
+            if(res.q.integrals.length == 0) {
+              this.loaded = true;
+            }
           }
+          this.isload = false;
         })
+      },
+
+      loadMore() {
+        if(this.loaded) {
+          this.$toastB('没有更多记录了');
+          return false;
+        }
+
+        if(this.isload) {
+          return false;
+        }
+
+        this.getIntegralList();
       }
     }
   }

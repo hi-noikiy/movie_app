@@ -202,7 +202,9 @@
         })
       }
       
-      this.initIM();
+      this.utilUserDetail().then(() => {
+        this.initIM();
+      })
       
       //广告列表
       this.getAdList();

@@ -89,7 +89,7 @@ export const initIM = ({ commit, state }, payload) => {
     openIM = true;
     loginInfo.identifier = state.userDetail.id;
     loginInfo.userSig = state.userDetail.sig;
-    webimLogin(commit, state).bind(this); 
+    webimLogin(commit, state); 
   }
 }
 
@@ -124,7 +124,11 @@ function webimLogin(commit, state) {
   var listeners = {
     "onConnNotify": onConnNotify//监听连接状态回调变化事件,必填
     ,"jsonpCallback": jsonpCallback//IE9(含)以下浏览器用到的jsonp回调函数，
-    ,"onMsgNotify": onMsgNotify.bind(this)//监听新消息(私聊，普通群(非直播聊天室)消息，全员推送消息)事件，必填
+    ,"onMsgNotify": (newMsgList) => {
+      console.log('newMsgList');
+      console.log(newMsgList);
+      Bus.$emit('addMsg', newMsgList);
+    }//监听新消息(私聊，普通群(非直播聊天室)消息，全员推送消息)事件，必填
     // ,"onKickedEventCall" : onKickedEventCall//被其他登录实例踢下线
     ,"onC2cEventNotifys": onC2cEventNotifys//监听C2C系统消息通道
   }
@@ -135,7 +139,6 @@ function webimLogin(commit, state) {
 
   webim.login(loginInfo, listeners, options, (resp) => {
     console.log('登录成功')
-    
     // initRecentContactList(commit);
   })
 }
@@ -225,12 +228,6 @@ function onConnNotify(resp) {
 
 function jsonpCallback(rspData) {
   webim.setJsonpLastRspData(rspData);
-}
-
-function onMsgNotify(newMsgList) {
-  console.log('newMsgList');
-  console.log(newMsgList);
-  Bus.$emit('addMsg', newMsgList);
 }
 
 var recentSessMap = {};

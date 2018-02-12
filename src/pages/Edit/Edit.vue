@@ -157,13 +157,18 @@
           typeSelect = str.join('/')
         }else {
           let type = this.userDetail.favoriteTypes;
+          let arr = [];
           if(type.length > 0) {
             let str = [];
             for(let i in type) {
               str.push(this.getMovieType(type[i].id).value);
+              arr.push(type[i].id);
             }
             console.log(str.join('/'));
-            typeSelect = str.join('/')
+            typeSelect = str.join('/');
+            let json = JSON.stringify(arr);
+            //设置缓存
+            sessionStorage.setItem('favoriteTypes', json);
           }
         }
 

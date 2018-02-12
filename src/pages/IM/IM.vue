@@ -213,7 +213,13 @@
   @import '../../scss/mixin.scss';
 
   #im {
+    position: absolute;
+    width: 100%;
     padding-bottom: boxValue(80);
+    /* 使之可以滚动 */
+    overflow-y: scroll;
+    /* 增加该属性，可以增加弹性 */
+    -webkit-overflow-scrolling: touch;
 
     .im__list {
       display: flex;

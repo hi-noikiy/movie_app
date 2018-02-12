@@ -2,9 +2,11 @@ import Confirm from './Confirm.vue';
 import ToastComponent from './ToastComponent.vue';
 import PopComponent from './Pop.vue';
 import LoadingComponent from './Loading.vue';
+import ToastBlack from './ToastBlack.vue';
 
 var Util = {};
 var toastVM = null;
+var toastBVM = null;
 var confirmVM = null;
 var popVM = null;
 var loadVM = null;
@@ -77,18 +79,24 @@ Util.install = function(Vue, options) {
 
   }
 
-  Vue.prototype.$pop = (content) => {
-    console.log('piop')
-    if(!popVM) {
-      let popTpl = Vue.extend(PopComponent);
-      popVM = new popTpl();
-      let tpl = popVM.$mount().$el
+  Vue.prototype.$toastB = (text) => {
+    if(!toastBVM) {
+      let toastTpl = Vue.extend(ToastBlack);
+      toastBVM = new toastTpl();
+      let tpl = toastBVM.$mount().$el
       document.body.appendChild(tpl)
       console.log('create')
     }
 
-    popVM.show = true;
-    popVM.content = content;
+    toastBVM.isShow = true;
+
+    if(text) {
+      toastBVM.text = text;
+    }
+
+    setTimeout(() => {
+      toastBVM.isShow = false;
+    }, 800)
   }
 
   Vue.prototype.$load = (open, text) => {
