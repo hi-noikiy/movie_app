@@ -35,6 +35,7 @@
       padding: 0 boxValue(30);
       text-indent: boxValue(52);
       font-size: boxValue(26);
+      color: #333!important;
     }
   }
 </style>

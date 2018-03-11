@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- <keep-alive :include="['Index','Store']"> -->
-    <keep-alive :include="[]">
+    <keep-alive :include="['Index','Store']">
       <router-view/>
       <loading v-model="isLoading"></loading>
     </keep-alive>

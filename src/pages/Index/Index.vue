@@ -171,6 +171,7 @@
         NowMovie: [],
         MovieRank: [],
         adList: [], //广告列表
+        loaded: false
       }
     },
 
@@ -186,6 +187,8 @@
               this.initUserDetail({userId: ''});
             }
           }
+
+          this.loaded = true;
         })
       }else {
         this.$Api.WeixinUrl().then((res) => {
@@ -199,6 +202,7 @@
               this.initUserDetail({userId: ''});
             }
           }
+          this.loaded = true;
         })
       }
       
@@ -220,10 +224,12 @@
     },
 
     activated() {
-      this.initUserDetail();
-      this.utilUserDetail().then(() => {
-        this.initIM();
-      })
+      if(this.loaded) {
+        this.initUserDetail();
+        this.utilUserDetail().then(() => {
+          this.initIM();
+        })
+      }
     },
 
     methods: {

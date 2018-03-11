@@ -6,12 +6,21 @@
           <span>游戏规则</span>
           <span class="close" @click="cancel"></span>
         </div>
-        <div class="pop__content">
+        <div class="pop__content" v-if="!isIos">
           (1)同一用户活动期间每天可免费抽奖一次，分享可再次抽奖，两次机会用完后，每支付100积分可继续抽奖一次；
           <br />
           (2)同一账号、手机号、设备号、支付账户均视为同一用户；
           <br />
           (3)若出现违背上述活动规则、恶意作弊等非正常方式骗取奖品的行为，云影汇有权取消奖品，回收您的所得特权，同时取消您的活动参与资格。
+        </div>
+        <div class="pop__content" v-else>
+          (1)同一用户活动期间每天可免费抽奖一次，分享可再次抽奖，两次机会用完后，每支付100积分可继续抽奖一次；
+          <br />
+          (2)同一账号、手机号、设备号、支付账户均视为同一用户；
+          <br />
+          (3)若出现违背上述活动规则、恶意作弊等非正常方式骗取奖品的行为，云影汇有权取消奖品，回收您的所得特权，同时取消您的活动参与资格。
+          <br />
+          (4)所有产品抽奖活动与苹果公司（Apple Inc）无关。
         </div>
       </div>
     </div>
@@ -25,7 +34,15 @@
         content: '默认',
         show: true,
         type: 'success',
-        title: '签到成功'
+        title: '签到成功',
+        isIos: false,
+      }
+    },
+
+    created() {
+      var ua = navigator.userAgent.toLowerCase();
+      if (/iphone|ipad|ipod/.test(ua)) {
+        this.isIos = true;
       }
     },
     

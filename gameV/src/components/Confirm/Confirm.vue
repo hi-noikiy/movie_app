@@ -69,6 +69,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0,0,0, 0.3);
+    z-index: 9999;
 
     .toast {
       display: flex;
@@ -79,7 +80,7 @@
       height: auto;
       background: #fff;
       border-radius: 5px;
-      z-index: 9999;
+      z-index: 999999;
 
       .toast__btn {
         display: flex;

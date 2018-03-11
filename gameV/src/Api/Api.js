@@ -30,6 +30,25 @@ function axiosApi(url, option, method='get',stopLogin=false) {
 
 const Api = {
   /**
+   * 13用户，个人详情 UserDetails（H5、 APP）
+   * 
+   * @param {id}  
+   * @returns 
+   */
+  getUserDetails(s, id) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'UserDetails',
+          s,
+          q: {
+            id
+          }
+        }
+      }
+    })
+  },
+  /**
    * 39	业务，游戏详情GameDetails（H5、APP）
    * 
    * @param {a}  1老虎机；2大转盘；3砸金蛋；
