@@ -160,31 +160,48 @@
             this.$load(2);
             this.cost = res.q.game.cost;
             if(this.cost == 0) {
-              str = '首次不需要扣除积分' 
-            }else {
-              str = '玩该次游戏需要' + this.cost + '积分';
-            }
-            this.$confirm('', str, 'noImg').then((res) => {
-              if(res == 'sure') {
-                this.$load(1);
-                this.$Api.getUserDetails().then((res) => {
-                  console.log(res);
-                  if(res.q.s == 0) {
-                    let canUseIntegral = res.q.user.canUseIntegral? res.q.user.canUseIntegral:'0';
-                    if(canUseIntegral && parseInt(canUseIntegral) > parseInt(this.cost)) {
-                      this.$load(2);
-                      this.startStatus = true;
-                    }else {
-                      this.$load(2);
-                      this.$toast('你积分不足('+canUseIntegral+'), 需要' + this.cost + '积分', 'fail');
-                    }
+              // str = '首次不需要扣除积分'
+              this.$load(1);
+              this.$Api.getUserDetails(this.sessionId).then((res) => {
+                console.log(res);
+                if(res.q.s == 0) {
+                  let canUseIntegral = res.q.user.canUseIntegral? res.q.user.canUseIntegral:'0';
+                  if(canUseIntegral && parseInt(canUseIntegral) > parseInt(this.cost)) {
+                    this.$load(2);
+                    this.startStatus = true;
                   }else {
                     this.$load(2);
-                    this.$toast(res.q.d,'fail');
+                    this.$toast('你积分不足('+canUseIntegral+'), 需要' + this.cost + '积分', 'fail');
                   }
-                })
-              }
-            });
+                }else {
+                  this.$load(2);
+                  this.$toast(res.q.d,'fail');
+                }
+              })
+            }else {
+              str = '玩该次游戏需要' + this.cost + '积分';
+              this.$confirm('', str, 'noImg').then((res) => {
+                if(res == 'sure') {
+                  this.$load(1);
+                  this.$Api.getUserDetails(this.sessionId).then((res) => {
+                    console.log(res);
+                    if(res.q.s == 0) {
+                      let canUseIntegral = res.q.user.canUseIntegral? res.q.user.canUseIntegral:'0';
+                      if(canUseIntegral && parseInt(canUseIntegral) > parseInt(this.cost)) {
+                        this.$load(2);
+                        this.startStatus = true;
+                      }else {
+                        this.$load(2);
+                        this.$toast('你积分不足('+canUseIntegral+'), 需要' + this.cost + '积分', 'fail');
+                      }
+                    }else {
+                      this.$load(2);
+                      this.$toast(res.q.d,'fail');
+                    }
+                  })
+                }
+              });
+            }
           }else {
             this.$load(2);
             this.$toast(res.q.d,'fail');

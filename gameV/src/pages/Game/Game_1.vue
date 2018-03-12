@@ -90,65 +90,114 @@
             let str;
 
             if(this.cost == 0) {
-              str = '首次不需要扣除积分' 
-            }else {
-              str = '玩该次游戏需要' + this.cost + '积分';
-            }
+              //str = '首次不需要扣除积分'
+              this.$load(1);
+              this.$Api.getUserDetails(this.sessionId).then((res) => {
+                console.log(res);
+                if(res.q.s == 0) {
+                  let canUseIntegral = res.q.user.canUseIntegral? res.q.user.canUseIntegral:'0';
+                  if(canUseIntegral && parseInt(canUseIntegral) > parseInt(this.cost)) {
+                    this.isload = true;
 
-            this.$confirm('', str, 'noImg').then((res) => {
-              if(res == 'sure') {
-                this.$load(1);
-                this.$Api.getUserDetails().then((res) => {
-                  console.log(res);
-                  if(res.q.s == 0) {
-                    let canUseIntegral = res.q.user.canUseIntegral? res.q.user.canUseIntegral:'0';
-                    if(canUseIntegral && parseInt(canUseIntegral) > parseInt(this.cost)) {
-                      this.isload = true;
-
-                      $('.turnt__game').css({
-                        '-webkit-transition': 'unset',
-                        '-ms-transition': 'unset',
-                        'transition': 'unset',
-                        '-webkit-transform': 'rotate(0deg)',
-                        '-ms-transform': 'rotate(0deg)',
-                        'transform': 'rotate(0deg)'
-                      });
-                      this.$Api.GameUpdate(2,1,this.sessionId).then((res) => {
-                        console.log(res);
-                        if(res.q.s == 0) {
-                          if(res.q.cost != undefined) {
-                            if(res.q.cost == 0) {
-                              this.$toastB('第一次不消耗积分');
-                            }else {
-                              this.$toastB('消耗了'+res.q.cost+'积分');
-                            }
+                    $('.turnt__game').css({
+                      '-webkit-transition': 'unset',
+                      '-ms-transition': 'unset',
+                      'transition': 'unset',
+                      '-webkit-transform': 'rotate(0deg)',
+                      '-ms-transform': 'rotate(0deg)',
+                      'transform': 'rotate(0deg)'
+                    });
+                    this.$Api.GameUpdate(2,1,this.sessionId).then((res) => {
+                      console.log(res);
+                      if(res.q.s == 0) {
+                        if(res.q.cost != undefined) {
+                          if(res.q.cost == 0) {
+                            this.$toastB('第一次不消耗积分');
+                          }else {
+                            this.$toastB('消耗了'+res.q.cost+'积分');
                           }
-                          if(res.q.id == undefined) {
-                            this.translate(6);
-                          }else if(res.q.id) {
-                            let result = this.gifts.findIndex((item) => {
-                              return item.id == res.q.id;
-                            })
-
-                            this.translate(result + 1, this.gifts[result])
-                          }
-                        }else {
-                          this.$toast(res.q.d, 'fail')
-                          this.isload = false;
                         }
-                        this.$load(2);
-                      })
-                    }else {
+                        if(res.q.id == undefined) {
+                          this.translate(6);
+                        }else if(res.q.id) {
+                          let result = this.gifts.findIndex((item) => {
+                            return item.id == res.q.id;
+                          })
+
+                          this.translate(result + 1, this.gifts[result])
+                        }
+                      }else {
+                        this.$toast(res.q.d, 'fail')
+                        this.isload = false;
+                      }
                       this.$load(2);
-                      this.$toast('你积分不足('+canUseIntegral+'), 需要' + this.cost + '积分', 'fail');
-                    }
+                    })
                   }else {
                     this.$load(2);
-                    this.$toast(res.q.d,'fail');
+                    this.$toast('你积分不足('+canUseIntegral+'), 需要' + this.cost + '积分', 'fail');
                   }
-                })
-              }
-            });
+                }else {
+                  this.$load(2);
+                  this.$toast(res.q.d,'fail');
+                }
+              })
+            }else {
+              str = '玩该次游戏需要' + this.cost + '积分';
+              this.$confirm('', str, 'noImg').then((res) => {
+                if(res == 'sure') {
+                  this.$load(1);
+                  this.$Api.getUserDetails(this.sessionId).then((res) => {
+                    console.log(res);
+                    if(res.q.s == 0) {
+                      let canUseIntegral = res.q.user.canUseIntegral? res.q.user.canUseIntegral:'0';
+                      if(canUseIntegral && parseInt(canUseIntegral) > parseInt(this.cost)) {
+                        this.isload = true;
+
+                        $('.turnt__game').css({
+                          '-webkit-transition': 'unset',
+                          '-ms-transition': 'unset',
+                          'transition': 'unset',
+                          '-webkit-transform': 'rotate(0deg)',
+                          '-ms-transform': 'rotate(0deg)',
+                          'transform': 'rotate(0deg)'
+                        });
+                        this.$Api.GameUpdate(2,1,this.sessionId).then((res) => {
+                          console.log(res);
+                          if(res.q.s == 0) {
+                            if(res.q.cost != undefined) {
+                              if(res.q.cost == 0) {
+                                this.$toastB('第一次不消耗积分');
+                              }else {
+                                this.$toastB('消耗了'+res.q.cost+'积分');
+                              }
+                            }
+                            if(res.q.id == undefined) {
+                              this.translate(6);
+                            }else if(res.q.id) {
+                              let result = this.gifts.findIndex((item) => {
+                                return item.id == res.q.id;
+                              })
+
+                              this.translate(result + 1, this.gifts[result])
+                            }
+                          }else {
+                            this.$toast(res.q.d, 'fail')
+                            this.isload = false;
+                          }
+                          this.$load(2);
+                        })
+                      }else {
+                        this.$load(2);
+                        this.$toast('你积分不足('+canUseIntegral+'), 需要' + this.cost + '积分', 'fail');
+                      }
+                    }else {
+                      this.$load(2);
+                      this.$toast(res.q.d,'fail');
+                    }
+                  })
+                }
+              });
+            }
           }else {
             this.$load(2);
             this.$toast(res.q.d,'fail');

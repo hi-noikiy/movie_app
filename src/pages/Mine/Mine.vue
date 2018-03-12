@@ -95,6 +95,10 @@
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的核销</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
+        <div class="menu bottom__phone clearfix" @click="linkToTel">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">客服电话</span></span>
+          <span class="menu__right"><span class="nored">020-34534324</span><i class="arrow"></i></span>
+        </div>
       </div>
 
       <div class="menu__logout button" @click="logout">登出</div>
@@ -134,6 +138,10 @@
 
       linkToLevel() {
         location.href = 'http://game.yyh517.com/#/level?point='+ this.userDetail.totalIntegral;
+      },
+
+      linkToTel() {
+        window.location.href='tel: 020-34534324'
       }
     }
   }
@@ -342,6 +350,10 @@
             line-height: boxValue(74);
             vertical-align: middle;
             color: #ff4444;
+
+            &.nored {
+              color: #666;
+            }
           }
         }
 
@@ -355,6 +367,10 @@
 
         &.bottom__rank .menu__left .icon {
           background-image: url('../../assets/list.png');
+        }
+
+        &.bottom__phone .menu__left .icon {
+          background-image: url('../../assets/call@2x.png');
         }
 
         &.bottom__comment .menu__left .icon {
