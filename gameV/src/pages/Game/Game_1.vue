@@ -48,7 +48,7 @@
       if(this.$route.query.type == 'android') {
         this.type = 'android';
       }
-      this.$Api.GameDetails(2).then((res) => {
+      this.$Api.GameDetails(2,this.sessionId).then((res) => {
         console.log(res)
         if(res.q.s == 0) {
           this.giftData = res.q.game.gifts;
@@ -82,7 +82,7 @@
         }
 
         this.$load(1);
-        this.$Api.GameDetails(2).then((res) => {
+        this.$Api.GameDetails(2,this.sessionId).then((res) => {
           console.log(res)
           if(res.q.s == 0) {
             this.$load(2);

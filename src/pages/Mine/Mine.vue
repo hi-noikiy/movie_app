@@ -9,7 +9,7 @@
       <div class="header__info clearfix">
         <div class="info__left">
           <div class="left__name">{{userDetail.nickname}}</div>
-          <div class="left__tips" @click="linkTo('Person')">{{userDetail.isCompleteData == 2?'完善资料，送1000积分':''}}</div>
+          <div class="left__tips" @click="linkTo('Person')">{{userDetail.isCompleteData == '0' || userDetail.isCompleteData == '2'?'完善资料，送1000积分':''}}</div>
           <div class="left__tab">
             <span class="tab tab__member" @click="linkToLevel">
               {{userDetail.integralLevel == '1'?'大众会员':userDetail.integralLevel == '2'?'黄金会员':userDetail.integralLevel == '3'?'铂金会员':userDetail.integralLevel == '4'?'钻石会员':userDetail.integralLevel == '5'?'至尊会员':''}}
@@ -97,7 +97,7 @@
         </div>
         <div class="menu bottom__phone clearfix" @click="linkToTel">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">客服电话</span></span>
-          <span class="menu__right"><span class="nored">020-34534324</span><i class="arrow"></i></span>
+          <span class="menu__right"><span class="nored">020-31525503</span><i class="arrow"></i></span>
         </div>
       </div>
 

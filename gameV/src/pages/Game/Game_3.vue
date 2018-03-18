@@ -68,7 +68,7 @@
       //   $(this).find('img').attr('src', require('../../assets/egg_a.png'))
       // })
       
-      this.$Api.GameDetails(3).then((res) => {
+      this.$Api.GameDetails(3,this.sessionId).then((res) => {
         console.log(res);
         if(res.q.s == 0) {
           this.gifts = res.q.game.gifts;
@@ -154,7 +154,7 @@
 
         this.$load(1);
 
-        this.$Api.GameDetails(3).then((res) => {
+        this.$Api.GameDetails(3,this.sessionId).then((res) => {
           console.log(res);
           if(res.q.s == 0) {
             this.$load(2);

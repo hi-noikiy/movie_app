@@ -71,7 +71,7 @@
       // $('.scroll').eq(0).animate({top: -4*height + 'rem'}, 2000)
       // $('.scroll').eq(1).animate({top: -6*height + 'rem'}, 2000)
       // $('.scroll').eq(2).animate({top: -8*height + 'rem'}, 2000)
-      this.$Api.GameDetails(1).then((res) => {
+      this.$Api.GameDetails(1,this.sessionId).then((res) => {
         console.log(res);
         if(res.q.s == 0) {
           this.gifts = res.q.game.gifts;
@@ -102,7 +102,7 @@
         }
 
         this.$load(1);
-        this.$Api.GameDetails(1).then((res) => {
+        this.$Api.GameDetails(1,this.sessionId).then((res) => {
           console.log(res);
           if(res.q.s == 0) {
             this.$load(2)

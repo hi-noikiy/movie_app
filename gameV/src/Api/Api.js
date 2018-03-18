@@ -54,11 +54,12 @@ const Api = {
    * @param {a}  1老虎机；2大转盘；3砸金蛋；
    * @returns 
    */
-  GameDetails(a) {
+  GameDetails(a,s) {
     return axiosApi(ApiUrl, {
       params: {
         json: {
           n:'GameDetails',
+          s,
           q: {
             a
           }
