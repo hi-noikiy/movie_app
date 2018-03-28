@@ -26,22 +26,22 @@
       </div>
 
       <div class="info__control" v-else-if="item.status == 2">
-        <span class="control__left send" @click="linkToUrl('IM?id=' + item.id + '&img=' + item.imagePath)">发信息</span>
+        <span class="control__left send" @click="linkToUrl('IM?id=' + item.user.id + '&img=' + item.imagePath)">发信息</span>
         <span class="control__right ticket" @click="linkToUrl('uploadTicket?id='+item.id)">晒票根</span>
       </div>
 
       <div class="info__control" v-else-if="item.status == 3">
-        <span class="control__left send" @click="linkToUrl('IM?id=' + item.id + '&img=' + item.imagePath)">发信息</span>
+        <span class="control__left send" @click="linkToUrl('IM?id=' + item.user.id + '&img=' + item.imagePath)">发信息</span>
         <span class="control__right send" @click="linkToUrl('uploadResult?img='+item.imagePath)">查看票根</span>
       </div>
 
       <div class="info__control" v-else-if="item.status == 4">
-        <span class="control__left send" @click="linkToUrl('IM?id=' + item.id + '&img=' + item.imagePath)">发信息</span>
+        <span class="control__left send" @click="linkToUrl('IM?id=' + item.user.id + '&img=' + item.imagePath)">发信息</span>
         <span class="control__right cancel" @click="linkToUrl('uploadTicket?id='+item.id)">重新上传票根</span>
       </div>
 
       <div class="info__control" v-else-if="item.status == 5">
-        <span class="control__left send" @click="linkToUrl('IM?id=' + item.id + '&img=' + item.imagePath)">发信息</span>
+        <span class="control__left send" @click="linkToUrl('IM?id=' + item.user.id + '&img=' + item.imagePath)">发信息</span>
         <span class="control__right ticket" @click="linkToUrl('uploadResult?img='+item.imagePath)">查看票根</span>
       </div>
 

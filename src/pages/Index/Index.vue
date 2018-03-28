@@ -94,49 +94,11 @@
           <thead class="table__head">
             <th class="head__name">片名</th>
             <th class="head__money">票房(万元)</th>
-            <th class="head__rate">拍片率</th>
+            <th class="head__rate">排片率</th>
             <th class="head__popular">上座率</th>
           </thead>
 
           <tbody>
-            <!-- <tr class="rank">
-              <td class="rank__movie">
-                <div class="rank__movie__name">全球风暴</div>
-                <div class="rank__movie__days">上映14天</div>
-              </td>
-              <td>1121.36</td>
-              <td>14.3%</td>
-              <td class="rank__popular">14.3%</td>
-            </tr>
-            <tr class="empty">
-              <td colspan="4"></td>
-            </tr>
-            
-            <tr class="rank">
-              <td class="rank__movie">
-                <div class="rank__movie__name">全球风暴</div>
-                <div class="rank__movie__days">上映14天</div>
-              </td>
-              <td>1121.36</td>
-              <td>14.3%</td>
-              <td class="rank__popular">14.3%</td>
-            </tr>
-            <tr class="empty">
-              <td colspan="4"></td>
-            </tr>
-            
-            <tr class="rank">
-              <td class="rank__movie">
-                <div class="rank__movie__name">全球风暴</div>
-                <div class="rank__movie__days">上映14天</div>
-              </td>
-              <td>1121.36</td>
-              <td>14.3%</td>
-              <td class="rank__popular">14.3%</td>
-            </tr>
-            <tr class="empty">
-              <td colspan="4"></td>
-            </tr> -->
             <template v-for="(movie,index) in MovieRank">
               <tr class="rank">
                 <td class="rank__movie">
@@ -217,15 +179,13 @@
       this.getMovieList(1);
       this.getMovieList(2); //预加载
 
-      //获取用户信息
-
       //排行列表
       this.getMovieRankingList();
     },
 
     activated() {
       if(this.loaded) {
-        this.initUserDetail();
+        this.initUserDetail({userId: ''});
         this.utilUserDetail().then(() => {
           this.initIM();
         })

@@ -100,6 +100,7 @@
     
     methods: {
       sendC2cMsg(){
+        debugger
         if(!this.textValue) {
           return false;
         }

@@ -35,7 +35,7 @@
         <div class="button" @click="showDetail">
           游戏规则
         </div>
-        <div class="button" @click="share">
+        <div class="button" @click="share" v-if="sessionId">
           分享给好友
         </div> 
       </div>

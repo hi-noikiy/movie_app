@@ -9,7 +9,7 @@
       <div class="header__info clearfix">
         <div class="info__left">
           <div class="left__name">{{userDetail.nickname}}</div>
-          <div class="left__tips" @click="linkTo('Person')">{{userDetail.isCompleteData == '0' || userDetail.isCompleteData == '2'?'完善资料，送1000积分':''}}</div>
+          <div class="left__tips" @click="linkTo('Person')">{{userDetail.isCompleteData == '0' || userDetail.isCompleteData == '2'?'完善资料，送500积分':''}}</div>
           <div class="left__tab">
             <span class="tab tab__member" @click="linkToLevel">
               {{userDetail.integralLevel == '1'?'大众会员':userDetail.integralLevel == '2'?'黄金会员':userDetail.integralLevel == '3'?'铂金会员':userDetail.integralLevel == '4'?'钻石会员':userDetail.integralLevel == '5'?'至尊会员':''}}

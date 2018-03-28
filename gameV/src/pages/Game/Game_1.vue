@@ -23,7 +23,7 @@
         <div class="button" @click="showDetail">
           游戏规则
         </div>
-        <div class="button" @click="share">
+        <div class="button" @click="share" v-if="sessionId">
           分享给好友
         </div> 
       </div>
@@ -143,7 +143,7 @@
               })
             }else {
               str = '玩该次游戏需要' + this.cost + '积分';
-              this.$confirm('', str, 'noImg').then((res) => {
+              this.$ ('', str, 'noImg').then((res) => {
                 if(res == 'sure') {
                   this.$load(1);
                   this.$Api.getUserDetails(this.sessionId).then((res) => {

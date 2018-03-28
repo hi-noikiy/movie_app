@@ -5,7 +5,7 @@
     </group>
 
     <group class="setting__sex">
-      <popup-picker title="性别" :data="[['男', '女']]" v-model="sexSelect" value-text-align="right"></popup-picker>
+      <popup-picker title="性别" :data="[['全部', '男', '女']]" v-model="sexSelect" value-text-align="right"></popup-picker>
     </group>
 
     <group class="setting__age">
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       show: false,
-      sexSelect: ['男'],
+      sexSelect: ['全部'],
       cinemas: null,
       cinemasList: [[]],
       cinemasListSelect: [],
@@ -38,6 +38,13 @@ export default {
   },
 
   created() {
+    if(this.userDetail.matchSex == '1') {
+      this.sexSelect = ['男'];
+    }else if(this.userDetail.matchSex == '2') {
+      this.sexSelect = ['女'];
+    }else {
+      this.sexSelect = ['全部'];
+    }
     this.getCinemaList();
   },
 
@@ -63,7 +70,7 @@ export default {
     },
 
     submit() {
-      let sex = this.sexSelect[0] == '男'?1:2;
+      let sex = this.sexSelect[0] == '全部'?3:this.sexSelect[0] == '男'?1:2;
       let matchAgeMin = parseInt(this.age[0]);
       let matchAgeMax = parseInt(this.age[1]);
       let cinema = this.cinemas.find((item) => {
@@ -94,6 +101,7 @@ export default {
       this.$Api.UserUpdate(param).then((res) => {
         console.log(res)
         if(res.q.s == 0) {
+          this.updateUserDetail();
           this.$toast('更新成功!').then(() => {
             this.$router.go(-1);
           })
