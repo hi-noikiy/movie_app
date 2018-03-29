@@ -21,7 +21,7 @@
         <div class="news__detail">
           <ul class="detail__list">
             <swiper auto loop height="40px" direction="vertical" :interval=1000 :show-dots="false">
-              <swiper-item v-for="(item,index) in Math.round(newList.length / 2)" :key="index">
+              <swiper-item v-for="(item,index) in Math.round(newList.length / 2)" :key="index" v-if="newList.length> 0">
                 <li class="detail">{{newList[(index * 2)].title}}</li>
                 <li class="detail">{{newList[(index * 2) + 1].title}}</li>
               </swiper-item>
@@ -156,6 +156,11 @@
           console.log(res)
           if(res.q.s == 0) {
             this.newList = res.q.news.lists;
+            if(this.newList.length > 0 && this.newList.length%2) {
+              this.newList.push({
+                title: ''
+              })
+            }
             this.newBg = res.q.news.imagePath;
             this.$refs.newsBg.style.backgroundImage = 'url(' + this.$ImgUrl + res.q.news.imagePath + ')';
             console.log(this.$refs.newsBg)

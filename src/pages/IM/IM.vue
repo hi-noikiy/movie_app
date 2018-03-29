@@ -100,7 +100,6 @@
     
     methods: {
       sendC2cMsg(){
-        debugger
         if(!this.textValue) {
           return false;
         }
@@ -141,9 +140,10 @@
             this.MsgList.push(msg);
             this.textValue = '';
             this.$nextTick(() => {
+              var dom = document.querySelector('.im__wrap');
               console.log('到底')
-              var dh = document.documentElement.scrollHeight || document.body.scrollHeight;
-              window.scrollTo(0, dh); 
+              var dh = dom.scrollHeight;
+              dom.scrollTo(0, dh); 
             })
         }, function (err) {
           console.log(err);
@@ -215,12 +215,19 @@
 
   #im {
     position: absolute;
+    height: 100%;
     width: 100%;
     padding-bottom: boxValue(80);
+    box-sizing: border-box;
     /* 使之可以滚动 */
     overflow-y: scroll;
     /* 增加该属性，可以增加弹性 */
     -webkit-overflow-scrolling: touch;
+
+    .im__wrap {
+      height: 100%;
+      overflow-y: scroll;
+    }
 
     .im__list {
       display: flex;
@@ -306,7 +313,7 @@
     }
 
     .im__send {
-      position: fixed;
+      position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
