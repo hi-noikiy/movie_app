@@ -35,7 +35,7 @@
     
     methods: {
       link(type) {
-        location.href = 'http://game.yyh517.com/#/game_' + type;
+        location.href = 'https://game.yyh517.com/#/game_' + type;
       }
     }
   }
