@@ -20,6 +20,11 @@
 
     methods: {
       submit() {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
+        
         if(!this.signature){
           this.$toast('请输入个性签名', 'fail')
           return false;

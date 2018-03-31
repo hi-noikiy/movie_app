@@ -9,6 +9,7 @@ Vue.use(Vuex);
 
 const state = {
   userDetail: {},
+  visitorDetail: {},
   isLoading: false,
 
   selType: 'C2C',

@@ -16,12 +16,14 @@ export const initUserDetail = ({ state,commit }, payload) => {
 
   return new Promise((resolve, reject) => {
     status = 'requsting';
+
     if(Object.keys(state.userDetail) == 0) {
       if(id != null) {
         Api.getUserDetails(id).then((res) => {
           console.log('初始化user')
           if(res.q.s == 0) {
             let user = res.q.user;
+            commit(types.DEL_VISITOR_DETAIL);
             commit(types.INIT_USER_DETAIL, {user});
             setTimeout(() => {
               console.log(user)
@@ -35,6 +37,7 @@ export const initUserDetail = ({ state,commit }, payload) => {
           console.log('初始化user')
           if(res.q.s == 0) {
             let user = res.q.user;
+            commit(types.DEL_VISITOR_DETAIL);
             commit(types.INIT_USER_DETAIL, {user});
             setTimeout(() => {
               console.log(user)
@@ -68,6 +71,7 @@ export const updateUserDetail = ({ state,commit }, payload) => {
       console.log('更新user')
       if(res.q.s == 0) {
         let user = res.q.user;
+        commit(types.DEL_VISITOR_DETAIL);
         commit(types.INIT_USER_DETAIL, {user});
       }
     })
@@ -76,6 +80,7 @@ export const updateUserDetail = ({ state,commit }, payload) => {
       console.log('更新user')
       if(res.q.s == 0) {
         let user = res.q.user;
+        commit(types.DEL_VISITOR_DETAIL);
         commit(types.INIT_USER_DETAIL, {user});
       }
     })

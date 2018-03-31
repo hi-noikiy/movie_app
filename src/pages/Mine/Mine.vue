@@ -1,6 +1,68 @@
 <template>
   <div id="mine">
-    <div class="mine__header">
+    <div class="mine__header" v-if="isVisitor">
+      <div class="header__mes">
+        <!-- <div class="mes">
+          <span class="mes__num">2</span>
+        </div> -->
+      </div>
+      <div class="header__info clearfix">
+        <div class="info__left">
+          <div class="left__name">{{visitorDetail.nickname}}</div>
+          <div class="left__tips" @click="linkTo('Person', true)">完善资料，送500积分</div>
+          <div class="left__tab">
+            <span class="tab tab__member" @click="linkToLevel">
+              大众会员
+            </span>
+            <span class="tab tab__singIn" @click="linkTo('Sign', true)">
+              签到+10
+            </span>
+          </div>
+        </div>
+        <div class="info__right">
+          <div class="right__avatar" @click="linkTo('Person', true)">
+            <img :src="visitorDetail.imagePath" alt="" v-if="visitorDetail.imagePath">
+            <img src="../../assets/avatar.png" alt="" v-else>
+          </div>
+        </div>
+      </div>
+      <div class="header__form">
+        <div class="form__tab" @click="linkTo('Points', true)">
+          <div class="tab__top">
+            -
+          </div>
+          <div class="tab__bottom">
+            积分
+          </div>
+        </div>
+        <div class="form__tab" @click="linkTo('CardList', true)">
+          <div class="tab__top">
+            <span class="num">-</span>
+          </div>
+          <div class="tab__bottom">
+            卡券 
+          </div>
+        </div>
+        <div class="form__tab" @click="linkTo('Friend', true)">
+          <div class="tab__top">
+            <span class="num">-</span>
+          </div>
+          <div class="tab__bottom">
+            好友
+          </div>
+        </div>
+        <div class="form__tab" @click="linkTo('Dating', true)">
+          <div class="tab__top">
+            <span class="num">-</span>
+          </div>
+          <div class="tab__bottom">
+            约影
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mine__header" v-else>
       <div class="header__mes">
         <!-- <div class="mes">
           <span class="mes__num">2</span>
@@ -68,30 +130,30 @@
 
     <div class="mine__menu">
       <div class="menu__top">
-        <div class="menu top__money clearfix" @click="linkTo('Collect')">
+        <div class="menu top__money clearfix" @click="linkTo('Collect', true)">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的关注</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
-        <div class="menu bottom__rank clearfix" @click="linkTo('Rank')">
+        <div class="menu bottom__rank clearfix" @click="linkTo('Rank', true)">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">积分排行榜</span></span>
           <span class="menu__right"><span v-if="userDetail.lastsDaysRanking > 0">已连续{{userDetail.lastsDaysRanking}}天排行前三</span><i class="arrow"></i></span>
         </div>
-        <div class="menu top__follow clearfix" @click="linkTo('Message')">
+        <div class="menu top__follow clearfix" @click="linkTo('Message', true)">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的消息</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
       </div>
 
       <div class="menu__bottom">
-        <div class="menu bottom__comment clearfix" @click="linkTo('MyComment')">
+        <div class="menu bottom__comment clearfix" @click="linkTo('MyComment', true)">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的影评</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
-        <div class="menu bottom__ticket clearfix" @click="linkTo('Ticket')">
+        <div class="menu bottom__ticket clearfix" @click="linkTo('Ticket', true)">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的票根</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
-        <div class="menu bottom__rank clearfix" @click="linkTo('Record')" v-if="userDetail.type == 2">
+        <div class="menu bottom__rank clearfix" @click="linkTo('Record', true)" v-if="userDetail.type == 2">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的核销</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
@@ -137,6 +199,12 @@
       },
 
       linkToLevel() {
+        if(this.isVisitor) {
+          this.$router.push({
+            name: 'Login'
+          })
+          return false;
+        }
         location.href = 'http://game.yyh517.com/#/level?point='+ this.userDetail.totalIntegral;
       },
 

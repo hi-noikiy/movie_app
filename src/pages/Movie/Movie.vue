@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div class="comment__button" @click="linkToUrl('addComment?id=' + $route.query.id)">
+    <div class="comment__button" @click="linkToUrl('addComment?id=' + $route.query.id, true)">
       <span class="publish"></span><span class="text">我想说两句</span>
     </div>
   </div>

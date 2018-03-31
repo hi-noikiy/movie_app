@@ -91,6 +91,11 @@
 
       //约电影
       DateSubmit(id) {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
+        
         this.$load(1, '发送中');
         let userId = id;
         this.$Api.DateSubmit(userId).then((res) => {

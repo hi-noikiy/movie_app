@@ -13,7 +13,7 @@
       </div>
     </div>
     
-    <div class="login__submit" @click="submit">验证手机</div>
+    <div class="login__submit" @click="submit">验证ss手机</div>
     <div class="login__tips"  @click="checked = !checked">
       <span class="check" :class="{'unchecked': !checked}"></span>
       <span>我已阅读并同意<span @click.self="linkToAgreemeet">《云影汇用户注册协议》</span></span>

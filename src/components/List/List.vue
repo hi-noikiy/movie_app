@@ -59,7 +59,7 @@
             </div>
             <div class="info__right">
               <span class="praise" :class="{'praised': comment.isPraise == 1}" @click="praise(comment.id, comment)"><i class="praise__icon"></i>{{comment.statPraise}}</span>
-              <span class="comment" @click="linkToUrl('comment?id=' + comment.id + '&praise=' + comment.statPraise + '&comment=' + comment.statComment)"><i class="comment__icon"></i>{{comment.statComment}}</span>
+              <span class="comment" @click="linkToUrl('comment?id=' + comment.id + '&praise=' + comment.statPraise + '&comment=' + comment.statComment, true)"><i class="comment__icon"></i>{{comment.statComment}}</span>
             </div>
           </div>
         </div>
@@ -76,6 +76,10 @@
 
     methods: {
       praise(id, comment) {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
         console.log(comment)
         if(comment.isPraise == 1) {
           this.$Api.PraiseSwitch(id, 2).then((res) => {
@@ -100,6 +104,10 @@
       },
 
       delComment(id) {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
         console.log(id)
         this.$confirm('你确定要删除吗?', '删除', 'fail').then((res) => {
           if(res == 'sure') {

@@ -61,6 +61,11 @@
     props: ['couponList','orderList'],
     methods: {
       submit(id) {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
+
         this.$load(1, '领取中');
         // this.$toast('抱歉正在开发中', 'fail');
         // return false;
@@ -83,6 +88,11 @@
 
       //需要积分兑换的
       submitPoints(item) {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
+        
         let sub = parseInt(this.userDetail.canUseIntegral) - parseInt(item.integral);
         if(sub < 0) {
           this.$toast('积分不够!', 'fail');

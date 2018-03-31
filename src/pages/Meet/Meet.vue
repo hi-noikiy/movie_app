@@ -7,9 +7,9 @@
       </button-tab>
 
       <div class="meet__header__setting">
-        <div class="setting__user" @click="linkTo('Person')"><span></span></div>
-        <div class="setting__talk" @click="linkTo('Message')"><span></span></div>
-        <div class="setting__limit" @click="linkTo('Setting')"><span></span></div>
+        <div class="setting__user" @click="linkTo('Person', true)"><span></span></div>
+        <div class="setting__talk" @click="linkTo('Message', true)"><span></span></div>
+        <div class="setting__limit" @click="linkTo('Setting', true)"><span></span></div>
       </div>
     </div>
 
@@ -266,6 +266,11 @@
 
       //约电影
       DateSubmit(id) {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
+
         this.$load(1, '发送中');
         let userId = id;
         this.$Api.DateSubmit(userId).then((res) => {
@@ -279,6 +284,11 @@
 
       //点赞
       DateSwitch(id) {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
+
         let open = 1;
         let activeUser = this.activeUser;
         if(activeUser.isPraise == 1) {

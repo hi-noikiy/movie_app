@@ -1,7 +1,31 @@
 <template>
   <div id="index">
     <!-- 头部 -->
-    <div class="index__header">
+    <div class="index__header" v-if="isVisitor">
+      <div class="header__left">
+        <div class="header__left__avatar" @click="linkTo('Mine')">
+          <img :src="visitorDetail.imagePath" alt="" v-if="visitorDetail.imagePath">
+          <img src="../../assets/avatar.png" alt="" v-else>
+        </div>
+        <div class="header__left__user" v-if="visitorDetail">
+          <div class="user__name">{{visitorDetail.nickname}}</div>
+          <div class="user__points">
+            <span class="points">0</span>
+            <span>积分</span>
+          </div>
+        </div>
+      </div>
+      <div class="header__rihgt">
+        <span class="header__right__tag" @click="linkTo('Mine')">
+          大众会员
+        </span>
+        <span class="header__right__singIn" @click="linkTo('Sign', true)">
+          签到+10
+        </span>
+      </div>
+    </div>
+
+    <div class="index__header" v-else>
       <div class="header__left">
         <div class="header__left__avatar" @click="linkTo('Mine')">
           <img :src="$ImgUrl + userDetail.imagePath" alt="" v-if="userDetail.imagePath">
@@ -44,7 +68,7 @@
         <div class="menu__join"></div>
         <div class="menu__text">约电影</div>
       </div>
-      <div class="menu" @click="linkTo('Game')">
+      <div class="menu" @click="linkTo('Game', true)">
         <div class="menu__game"></div>
         <div class="menu__text">玩游戏</div>
       </div>
@@ -122,7 +146,8 @@
 
 <script>
   import { Swiper, SwiperItem,Tabbar, TabbarItem } from 'vux';
-  import { mapActions } from 'vuex';
+  import { mapActions,mapMutations } from 'vuex';
+import { setTimeout } from 'timers';
 
   export default {
     name:'Index',
@@ -139,12 +164,12 @@
 
     created() {
       let type = this.$route.query.type;
+      
       if(type) {
         this.$Api.WeixinUrl().then((res) => {
-          console.log('有参数微信授权');
           if(res.q.s == 0) {
             if(res.q.id == 0) {
-              this.$router.push('login?type=weixin')
+              this.INIT_VISITOR_DETAIL({visitor: res.q.user});
             }else {
               this.initUserDetail({userId: ''});
             }
@@ -154,12 +179,13 @@
         })
       }else {
         this.$Api.WeixinUrl().then((res) => {
+          console.log(res);
           console.log('微信授权');
           if(res.q.s == 0) {
             if(res.q.redirectUrl) {
               location.href = res.q.redirectUrl
             }else if(res.q.id == 0) {
-              this.$router.push('login?type=weixin')
+              this.INIT_VISITOR_DETAIL({visitor: res.q.user});
             }else if(res.q.id) {
               this.initUserDetail({userId: ''});
             }
@@ -253,6 +279,11 @@
 
       ...mapActions([
         'initIM'
+      ]),
+
+      ...mapMutations([
+        'INIT_VISITOR_DETAIL', //初始化游客信息
+        'DEL_VISITOR_DETAIL'
       ])
     },
     components: {

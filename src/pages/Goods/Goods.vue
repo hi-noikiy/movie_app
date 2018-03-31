@@ -196,6 +196,11 @@
 
       //关注
       CouponSwitch() {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
+
         let open;
         let isCollected = this.coupon.isCollected == 1?true: false;
         if(isCollected) {
@@ -243,6 +248,10 @@
       // },
 
       submit() {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
         // this.$toast('抱歉正在开发中', 'fail');
         // return false;
         let param = {
@@ -263,6 +272,11 @@
 
       //需要积分兑换的
       submitPoints() {
+        let result = this.checkIsVisitor();
+        if(result) {
+          return false;
+        }
+        
         let sub = parseInt(this.userDetail.canUseIntegral) - parseInt(this.coupon.integral);
         if(sub < 0) {
           this.$toast('积分不够!', 'fail');

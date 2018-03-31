@@ -19,7 +19,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false;
 
 Vue.use(Confirm);
-Vue.use(NumberKeyboard);
+Vue.use(NumberKeyboard); //核销手机的数字键盘
+
+//图片loading效果
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIklEQVQ4y2P8+vXrfwYqAiZqGjZq4KiBowaOGjhq4FAyEAD1agQGU7dgRgAAAABJRU5ErkJggg==',
@@ -27,37 +29,44 @@ Vue.use(VueLazyload, {
   attempt: 1
 })
 
-// Vue.config.devtools = true
+//配置图片url
 Vue.prototype.$ImagePreview = ImagePreview;
 Vue.prototype.$Api = Api;
 Vue.prototype.$ImgUrl = Api.getImgUrl();
 
+//组件通用方法
 Vue.mixin({
-  created() {
-    // try {
-    //   this.initUserDetail();
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  },
   methods: {
-    linkTo(name) {
+    linkTo(name, ctr) {
+      if(ctr && this.isVisitor) {
+        this.$router.push({
+          name: 'Login'
+        })
+        return false;
+      }
       this.$router.push({name})
     },
 
-    linkToUrl(url) {
+    linkToUrl(url, ctr) {
+      if(ctr && this.isVisitor) {
+        this.$router.push({
+          name: 'Login'
+        })
+        return false;
+      }
       this.$router.push(url)
     },
 
-    // updateUserDetail() {
-    //   this.$Api.getUserDetails().then((res) => {
-    //     console.log(res)
-    //     if(res.q.s == 0) {
-    //       let json = JSON.stringify(res.q.user);
-    //       sessionStorage.setItem('user', json);
-    //     }
-    //   })
-    // },
+    checkIsVisitor() {
+      if(this.isVisitor) {
+        this.$router.push({
+          name: 'Login'
+        })
+        return true;
+      }else {
+        return false;
+      }
+    },
 
     getUserStorage() {
       let json = sessionStorage.getItem('user');
@@ -69,15 +78,17 @@ Vue.mixin({
     },
 
     ...mapActions([
-      'initUserDetail',
-      'updateUserDetail',
-      'utilUserDetail'
+      'initUserDetail', //初始化用户信息
+      'updateUserDetail', //更新用户信息
+      'utilUserDetail'    //知道用户信息存在
     ])
   },
   
   computed: {
     ...mapGetters([
-      'userDetail'
+      'userDetail',
+      'visitorDetail',
+      'isVisitor'
     ])
   },
 })
@@ -90,9 +101,6 @@ router.beforeEach((to, from, next) => {
   next() // 确保一定要调用 next()
 })
 
-router.afterEach(function (to) {
-  // store.commit('UPDATE_LOADING_STATUS', {isLoading: false})
-})
 
 /* eslint-disable no-new */
 new Vue({
