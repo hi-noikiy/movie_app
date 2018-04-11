@@ -396,7 +396,31 @@ export default new Router({
         title: '验证手机'
       },
       component: resolve => require(['@/pages/PhoneCode/PhoneCode'], resolve)
-    }
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      meta: {
+        title: '注册手机'
+      },
+      component: resolve => require(['@/pages/Register/Register'], resolve)
+    },
+    {
+      path: '/forget',
+      name: 'Forget',
+      meta: {
+        title: '忘记密码'
+      },
+      component: resolve => require(['@/pages/Forget/Forget'], resolve)
+    },
+    {
+      path: '/setPassword',
+      name: 'SetPassword',
+      meta: {
+        title: '忘记密码'
+      },
+      component: resolve => require(['@/pages/SetPassword/SetPassword'], resolve)
+    },
   ],
   scrollBehavior (to, from, savedPosition) {
     // return 期望滚动到哪个的位置

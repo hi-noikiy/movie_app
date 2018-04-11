@@ -201,6 +201,27 @@ const Api = {
   },
 
   /**
+   * 10	用户，登录UserLogin（APP）
+   * 
+   * @returns 
+   */
+  UserLogin({mobile, password}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'UserLogin',
+          q: {
+            user: {
+              mobile,
+              password
+            }
+          }
+        }
+      }
+    })
+  },
+
+  /**
    * 10	用户，微信授权登录重定向链接WeixinUr
    * 
    * @param {partner} 微信跳转
@@ -319,7 +340,9 @@ const Api = {
     longitude,
     latitude,
     realname,
-    idNumber}) {
+    idNumber,
+    mobile,
+    password}) {
     return axiosApi(ApiUrl, {
       params: {
         json: {
@@ -348,7 +371,9 @@ const Api = {
               longitude,
               latitude,
               realname,
-              idNumber
+              idNumber,
+              mobile,
+              password
             }
           }
         }

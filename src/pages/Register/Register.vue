@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+  <div id="register">
     <div class="login__logo">
       <img class="logo" src="../../assets/loginlogo.png" alt="">
     </div>
@@ -7,55 +7,96 @@
       <div class="input__mobile">
         <input type="text" maxlength="11" v-model="mobile" placeholder="请输入手机号">
       </div>
-      <div class="input__mobile">
-        <input type="password" v-model="password" placeholder="请输入密码">
+      <div class="input__code">
+        <input class="input" type="text" v-model="code" placeholder="请输入验证码">
+        <span class="code" @click="getSms">{{sendText}}</span>
       </div>
     </div>
     
-    <div class="login__submit" @click="submit">立即登录</div>
+    <div class="login__submit" @click="submit">验证手机</div>
     
-    <div class="login__reg">
-      <span class="login__reg__active" @click="linkTo('Register')">注册</span>
-      <div class="login__reg__forget" @click="linkTo('Forget')">忘记密码</div>
+    <div class="login__tips"  @click="checked = !checked">
+      <span class="check" :class="{'unchecked': !checked}"></span>
+      <span>我已阅读并同意<span @click.self="linkToAgreemeet">《云影汇用户注册协议》</span></span>
     </div>
+    
   </div>
 </template>
 
 <script>
-  const md5 = require('md5');
   export default {
     data() {
       return {
         mobile: null,
-        password: null,
+        code: null,
+        sendText: '获取验证码',
+        isSend: false,
         checked: true,
         type: this.$route.query.type
       }
     },
 
-    mounted() {
-
-    },
-
     methods: {
-      submit() {
-        if(!this.mobile) {
-          this.$toast('请输入手机号', 'fail');
+      getSms() {
+        if(this.isSend) {
           return false;
         }
 
-        if(!this.password) {
-          this.$toast('请输入密码', 'fail');
-          return false;
+        let type = 1;
+
+        if(this.type) {
+          type = 7;
         }
 
+        this.$load(1, '请求中');
+        
 
-        this.$Api.UserLogin({mobile: this.mobile, password: md5(this.password)}).then((res) => {
-          console.log(res);
+        this.$Api.getSMSCode(1, type, this.mobile).then((res) => {
           if(res.q.s == 0) {
-            this.$toast('验证成功，请返回首页').then(() => {
+            this.isSend = true;
+            let count = 60;
+            this.sendText = count + 's';
+
+            for(let i = 1; i <= count; i++) {
+              setTimeout(() => {
+                if(i == count) {
+                  this.isSend = false;
+                  this.sendText = '获取验证码'
+
+                  return false;
+                }
+                this.sendText = (count -i) + 's'
+              }, 1000*i)
+            }
+          }else {
+            this.$toast(res.q.d, 'fail')
+          }
+
+          this.$load(2);
+        })
+      },
+
+      linkToAgreemeet() {
+        location.href = 'http://game.yyh517.com/#/agreement';
+      },
+
+      submit() {
+        if(!this.checked) {
+          this.$toast('请同意协议', 'fail');
+          return false;
+        }
+
+        let type = 1;
+
+        if(this.type) {
+          type = 7;
+        }
+
+        this.$Api.getSMSCode(2, type, this.mobile, this.code).then((res) => {
+          if(res.q.s == 0) {
+            this.$toast('验证成功，请设置密码').then(() => {
               this.updateUserDetail();
-              this.$router.push({name:'Index'})
+              this.$router.push({name:'SetPassword', query: {'type': 'init'}})
             })
           }else {
             this.$toast(res.q.d, 'fail');
@@ -69,7 +110,7 @@
 <style lang="scss">
   @import '../../scss/mixin.scss';
 
-  #login {
+  #register {
     height: auto;
     min-height: 100%;
     padding-top: 1px;
@@ -173,7 +214,7 @@
 
     .login__reg {
       display: flex;
-      margin: 0 10%;
+      margin: 0 5%;
       margin-top: boxValue(40);
       justify-content: space-between;
       font-size: boxValue(20);

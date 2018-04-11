@@ -1,66 +1,65 @@
 <template>
-  <div id="login">
-    <div class="login__logo">
-      <img class="logo" src="../../assets/loginlogo.png" alt="">
-    </div>
+  <div id="forget">
     <div class="login__input">
       <div class="input__mobile">
-        <input type="text" maxlength="11" v-model="mobile" placeholder="请输入手机号">
+        <input type="password" maxlength="11" v-model="password" placeholder="请输入密码">
       </div>
       <div class="input__mobile">
-        <input type="password" v-model="password" placeholder="请输入密码">
+        <input type="password" maxlength="11" v-model="password2" placeholder="重复输入密码">
       </div>
     </div>
     
-    <div class="login__submit" @click="submit">立即登录</div>
+    <div class="login__submit" @click="submit">立即验证</div>
     
-    <div class="login__reg">
-      <span class="login__reg__active" @click="linkTo('Register')">注册</span>
-      <div class="login__reg__forget" @click="linkTo('Forget')">忘记密码</div>
-    </div>
   </div>
 </template>
 
 <script>
-  const md5 = require('md5');
   export default {
     data() {
       return {
-        mobile: null,
         password: null,
+        password2: null,
+        sendText: '获取验证码',
+        isSend: false,
         checked: true,
-        type: this.$route.query.type
+        type: this.$route.query.type,
+        mobile: this.$route.query.mobile
       }
-    },
-
-    mounted() {
-
     },
 
     methods: {
       submit() {
-        if(!this.mobile) {
-          this.$toast('请输入手机号', 'fail');
-          return false;
-        }
+        let type = 9;
+        let mobile;
 
-        if(!this.password) {
+        if(!this.password || !this.password2) {
           this.$toast('请输入密码', 'fail');
           return false;
         }
 
+        if(this.password != this.password2) {
+          this.$toast('密码不一致', 'fail');
+          return false;
+        }
 
-        this.$Api.UserLogin({mobile: this.mobile, password: md5(this.password)}).then((res) => {
-          console.log(res);
+        if(this.type) {
+          type = 8;
+        }
+
+        this.$load(1, '请求中');
+
+        this.$Api.UserUpdate({a: type, mobile: this.mobile, password: this.password}).then((res) => {
           if(res.q.s == 0) {
-            this.$toast('验证成功，请返回首页').then(() => {
+            this.$toast('验证成功，返回登录页').then(() => {
               this.updateUserDetail();
-              this.$router.push({name:'Index'})
+              this.$router.push({name:'Login'})
             })
           }else {
             this.$toast(res.q.d, 'fail');
           }
         })
+        this.$load(2);
       }
     }
   }
@@ -69,12 +68,11 @@
 <style lang="scss">
   @import '../../scss/mixin.scss';
 
-  #login {
+  #forget {
     height: auto;
     min-height: 100%;
     padding-top: 1px;
-    background: url('../../assets/loginbg.jpg');
-    background-size: 100%;
+    background: #fff;
 
     .login__logo {
       margin-top: boxValue(180);
@@ -122,11 +120,11 @@
         height: boxValue(70);
         width: boxValue(240);
         line-height: boxValue(70);
-        color: #5d73f5;
+        color: #fff;
         border-radius: boxValue(50);
         font-size: boxValue(28);
         text-align: center;
-        background: #fff;
+        background: #02a9ff;
         white-space: nowrap;
         box-sizing: border-box;
 
@@ -144,10 +142,10 @@
       height: boxValue(70);
       line-height: boxValue(70);
       text-align: center;
-      color: #5d73f5;
+      color: #fff;
       border-radius: boxValue(50);
       font-size: boxValue(28);
-      background: #fff;
+      background: #02a9ff;
     }
 
     .login__tips {
@@ -173,7 +171,7 @@
 
     .login__reg {
       display: flex;
-      margin: 0 10%;
+      margin: 0 5%;
       margin-top: boxValue(40);
       justify-content: space-between;
       font-size: boxValue(20);
@@ -188,15 +186,15 @@
       height: 100%;
       width: 100%;
       border: none;
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid #eee;
       font-size: boxValue(28);
       outline: none;
       background: transparent;
-      color: #fff;
+      color: #666;
       border-radius: 0;
 
       &::-webkit-input-placeholder {
-        color: #fff;
+        color: #ccc;
       }
     }
   }

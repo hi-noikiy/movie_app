@@ -60,7 +60,10 @@ Vue.mixin({
     checkIsVisitor() {
       if(this.isVisitor) {
         this.$router.push({
-          name: 'Login'
+          name: 'Register',
+          query: {
+            'type': 'init'
+          }
         })
         return true;
       }else {
