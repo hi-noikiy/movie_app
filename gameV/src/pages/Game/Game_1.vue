@@ -143,7 +143,7 @@
               })
             }else {
               str = '玩该次游戏需要' + this.cost + '积分';
-              this.$ ('', str, 'noImg').then((res) => {
+              this.$confirm('', str, 'noImg').then((res) => {
                 if(res == 'sure') {
                   this.$load(1);
                   this.$Api.getUserDetails(this.sessionId).then((res) => {
