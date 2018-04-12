@@ -165,34 +165,34 @@ import { setTimeout } from 'timers';
     created() {
       let type = this.$route.query.type;
       
-      if(type) {
-        this.$Api.WeixinUrl().then((res) => {
-          if(res.q.s == 0) {
-            if(res.q.id == 0) {
-              this.INIT_VISITOR_DETAIL({visitor: res.q.user});
-            }else {
-              this.initUserDetail({userId: ''});
-            }
-          }
+      // if(type) {
+      //   this.$Api.WeixinUrl().then((res) => {
+      //     if(res.q.s == 0) {
+      //       if(res.q.id == 0) {
+      //         this.INIT_VISITOR_DETAIL({visitor: res.q.user});
+      //       }else {
+      //         this.initUserDetail({userId: ''});
+      //       }
+      //     }
 
-          this.loaded = true;
-        })
-      }else {
-        this.$Api.WeixinUrl().then((res) => {
-          console.log(res);
-          console.log('微信授权');
-          if(res.q.s == 0) {
-            if(res.q.redirectUrl) {
-              location.href = res.q.redirectUrl
-            }else if(res.q.id == 0) {
-              this.INIT_VISITOR_DETAIL({visitor: res.q.user});
-            }else if(res.q.id) {
-              this.initUserDetail({userId: ''});
-            }
-          }
-          this.loaded = true;
-        })
-      }
+      //     this.loaded = true;
+      //   })
+      // }else {
+      //   this.$Api.WeixinUrl().then((res) => {
+      //     console.log(res);
+      //     console.log('微信授权');
+      //     if(res.q.s == 0) {
+      //       if(res.q.redirectUrl) {
+      //         location.href = res.q.redirectUrl
+      //       }else if(res.q.id == 0) {
+      //         this.INIT_VISITOR_DETAIL({visitor: res.q.user});
+      //       }else if(res.q.id) {
+      //         this.initUserDetail({userId: ''});
+      //       }
+      //     }
+      //     this.loaded = true;
+      //   })
+      // }
       
       this.utilUserDetail().then(() => {
         this.initIM();

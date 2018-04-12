@@ -26,10 +26,16 @@
           <span>{{parseFloat(item.marketPrice)}}</span>
         </div>
       </div>
-      <div class="collection__btn active" @click.stop="submit(item.id)" v-if="item.type == 1 || item.type == 3">
+      <!-- <div class="collection__btn active" @click.stop="submit(item.id)" v-if="item.type == 1 || item.type == 3">
         领取
       </div>
       <div class="collection__btn active" @click.stop="submitPoints(item)" v-if="item.type == 2">
+        兑换
+      </div> -->
+      <div class="collection__btn active" @click.stop="linkToExchange(item)" v-if="item.type == 1 || item.type == 3">
+        领取
+      </div>
+      <div class="collection__btn active" @click.stop="linkToExchange(item)" v-if="item.type == 2">
         兑换
       </div>
     </div>
@@ -103,6 +109,13 @@
             this.submit(item.id);
           }
         });
+      },
+
+      linkToExchange(item) {
+        let json = JSON.stringify(item)
+        sessionStorage.setItem('exchange', json);
+
+        this.$router.push({name: 'Exchange'});
       }
     }
   }

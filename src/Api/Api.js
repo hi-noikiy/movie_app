@@ -1,7 +1,7 @@
 import axios from 'axios'
 import router from './../router'
 // const ApiUrl = 'http://api.yyh517.com';
-let apiLink = process.env.NODE_ENV == 'development'?"/api": "http://api.yyh517.com"
+let apiLink = process.env.NODE_ENV == 'development'?"/api": location.host.match(/test/)?"http://test.api.yyh517.com":"http://api.yyh517.com"
 
 const ApiUrl = apiLink;
 const ImgUrl = 'http://api.yyh517.com/uploadfiles/';
@@ -509,6 +509,47 @@ const Api = {
             date: {
               id,
               imagePath
+            }
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 20	用户，地址详情AddressDetails（H5、APP）
+   * 
+   * @returns 
+   */
+  getAddressDetails() {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'AddressDetails',
+          q: {
+            a:1,
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 21	用户，地址提交AddressSubmit（H5、APP）
+   * 
+   * @returns 
+   */
+  AddressSubmit({consignee, mobile, regionId, street}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'AddressSubmit',
+          q: {
+            address: {
+              consignee,
+              mobile,
+              regionId,
+              street
             }
           }
         }

@@ -1,7 +1,8 @@
 import axios from 'axios'
 import router from './../router'
 // const ApiUrl = 'http://api.yyh517.com';
-let apiLink = process.env.NODE_ENV == 'development'?"/api": "https://api.yyh517.com"
+// let apiLink = process.env.NODE_ENV == 'development'?"/api": "https://api.yyh517.com"
+let apiLink = process.env.NODE_ENV == 'development'?"/api": location.host.match(/test/)?"https://test.api.yyh517.com":"https://api.yyh517.com"
 
 const ApiUrl = apiLink;
 const ImgUrl = 'https://api.yyh517.com/uploadfiles/';

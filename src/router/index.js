@@ -421,6 +421,22 @@ export default new Router({
       },
       component: resolve => require(['@/pages/SetPassword/SetPassword'], resolve)
     },
+    {
+      path: '/exchange',
+      name: 'Exchange',
+      meta: {
+        title: '兑换'
+      },
+      component: resolve => require(['@/pages/Exchange/Exchange'], resolve)
+    },
+    {
+      path: '/address',
+      name: 'Address',
+      meta: {
+        title: '收货地址'
+      },
+      component: resolve => require(['@/pages/Address/Address'], resolve)
+    },
   ],
   scrollBehavior (to, from, savedPosition) {
     // return 期望滚动到哪个的位置
