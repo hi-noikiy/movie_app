@@ -133,8 +133,7 @@
         <div class="menu top__money clearfix" @click="linkTo('Collect', true)">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的关注</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
-        </div>
-        <div class="menu bottom__rank clearfix" @click="linkTo('Rank', true)">
+        </div> <div class="menu bottom__rank clearfix" @click="linkTo('Rank', true)">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">积分排行榜</span></span>
           <span class="menu__right"><span v-if="userDetail.lastsDaysRanking > 0">已连续{{userDetail.lastsDaysRanking}}天排行前三</span><i class="arrow"></i></span>
         </div>
@@ -157,18 +156,24 @@
           <span class="menu__left"><i class="icon"></i><span class="icon__text">我的核销</span></span>
           <span class="menu__right"><i class="arrow"></i></span>
         </div>
+        <div class="menu bottom__notice clearfix" @click="linkTo('Notice', true)">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">系统消息</span></span>
+          <span class="menu__right"><i class="arrow"></i></span>
+          <span class="red" v-if="userDetail.statUnread != 0">{{userDetail.statUnread}}</span>
+        </div>
         <div class="menu bottom__phone clearfix" @click="linkToTel">
           <span class="menu__left"><i class="icon"></i><span class="icon__text">客服电话</span></span>
           <span class="menu__right"><span class="nored">020-31525503</span><i class="arrow"></i></span>
         </div>
       </div>
 
-      <div class="menu__logout button" @click="logout">登出</div>
+      <div class="menu__logout button" @click="logout">退出</div>
     </div>
   </div>
 </template>
 
 <script>
+  import { Badge } from 'vux'
   export default {
     data() {
       return {
@@ -211,6 +216,10 @@
       linkToTel() {
         window.location.href='tel: 020-34534324'
       }
+    },
+
+    components: {
+      Badge
     }
   }
 </script>
@@ -368,10 +377,26 @@
       }
 
       .menu {
+        position: relative;
         height: boxValue(74);
         line-height: boxValue(74);
         padding-left: boxValue(34);
         border-bottom: 1px solid #eee;
+
+        .red {
+          position: absolute;
+          left: boxValue(220);
+          top: 30%;
+          height: boxValue(28);
+          width: boxValue(28);
+          text-align: center;
+          font-size: boxValue(20);
+          line-height: boxValue(28);
+          color: #fff;
+          border-radius: boxValue(14);
+          background: #ff4444;
+        }
+        
 
         .menu__left {
           font-size: boxValue(26);
@@ -423,6 +448,7 @@
               color: #666;
             }
           }
+
         }
 
         &.top__bonus .menu__left .icon {
@@ -447,6 +473,10 @@
 
         &.bottom__ticket .menu__left .icon {
           background-image: url('../../assets/voucher.png');
+        }
+
+        &.bottom__notice .menu__left .icon {
+          background-image: url('../../assets/information.png');
         }
         
         &.setting .menu__left .icon {

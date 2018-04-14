@@ -17,9 +17,9 @@ function axiosApi(url, option, method='get',stopLogin=false) {
   promise = new Promise((resolve, reject) => {
     axios(Object.assign({method,url},option)).then((response) => {
       resolve(response.data)
-      // if(response.data.q.s == 1002 || response.data.q.s == 1100) {
-      //   router.push('login')
-      // }
+      if(response.data.q.s == 1002 || response.data.q.s == 1100) {
+        router.push({name: 'Login', query: {info: 'lost'}})
+      }
     }).catch((err) => {
       console.log(err)
       reject(err)
@@ -178,6 +178,25 @@ const Api = {
           // s: sessionId?sessionId:getSession(),
           q: {
             a:1
+          }
+        }
+      }
+    })
+  },
+
+  /**
+   * 9	公共，通知列表NotificationList（H5、APP）
+   * 
+   * @returns 
+   */
+  getNotificationList({pa,li}) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'NotificationList',
+          q: {
+            pa,
+            li
           }
         }
       }
@@ -464,6 +483,26 @@ const Api = {
           q: {
             pa,
             li
+          }
+        }
+      }
+    })
+  },
+
+
+  /**
+   * 19	用户，用户推荐人提交UserRefereeSubmit（H5）
+   * 
+   * @param {any} id 
+   * @returns 
+   */
+  UserRefereeSubmit(id) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'UserRefereeSubmit',
+          q: {
+            id
           }
         }
       }
@@ -1015,6 +1054,20 @@ TicketUpdate({ids}) {
       }
     })
   },
+
+  getOrderDetails(id) {
+    return axiosApi(ApiUrl, {
+      params: {
+        json: {
+          n: 'OrderDetails',
+          // s: sessionId?sessionId:getSession(),
+          q: {
+            id
+          }
+        }
+      }
+    })
+  },
   
   /**
    * 47	业务，订单操作OrderUpdate（H5）（核销员）
@@ -1058,6 +1111,7 @@ TicketUpdate({ids}) {
       }
     })
   },
+  
 
   /**
    * 返回图片链接

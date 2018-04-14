@@ -33,8 +33,10 @@
       }
     },
 
-    mounted() {
-
+    created() {
+      if(this.$route.query.info) {
+        this.$toast('登录失效,重新登录', 'fail');
+      }
     },
 
     methods: {

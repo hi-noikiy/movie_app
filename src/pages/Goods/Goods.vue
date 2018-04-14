@@ -51,7 +51,7 @@
       </div>
     </div>
 
-
+    
     <div class="goods__intro">
       <div class="intro">
         <div class="intro__title border_line">
@@ -65,6 +65,23 @@
           <i class="arrow"></i>
         </div>
       </div>
+
+      <div class="exchange__address" v-if="Object.keys(coupon.address).length > 0">
+        <div class="menu border_line">
+          <span class="menu__left"><i class="icon"></i><span class="icon__text">收货人信息</span></span>
+        </div>
+
+        <div class="menuAuto clearfix">
+          <div class="menu__left">
+            <p class="left__text">
+              <span class="left__text__name">{{transfromData.consignee}}</span>
+              <span class="left__text__mobile">{{transfromData.mobile}}</span>
+            </p>
+            <p class="left__text">{{transfromData.regionInfo + transfromData.street}}</p>
+          </div>
+        </div>
+      </div>
+
 
       <div class="intro">
         <div class="intro__title border_line">
@@ -127,10 +144,17 @@
         cinemaList: [],
         val: this.$route.query.val,
         code: this.$route.query.code,
+        type: this.$route.query.type, //是否订单详情
       }
     },
     created() {
-      this.getCouponDetails(this.id);
+
+      if(this.type) {
+        this.getOrderDetails(this.id);
+      }else {
+        this.getCouponDetails(this.id);
+      }
+
     },
 
     computed: {
@@ -173,6 +197,22 @@
           result = data.value;
         }
         return result;
+      },
+
+      transfromData() {
+        if(Object.keys(this.coupon.address).length > 0) {
+          console.log(this.coupon.address);
+          let address = this.coupon.address.regionInfo.map((item) => {
+            return item.name
+          }).join('');
+
+          let Obj = Object.assign({}, this.coupon.address);
+          Obj.regionInfo = address;
+
+          return Obj;
+        }else {
+          return {}
+        }
       }
     },
 
@@ -182,6 +222,23 @@
           console.log(res);
           if(res.q.s == 0) {
             this.coupon = res.q.coupon;
+            // if(this.coupon.shops.length == 0) {
+            //   this.getCinemaList();
+            //   return false;
+            // }
+            this.cinemaList = this.coupon.shops;
+            this.cinema = this.coupon.shops[0];
+            let json = JSON.stringify(this.cinemaList);
+            sessionStorage.setItem('cinemaList', json);
+          }
+        })
+      },
+
+      getOrderDetails(id) {
+        this.$Api.getOrderDetails(id).then((res) => {
+          console.log(res);
+          if(res.q.s == 0) {
+            this.coupon = res.q.order;
             // if(this.coupon.shops.length == 0) {
             //   this.getCinemaList();
             //   return false;
@@ -480,6 +537,103 @@
         color: #fff;
         background: #27adff;
       }
+    }
+
+    .exchange__address {
+      margin-top: boxValue(20);
+      margin-bottom: boxValue(20);
+    }
+
+    .menu {
+      padding-left: boxValue(20);
+      height: boxValue(72);
+      line-height: boxValue(72);
+      font-size: boxValue(30);
+      font-weight: 600;
+      background: #fff;
+
+      .menu__left {
+        font-size: boxValue(26);
+        line-height: boxValue(74);
+        color: #222;
+
+        .icon__text {
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+
+      .menu__right {
+        float: right;
+        position: relative;
+        line-height: boxValue(74);
+
+        .arrow {
+          position: absolute;
+          right: boxValue(32);
+          top: boxValue(22.5);
+          display: inline-block;
+          width: boxValue(16);
+          height: boxValue(29);
+          background: url('../../assets/arrow_enter.png');
+          background-size: cover;
+          vertical-align: middle;
+        }
+
+        span {
+          margin-right: boxValue(60); 
+          display: inline-block;
+          line-height: boxValue(74);
+          vertical-align: middle;
+          color: #ff4444;
+
+          &.nored {
+            color: #666;
+          }
+        }
+      }
+    }
+
+    .menuAuto {
+      display: flex;
+      align-items: center;
+      height: auto;
+      padding-left: boxValue(20);
+      border-bottom: 1px solid #eee;
+      background: #fff;
+
+      .menu__left {
+        width: 80%;
+        padding: boxValue(20) 0;
+        font-size: boxValue(20);
+        color: #666;
+
+        .icon__text {
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        .left__text {
+          padding: boxValue(10) 0;
+        }
+
+        .left__text__mobile {
+          padding-left: boxValue(20);
+        }
+      }
+
+      .menu__right {
+        margin-left: 12%;
+        width: boxValue(16);
+        height: boxValue(29);
+        background: url('../../assets/arrow_enter.png');
+        background-size: cover;
+        vertical-align: middle;
+      }
+    }
+
+    p {
+      margin: 0;
     }
   }
 </style>

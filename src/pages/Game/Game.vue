@@ -35,7 +35,8 @@
     
     methods: {
       link(type) {
-        location.href = 'https://game.yyh517.com/#/game_' + type;
+        let base = location.host.match(/test/)?"https://test.game.yyh517.com/#/game_":"https://game.yyh517.com/#/game_";
+        location.href = base + type;
       }
     }
   }

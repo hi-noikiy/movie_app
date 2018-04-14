@@ -437,6 +437,14 @@ export default new Router({
       },
       component: resolve => require(['@/pages/Address/Address'], resolve)
     },
+    {
+      path: '/notice',
+      name: 'Notice',
+      meta: {
+        title: '系统消息'
+      },
+      component: resolve => require(['@/pages/Notice/Notice'], resolve)
+    },
   ],
   scrollBehavior (to, from, savedPosition) {
     // return 期望滚动到哪个的位置

@@ -20,6 +20,7 @@ Vue.config.productionTip = false;
 
 Vue.use(Confirm);
 Vue.use(NumberKeyboard); //核销手机的数字键盘
+window.Vue = Vue;
 
 //图片loading效果
 Vue.use(VueLazyload, {
